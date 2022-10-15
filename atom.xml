@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>我的第一个博客</title>
+  
+  
+  <link href="http://example.com/atom.xml" rel="self"/>
+  
+  <link href="http://example.com/"/>
+  <updated>2022-10-15T10:12:26.601Z</updated>
+  <id>http://example.com/</id>
+  
+  <author>
+    <name>xiaopi</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title></title>
+    <link href="http://example.com/2022/10/15/Pandas%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/"/>
+    <id>http://example.com/2022/10/15/Pandas%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/</id>
+    <published>2022-10-15T10:12:41.119Z</published>
+    <updated>2022-10-15T10:12:26.601Z</updated>
+    
+    <content type="html"><![CDATA[<p>DataFrame介绍：</p><p>DataFrame是一个表格型的数据结构，它含有一组 有序 的列，每列可以是不同的值类型（数值、字符串、布尔值等）。</p><p>导入包：</p><p><img src="https://img-blog.csdnimg.cn/20210502192544593.png" alt="在这里插入图片描述"></p><p>  1.将字典转化为DataFrame</p><p>  定义字典：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">data = &#123;<span class="string">&quot;grammer&quot;</span>:[<span class="string">&quot;Python&quot;</span>,<span class="string">&quot;C&quot;</span>,<span class="string">&quot;Java&quot;</span>,<span class="string">&quot;GO&quot;</span>,np.nan,<span class="string">&quot;SQL&quot;</span>,<span class="string">&quot;PHP&quot;</span>,<span class="string">&quot;Python&quot;</span>],</span><br><span class="line">       <span class="string">&quot;score&quot;</span>:[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">10</span>]&#125;</span><br></pre></td></tr></table></figure><p>   将字典转化为DataFrame：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df = pd.DataFrame(data)</span><br></pre></td></tr></table></figure><pre><code>得到：</code></pre><p> <img src="https://img-blog.csdnimg.cn/20210502192739302.png" alt="在这里插入图片描述"></p><p>2.提取含有字符串“Python”行：</p><p>方法一：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">df[df[<span class="string">&#x27;grammer&#x27;</span>] == <span class="string">&#x27;Python&#x27;</span>]</span><br></pre></td></tr></table></figure><p>方法二：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">results = df[<span class="string">&#x27;grammer&#x27;</span>].<span class="built_in">str</span>.contains(<span class="string">&quot;Python&quot;</span>)</span><br><span class="line">results.fillna(value=<span class="literal">False</span>,inplace = <span class="literal">True</span>)</span><br><span class="line">df[results]</span><br></pre></td></tr></table></figure><p>得到的结果：<br><img src="https://img-blog.csdnimg.cn/20210502192812667.png" alt="在这里插入图片描述"></p><p>3.输出列名：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(df.columns)</span><br></pre></td></tr></table></figure><p>得到的结果：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Out[<span class="number">28</span>]: Index([<span class="string">&#x27;grammer&#x27;</span>, <span class="string">&#x27;score&#x27;</span>], dtype=<span class="string">&#x27;object&#x27;</span>)</span><br></pre></td></tr></table></figure><p>4.将第二列改成“popularity”:</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">df.rename(columns = &#123;<span class="string">&#x27;score&#x27;</span>:<span class="string">&#x27;popularity&#x27;</span>&#125;, inplace = <span class="literal">True</span>)</span><br></pre></td></tr></table></figure><p>输出df：</p><p><img src="https://img-blog.csdnimg.cn/20210502192842315.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl81MTc1NjEwNA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p><p>5.统计grammer每一列中编程语言出现的次数：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df[<span class="string">&#x27;grammer&#x27;</span>].value_counts()</span><br></pre></td></tr></table></figure><p>结果：</p><p><img src="https://img-blog.csdnimg.cn/20210502192858266.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl81MTc1NjEwNA==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p><p>6.提取popularity中大于三的：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df[df[<span class="string">&#x27;score&#x27;</span>]&gt;<span class="number">3</span>]</span><br></pre></td></tr></table></figure><p>结果：</p><p><img src="https://img-blog.csdnimg.cn/20210502192910111.png" alt="在这里插入图片描述"></p><p>7.按照grammer列进行去除重复值：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">df.drop_duplicates([<span class="string">&#x27;grammer&#x27;</span>])</span><br></pre></td></tr></table></figure><p><img src="https://img-blog.csdnimg.cn/20210502192948980.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl81MTc1NjEwNA==,size_16,color_FFFFFF,t_70" alt="图片"></p><p>8.计算popularity列的平均值：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df[<span class="string">&#x27;score&#x27;</span>].mean()</span><br></pre></td></tr></table></figure><p>9.将grammer列转化为list：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">df[<span class="string">&#x27;grammer&#x27;</span>].tolist()</span><br></pre></td></tr></table></figure><p>10.将DataFrame保存为csv</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df.to_csv(<span class="string">&quot;text.csv&quot;</span>)</span><br></pre></td></tr></table></figure><p>结果得到了一个csv文件：</p><p><img src="https://img-blog.csdnimg.cn/20210502192956593.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl81MTc1NjEwNA==,size_16,color_FFFFFF,t_70" alt="图片"></p><p><a href="https://www.heywhale.com/mw/project/6047189c89c874001524f6c9?token=43ba0f12bfd74662">task来源于和鲸训练营</a></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;DataFrame介绍：&lt;/p&gt;
+&lt;p&gt;DataFrame是一个表格型的数据结构，它含有一组 有序 的列，每列可以是不同的值类型（数值、字符串、布尔值等）。&lt;/p&gt;
+&lt;p&gt;导入包：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://img-blog.csdnimg.cn/2</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Hello World</title>
+    <link href="http://example.com/2022/10/15/hello-world/"/>
+    <id>http://example.com/2022/10/15/hello-world/</id>
+    <published>2022-10-15T03:00:57.930Z</published>
+    <updated>2022-10-15T03:00:57.930Z</updated>
+    
+    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.io/docs/&quot;&gt;documentation&lt;/a&gt; for</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+</feed>
