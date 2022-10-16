@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>江东的博客</title>
+  <title>江东的笔记</title>
   
   <subtitle>Be overcome difficulties is victory</subtitle>
   <link href="https://du2279664786.github.io/atom.xml" rel="self"/>
@@ -10,7 +10,7 @@
   <id>https://du2279664786.github.io/</id>
   
   <author>
-    <name>xiaopi</name>
+    <name>江东</name>
     
   </author>
   
