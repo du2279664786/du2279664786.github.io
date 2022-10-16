@@ -3,11 +3,11 @@
   <title>江东的博客</title>
   
   <subtitle>Be overcome difficulties is victory</subtitle>
-  <link href="http://www.example.com/atom.xml" rel="self"/>
+  <link href="https://du2279664786.github.io/atom.xml" rel="self"/>
   
-  <link href="http://www.example.com/"/>
+  <link href="https://du2279664786.github.io/"/>
   <updated>2022-10-16T01:16:45.346Z</updated>
-  <id>http://www.example.com/</id>
+  <id>https://du2279664786.github.io/</id>
   
   <author>
     <name>xiaopi</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>Hello World</title>
-    <link href="http://www.example.com/2022/10/15/hello-world/"/>
-    <id>http://www.example.com/2022/10/15/hello-world/</id>
+    <link href="https://du2279664786.github.io/2022/10/15/hello-world/"/>
+    <id>https://du2279664786.github.io/2022/10/15/hello-world/</id>
     <published>2022-10-15T03:00:57.930Z</published>
     <updated>2022-10-16T01:16:45.346Z</updated>
     
@@ -35,8 +35,8 @@
   
   <entry>
     <title>系统认证风险预测-Baseline</title>
-    <link href="http://www.example.com/2021/11/08/2021-11-08%E7%B3%BB%E7%BB%9F%E8%AE%A4%E8%AF%81%E9%A3%8E%E9%99%A9%E9%A2%84%E6%B5%8B-Baseline/"/>
-    <id>http://www.example.com/2021/11/08/2021-11-08%E7%B3%BB%E7%BB%9F%E8%AE%A4%E8%AF%81%E9%A3%8E%E9%99%A9%E9%A2%84%E6%B5%8B-Baseline/</id>
+    <link href="https://du2279664786.github.io/2021/11/08/2021-11-08%E7%B3%BB%E7%BB%9F%E8%AE%A4%E8%AF%81%E9%A3%8E%E9%99%A9%E9%A2%84%E6%B5%8B-Baseline/"/>
+    <id>https://du2279664786.github.io/2021/11/08/2021-11-08%E7%B3%BB%E7%BB%9F%E8%AE%A4%E8%AF%81%E9%A3%8E%E9%99%A9%E9%A2%84%E6%B5%8B-Baseline/</id>
     <published>2021-11-08T14:55:10.000Z</published>
     <updated>2022-10-16T02:43:14.578Z</updated>
     
@@ -47,19 +47,19 @@
     
     
     
-    <category term="竞赛" scheme="http://www.example.com/categories/%E7%AB%9E%E8%B5%9B/"/>
+    <category term="竞赛" scheme="https://du2279664786.github.io/categories/%E7%AB%9E%E8%B5%9B/"/>
     
     
-    <category term="机器学习" scheme="http://www.example.com/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    <category term="机器学习" scheme="https://du2279664786.github.io/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
     
-    <category term="数据挖掘" scheme="http://www.example.com/tags/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98/"/>
+    <category term="数据挖掘" scheme="https://du2279664786.github.io/tags/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98/"/>
     
   </entry>
   
   <entry>
     <title>梯度下降算介绍以及代码详解</title>
-    <link href="http://www.example.com/2021/10/22/2021-10-22%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E7%AE%97%E4%BB%8B%E7%BB%8D%E4%BB%A5%E5%8F%8A%E4%BB%A3%E7%A0%81%E8%AF%A6%E8%A7%A3/"/>
-    <id>http://www.example.com/2021/10/22/2021-10-22%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E7%AE%97%E4%BB%8B%E7%BB%8D%E4%BB%A5%E5%8F%8A%E4%BB%A3%E7%A0%81%E8%AF%A6%E8%A7%A3/</id>
+    <link href="https://du2279664786.github.io/2021/10/22/2021-10-22%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E7%AE%97%E4%BB%8B%E7%BB%8D%E4%BB%A5%E5%8F%8A%E4%BB%A3%E7%A0%81%E8%AF%A6%E8%A7%A3/"/>
+    <id>https://du2279664786.github.io/2021/10/22/2021-10-22%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E7%AE%97%E4%BB%8B%E7%BB%8D%E4%BB%A5%E5%8F%8A%E4%BB%A3%E7%A0%81%E8%AF%A6%E8%A7%A3/</id>
     <published>2021-10-22T14:55:10.000Z</published>
     <updated>2022-10-16T02:40:56.906Z</updated>
     
@@ -70,19 +70,19 @@
     
     
     
-    <category term="机器学习" scheme="http://www.example.com/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    <category term="机器学习" scheme="https://du2279664786.github.io/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
     
     
-    <category term="机器学习" scheme="http://www.example.com/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    <category term="机器学习" scheme="https://du2279664786.github.io/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
     
-    <category term="梯度下降算法" scheme="http://www.example.com/tags/%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E7%AE%97%E6%B3%95/"/>
+    <category term="梯度下降算法" scheme="https://du2279664786.github.io/tags/%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E7%AE%97%E6%B3%95/"/>
     
   </entry>
   
   <entry>
     <title>Kmeans实战-实现二维的bolo分析</title>
-    <link href="http://www.example.com/2021/10/21/2021-10-21Kmeans%E5%AE%9E%E6%88%98-%E5%AE%9E%E7%8E%B0%E4%BA%8C%E7%BB%B4%E7%9A%84bolo%E5%88%86%E6%9E%90/"/>
-    <id>http://www.example.com/2021/10/21/2021-10-21Kmeans%E5%AE%9E%E6%88%98-%E5%AE%9E%E7%8E%B0%E4%BA%8C%E7%BB%B4%E7%9A%84bolo%E5%88%86%E6%9E%90/</id>
+    <link href="https://du2279664786.github.io/2021/10/21/2021-10-21Kmeans%E5%AE%9E%E6%88%98-%E5%AE%9E%E7%8E%B0%E4%BA%8C%E7%BB%B4%E7%9A%84bolo%E5%88%86%E6%9E%90/"/>
+    <id>https://du2279664786.github.io/2021/10/21/2021-10-21Kmeans%E5%AE%9E%E6%88%98-%E5%AE%9E%E7%8E%B0%E4%BA%8C%E7%BB%B4%E7%9A%84bolo%E5%88%86%E6%9E%90/</id>
     <published>2021-10-21T14:55:10.000Z</published>
     <updated>2022-10-15T15:25:19.815Z</updated>
     
@@ -93,19 +93,19 @@
     
     
     
-    <category term="机器学习" scheme="http://www.example.com/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    <category term="机器学习" scheme="https://du2279664786.github.io/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
     
     
-    <category term="机器学习" scheme="http://www.example.com/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    <category term="机器学习" scheme="https://du2279664786.github.io/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
     
-    <category term="Kmeans可视化" scheme="http://www.example.com/tags/Kmeans%E5%8F%AF%E8%A7%86%E5%8C%96/"/>
+    <category term="Kmeans可视化" scheme="https://du2279664786.github.io/tags/Kmeans%E5%8F%AF%E8%A7%86%E5%8C%96/"/>
     
   </entry>
   
   <entry>
     <title>KMeans算法分析以及可视化展示</title>
-    <link href="http://www.example.com/2021/10/10/2021-10-10KMeans%E7%AE%97%E6%B3%95%E5%88%86%E6%9E%90%E4%BB%A5%E5%8F%8A%E5%8F%AF%E8%A7%86%E5%8C%96%E5%B1%95%E7%A4%BA/"/>
-    <id>http://www.example.com/2021/10/10/2021-10-10KMeans%E7%AE%97%E6%B3%95%E5%88%86%E6%9E%90%E4%BB%A5%E5%8F%8A%E5%8F%AF%E8%A7%86%E5%8C%96%E5%B1%95%E7%A4%BA/</id>
+    <link href="https://du2279664786.github.io/2021/10/10/2021-10-10KMeans%E7%AE%97%E6%B3%95%E5%88%86%E6%9E%90%E4%BB%A5%E5%8F%8A%E5%8F%AF%E8%A7%86%E5%8C%96%E5%B1%95%E7%A4%BA/"/>
+    <id>https://du2279664786.github.io/2021/10/10/2021-10-10KMeans%E7%AE%97%E6%B3%95%E5%88%86%E6%9E%90%E4%BB%A5%E5%8F%8A%E5%8F%AF%E8%A7%86%E5%8C%96%E5%B1%95%E7%A4%BA/</id>
     <published>2021-10-10T14:55:10.000Z</published>
     <updated>2022-10-15T15:23:27.831Z</updated>
     
@@ -116,19 +116,19 @@
     
     
     
-    <category term="机器学习" scheme="http://www.example.com/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    <category term="机器学习" scheme="https://du2279664786.github.io/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
     
     
-    <category term="机器学习" scheme="http://www.example.com/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    <category term="机器学习" scheme="https://du2279664786.github.io/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
     
-    <category term="Kmeans" scheme="http://www.example.com/tags/Kmeans/"/>
+    <category term="Kmeans" scheme="https://du2279664786.github.io/tags/Kmeans/"/>
     
   </entry>
   
   <entry>
     <title>KNN实现鸢尾花数据集的可视化</title>
-    <link href="http://www.example.com/2021/10/09/2021-10-09KNN%E5%AE%9E%E7%8E%B0%E9%B8%A2%E5%B0%BE%E8%8A%B1%E6%95%B0%E6%8D%AE%E9%9B%86%E7%9A%84%E5%8F%AF%E8%A7%86%E5%8C%96/"/>
-    <id>http://www.example.com/2021/10/09/2021-10-09KNN%E5%AE%9E%E7%8E%B0%E9%B8%A2%E5%B0%BE%E8%8A%B1%E6%95%B0%E6%8D%AE%E9%9B%86%E7%9A%84%E5%8F%AF%E8%A7%86%E5%8C%96/</id>
+    <link href="https://du2279664786.github.io/2021/10/09/2021-10-09KNN%E5%AE%9E%E7%8E%B0%E9%B8%A2%E5%B0%BE%E8%8A%B1%E6%95%B0%E6%8D%AE%E9%9B%86%E7%9A%84%E5%8F%AF%E8%A7%86%E5%8C%96/"/>
+    <id>https://du2279664786.github.io/2021/10/09/2021-10-09KNN%E5%AE%9E%E7%8E%B0%E9%B8%A2%E5%B0%BE%E8%8A%B1%E6%95%B0%E6%8D%AE%E9%9B%86%E7%9A%84%E5%8F%AF%E8%A7%86%E5%8C%96/</id>
     <published>2021-10-09T14:55:10.000Z</published>
     <updated>2022-10-15T14:57:13.550Z</updated>
     
@@ -139,19 +139,19 @@
     
     
     
-    <category term="机器学习" scheme="http://www.example.com/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    <category term="机器学习" scheme="https://du2279664786.github.io/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
     
     
-    <category term="机器学习" scheme="http://www.example.com/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    <category term="机器学习" scheme="https://du2279664786.github.io/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
     
-    <category term="KNN可视化" scheme="http://www.example.com/tags/KNN%E5%8F%AF%E8%A7%86%E5%8C%96/"/>
+    <category term="KNN可视化" scheme="https://du2279664786.github.io/tags/KNN%E5%8F%AF%E8%A7%86%E5%8C%96/"/>
     
   </entry>
   
   <entry>
     <title>查找list中出现次数最多的元素</title>
-    <link href="http://www.example.com/2021/09/21/2021-09-21%E8%8E%B7%E5%8F%96List%E4%B8%AD%E5%87%BA%E7%8E%B0%E6%AC%A1%E6%95%B0%E6%9C%80%E5%A4%9A%E7%9A%84%E9%82%A3%E4%B8%AA%E6%95%B0/"/>
-    <id>http://www.example.com/2021/09/21/2021-09-21%E8%8E%B7%E5%8F%96List%E4%B8%AD%E5%87%BA%E7%8E%B0%E6%AC%A1%E6%95%B0%E6%9C%80%E5%A4%9A%E7%9A%84%E9%82%A3%E4%B8%AA%E6%95%B0/</id>
+    <link href="https://du2279664786.github.io/2021/09/21/2021-09-21%E8%8E%B7%E5%8F%96List%E4%B8%AD%E5%87%BA%E7%8E%B0%E6%AC%A1%E6%95%B0%E6%9C%80%E5%A4%9A%E7%9A%84%E9%82%A3%E4%B8%AA%E6%95%B0/"/>
+    <id>https://du2279664786.github.io/2021/09/21/2021-09-21%E8%8E%B7%E5%8F%96List%E4%B8%AD%E5%87%BA%E7%8E%B0%E6%AC%A1%E6%95%B0%E6%9C%80%E5%A4%9A%E7%9A%84%E9%82%A3%E4%B8%AA%E6%95%B0/</id>
     <published>2021-09-21T14:55:10.000Z</published>
     <updated>2022-10-15T15:16:01.779Z</updated>
     
@@ -162,17 +162,17 @@
     
     
     
-    <category term="机器学习" scheme="http://www.example.com/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    <category term="机器学习" scheme="https://du2279664786.github.io/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
     
     
-    <category term="机器学习" scheme="http://www.example.com/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    <category term="机器学习" scheme="https://du2279664786.github.io/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
     
   </entry>
   
   <entry>
     <title>机器学习算法-KNN</title>
-    <link href="http://www.example.com/2021/09/20/2021-09-20%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95-KNN/"/>
-    <id>http://www.example.com/2021/09/20/2021-09-20%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95-KNN/</id>
+    <link href="https://du2279664786.github.io/2021/09/20/2021-09-20%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95-KNN/"/>
+    <id>https://du2279664786.github.io/2021/09/20/2021-09-20%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95-KNN/</id>
     <published>2021-09-20T14:55:10.000Z</published>
     <updated>2022-10-15T15:17:01.077Z</updated>
     
@@ -183,19 +183,19 @@
     
     
     
-    <category term="机器学习" scheme="http://www.example.com/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    <category term="机器学习" scheme="https://du2279664786.github.io/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
     
     
-    <category term="机器学习" scheme="http://www.example.com/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    <category term="机器学习" scheme="https://du2279664786.github.io/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
     
-    <category term="KNN" scheme="http://www.example.com/tags/KNN/"/>
+    <category term="KNN" scheme="https://du2279664786.github.io/tags/KNN/"/>
     
   </entry>
   
   <entry>
     <title>机器学习算法-Logistic Regressi</title>
-    <link href="http://www.example.com/2021/09/03/2021-09-03%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95-Logistic%20Regressi%20(1)/"/>
-    <id>http://www.example.com/2021/09/03/2021-09-03%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95-Logistic%20Regressi%20(1)/</id>
+    <link href="https://du2279664786.github.io/2021/09/03/2021-09-03%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95-Logistic%20Regressi%20(1)/"/>
+    <id>https://du2279664786.github.io/2021/09/03/2021-09-03%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95-Logistic%20Regressi%20(1)/</id>
     <published>2021-09-03T14:55:10.000Z</published>
     <updated>2022-10-15T15:17:48.101Z</updated>
     
@@ -206,19 +206,19 @@
     
     
     
-    <category term="机器学习" scheme="http://www.example.com/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    <category term="机器学习" scheme="https://du2279664786.github.io/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
     
     
-    <category term="机器学习" scheme="http://www.example.com/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    <category term="机器学习" scheme="https://du2279664786.github.io/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
     
-    <category term="逻辑回归" scheme="http://www.example.com/tags/%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/"/>
+    <category term="逻辑回归" scheme="https://du2279664786.github.io/tags/%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/"/>
     
   </entry>
   
   <entry>
     <title>Pandas基础</title>
-    <link href="http://www.example.com/2021/05/21/2021-05-02-Pandas%E5%9F%BA%E7%A1%80/"/>
-    <id>http://www.example.com/2021/05/21/2021-05-02-Pandas%E5%9F%BA%E7%A1%80/</id>
+    <link href="https://du2279664786.github.io/2021/05/21/2021-05-02-Pandas%E5%9F%BA%E7%A1%80/"/>
+    <id>https://du2279664786.github.io/2021/05/21/2021-05-02-Pandas%E5%9F%BA%E7%A1%80/</id>
     <published>2021-05-21T14:55:10.000Z</published>
     <updated>2022-10-15T15:18:10.703Z</updated>
     
@@ -229,12 +229,12 @@
     
     
     
-    <category term="机器学习" scheme="http://www.example.com/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    <category term="机器学习" scheme="https://du2279664786.github.io/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
     
     
-    <category term="机器学习" scheme="http://www.example.com/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    <category term="机器学习" scheme="https://du2279664786.github.io/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
     
-    <category term="数据处理" scheme="http://www.example.com/tags/%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/"/>
+    <category term="数据处理" scheme="https://du2279664786.github.io/tags/%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86/"/>
     
   </entry>
   
