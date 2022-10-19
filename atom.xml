@@ -6,7 +6,7 @@
   <link href="https://du2279664786.github.io/atom.xml" rel="self"/>
   
   <link href="https://du2279664786.github.io/"/>
-  <updated>2022-10-16T13:51:48.053Z</updated>
+  <updated>2022-10-19T03:48:38.807Z</updated>
   <id>https://du2279664786.github.io/</id>
   
   <author>
@@ -21,12 +21,53 @@
     <link href="https://du2279664786.github.io/2022/10/15/hello-world/"/>
     <id>https://du2279664786.github.io/2022/10/15/hello-world/</id>
     <published>2022-10-15T03:00:57.930Z</published>
-    <updated>2022-10-16T13:51:48.053Z</updated>
+    <updated>2022-10-19T03:48:38.807Z</updated>
     
-    <content type="html"><![CDATA[<p>大家好，这是我的第一篇文章，欢迎查看！</p><span id="more"></span><div id="binft"></div>  <script>    var binft = function (r) {      function t() {        return b[Math.floor(Math.random() * b.length)]      }        function e() {        return String.fromCharCode(94 * Math.random() + 33)      }      function n(r) {        for (var n = document.createDocumentFragment(), i = 0; r > i; i++) {          var l = document.createElement("span");          l.textContent = e(), l.style.color = t(), n.appendChild(l)        }        return n      }      function i() {        var t = o[c.skillI];        c.step ? c.step-- : (c.step = g, c.prefixP < l.length ? (c.prefixP >= 0 && (c.text += l[c.prefixP]), c.prefixP++) : "forward" === c.direction ? c.skillP < t.length ? (c.text += t[c.skillP], c.skillP++) : c.delay ? c.delay-- : (c.direction = "backward", c.delay = a) : c.skillP > 0 ? (c.text = c.text.slice(0, -1), c.skillP--) : (c.skillI = (c.skillI + 1) % o.length, c.direction = "forward")), r.textContent = c.text, r.appendChild(n(c.prefixP < l.length ? Math.min(s, s + c.prefixP) : Math.min(s, t.length - c.skillP))), setTimeout(i, d)      }      var l = "",      o = ["青青陵上柏，磊磊涧中石。", "人生天地间，忽如远行客。","斗酒相娱乐，聊厚不为薄。", "驱车策驽马，游戏宛与洛。","洛中何郁郁，冠带自相索。","长衢罗夹巷，王侯多第宅。","两宫遥相望，双阙百余尺。","极宴娱心意，戚戚何所迫？"].map(function (r) {      return r + ""      }),      a = 2,      g = 1,      s = 5,      d = 75,      b = ["rgb(110,64,170)", "rgb(150,61,179)", "rgb(191,60,175)", "rgb(228,65,157)", "rgb(254,75,131)", "rgb(255,94,99)", "rgb(255,120,71)", "rgb(251,150,51)", "rgb(226,183,47)", "rgb(198,214,60)", "rgb(175,240,91)", "rgb(127,246,88)", "rgb(82,246,103)", "rgb(48,239,130)", "rgb(29,223,163)", "rgb(26,199,194)", "rgb(35,171,216)", "rgb(54,140,225)", "rgb(76,110,219)", "rgb(96,84,200)"],      c = {        text: "",        prefixP: -s,        skillI: 0,        skillP: 0,        direction: "forward",        delay: a,        step: g      };      i()      };      binft(document.getElementById('binft'));  </script><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
+    <content type="html"><![CDATA[<div id="binft"></div>  <script>    var binft = function (r) {      function t() {        return b[Math.floor(Math.random() * b.length)]      }        function e() {        return String.fromCharCode(94 * Math.random() + 33)      }      function n(r) {        for (var n = document.createDocumentFragment(), i = 0; r > i; i++) {          var l = document.createElement("span");          l.textContent = e(), l.style.color = t(), n.appendChild(l)        }        return n      }      function i() {        var t = o[c.skillI];        c.step ? c.step-- : (c.step = g, c.prefixP < l.length ? (c.prefixP >= 0 && (c.text += l[c.prefixP]), c.prefixP++) : "forward" === c.direction ? c.skillP < t.length ? (c.text += t[c.skillP], c.skillP++) : c.delay ? c.delay-- : (c.direction = "backward", c.delay = a) : c.skillP > 0 ? (c.text = c.text.slice(0, -1), c.skillP--) : (c.skillI = (c.skillI + 1) % o.length, c.direction = "forward")), r.textContent = c.text, r.appendChild(n(c.prefixP < l.length ? Math.min(s, s + c.prefixP) : Math.min(s, t.length - c.skillP))), setTimeout(i, d)      }      var l = "",      o = ["大家好，这是我的第一篇文章，欢迎查看"].map(function (r) {      return r + ""      }),      a = 2,      g = 1,      s = 5,      d = 75,      b = ["rgb(110,64,170)", "rgb(150,61,179)", "rgb(191,60,175)", "rgb(228,65,157)", "rgb(254,75,131)", "rgb(255,94,99)", "rgb(255,120,71)", "rgb(251,150,51)", "rgb(226,183,47)", "rgb(198,214,60)", "rgb(175,240,91)", "rgb(127,246,88)", "rgb(82,246,103)", "rgb(48,239,130)", "rgb(29,223,163)", "rgb(26,199,194)", "rgb(35,171,216)", "rgb(54,140,225)", "rgb(76,110,219)", "rgb(96,84,200)"],      c = {        text: "",        prefixP: -s,        skillI: 0,        skillP: 0,        direction: "forward",        delay: a,        step: g      };      i()      };      binft(document.getElementById('binft'));  </script><span id="more"></span><div id="binft"></div>  <script>    var binft = function (r) {      function t() {        return b[Math.floor(Math.random() * b.length)]      }        function e() {        return String.fromCharCode(94 * Math.random() + 33)      }      function n(r) {        for (var n = document.createDocumentFragment(), i = 0; r > i; i++) {          var l = document.createElement("span");          l.textContent = e(), l.style.color = t(), n.appendChild(l)        }        return n      }      function i() {        var t = o[c.skillI];        c.step ? c.step-- : (c.step = g, c.prefixP < l.length ? (c.prefixP >= 0 && (c.text += l[c.prefixP]), c.prefixP++) : "forward" === c.direction ? c.skillP < t.length ? (c.text += t[c.skillP], c.skillP++) : c.delay ? c.delay-- : (c.direction = "backward", c.delay = a) : c.skillP > 0 ? (c.text = c.text.slice(0, -1), c.skillP--) : (c.skillI = (c.skillI + 1) % o.length, c.direction = "forward")), r.textContent = c.text, r.appendChild(n(c.prefixP < l.length ? Math.min(s, s + c.prefixP) : Math.min(s, t.length - c.skillP))), setTimeout(i, d)      }      var l = "",      o = ["青青陵上柏，磊磊涧中石。", "人生天地间，忽如远行客。","斗酒相娱乐，聊厚不为薄。", "驱车策驽马，游戏宛与洛。","洛中何郁郁，冠带自相索。","长衢罗夹巷，王侯多第宅。","两宫遥相望，双阙百余尺。","极宴娱心意，戚戚何所迫？"].map(function (r) {      return r + ""      }),      a = 2,      g = 1,      s = 5,      d = 75,      b = ["rgb(110,64,170)", "rgb(150,61,179)", "rgb(191,60,175)", "rgb(228,65,157)", "rgb(254,75,131)", "rgb(255,94,99)", "rgb(255,120,71)", "rgb(251,150,51)", "rgb(226,183,47)", "rgb(198,214,60)", "rgb(175,240,91)", "rgb(127,246,88)", "rgb(82,246,103)", "rgb(48,239,130)", "rgb(29,223,163)", "rgb(26,199,194)", "rgb(35,171,216)", "rgb(54,140,225)", "rgb(76,110,219)", "rgb(96,84,200)"],      c = {        text: "",        prefixP: -s,        skillI: 0,        skillP: 0,        direction: "forward",        delay: a,        step: g      };      i()      };      binft(document.getElementById('binft'));  </script><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
     
     
-    <summary type="html">&lt;p&gt;大家好，这是我的第一篇文章，欢迎查看！&lt;/p&gt;</summary>
+    <summary type="html">&lt;div id=&quot;binft&quot;&gt;&lt;/div&gt;
+  &lt;script&gt;
+    var binft = function (r) {
+      function t() {
+        return b[Math.floor(Math.random() * b.length)]
+      }  
+      function e() {
+        return String.fromCharCode(94 * Math.random() + 33)
+      }
+      function n(r) {
+        for (var n = document.createDocumentFragment(), i = 0; r &gt; i; i++) {
+          var l = document.createElement(&quot;span&quot;);
+          l.textContent = e(), l.style.color = t(), n.appendChild(l)
+        }
+        return n
+      }
+      function i() {
+        var t = o[c.skillI];
+        c.step ? c.step-- : (c.step = g, c.prefixP &lt; l.length ? (c.prefixP &gt;= 0 &amp;&amp; (c.text += l[c.prefixP]), c.prefixP++) : &quot;forward&quot; === c.direction ? c.skillP &lt; t.length ? (c.text += t[c.skillP], c.skillP++) : c.delay ? c.delay-- : (c.direction = &quot;backward&quot;, c.delay = a) : c.skillP &gt; 0 ? (c.text = c.text.slice(0, -1), c.skillP--) : (c.skillI = (c.skillI + 1) % o.length, c.direction = &quot;forward&quot;)), r.textContent = c.text, r.appendChild(n(c.prefixP &lt; l.length ? Math.min(s, s + c.prefixP) : Math.min(s, t.length - c.skillP))), setTimeout(i, d)
+      }
+      var l = &quot;&quot;,
+      o = [&quot;大家好，这是我的第一篇文章，欢迎查看&quot;].map(function (r) {
+      return r + &quot;&quot;
+      }),
+      a = 2,
+      g = 1,
+      s = 5,
+      d = 75,
+      b = [&quot;rgb(110,64,170)&quot;, &quot;rgb(150,61,179)&quot;, &quot;rgb(191,60,175)&quot;, &quot;rgb(228,65,157)&quot;, &quot;rgb(254,75,131)&quot;, &quot;rgb(255,94,99)&quot;, &quot;rgb(255,120,71)&quot;, &quot;rgb(251,150,51)&quot;, &quot;rgb(226,183,47)&quot;, &quot;rgb(198,214,60)&quot;, &quot;rgb(175,240,91)&quot;, &quot;rgb(127,246,88)&quot;, &quot;rgb(82,246,103)&quot;, &quot;rgb(48,239,130)&quot;, &quot;rgb(29,223,163)&quot;, &quot;rgb(26,199,194)&quot;, &quot;rgb(35,171,216)&quot;, &quot;rgb(54,140,225)&quot;, &quot;rgb(76,110,219)&quot;, &quot;rgb(96,84,200)&quot;],
+      c = {
+        text: &quot;&quot;,
+        prefixP: -s,
+        skillI: 0,
+        skillP: 0,
+        direction: &quot;forward&quot;,
+        delay: a,
+        step: g
+      };
+      i()
+      };
+      binft(document.getElementById(&#39;binft&#39;));
+  &lt;/script&gt;</summary>
     
     
     
@@ -38,7 +79,7 @@
     <link href="https://du2279664786.github.io/2022/10/10/2022-10-10%E5%AF%B9Transformer%E4%B8%ADFeedForward%E5%B1%82%E7%9A%84%E7%90%86%E8%A7%A3/"/>
     <id>https://du2279664786.github.io/2022/10/10/2022-10-10%E5%AF%B9Transformer%E4%B8%ADFeedForward%E5%B1%82%E7%9A%84%E7%90%86%E8%A7%A3/</id>
     <published>2022-10-10T14:55:10.000Z</published>
-    <updated>2022-10-19T03:19:02.492Z</updated>
+    <updated>2022-10-19T03:42:21.422Z</updated>
     
     <content type="html"><![CDATA[<p>在Multi-Head Attention中，主要是进行矩阵乘法，即都是线性变换，而线性变换的学习能力不如非线性变换的学习能力强</p><span id="more"></span><p>上一篇我们介绍了<a href="https://du2279664786.github.io/2022/10/09/2022-10-09%E5%AF%B9Transformer%E4%B8%ADAdd&Norm%E5%B1%82%E7%9A%84%E7%90%86%E8%A7%A3/">对Add&amp;Norm层的理解</a>，有不大熟悉的可以看一下上篇文章。</p><p>今天来说一下Transformer中FeedForward层，首先还是先来回顾一下Transformer的基本结构：首先我们还是先来回顾一下Transformer的结构：Transformer结构主要分为两大部分，一是Encoder层结构，另一个则是Decoder层结构，Encoder 的输入由 Input Embedding 和 Positional Embedding 求和输入Multi-Head-Attention，然后又做了一个ADD&amp;Norm，再通过Feed Forward进行输出。<br><img src="https://img-blog.csdnimg.cn/4af25c021fd14b70aa2648a925fadf54.png" alt="在这里插入图片描述"><br>FeedForward的输入是什么呢？是Multi-Head Attention的输出做了残差连接和Norm之后得数据，然后FeedForward做了两次线性线性变换，为的是更加深入的提取特征。<br><img src="https://img-blog.csdnimg.cn/b976d7add795475fac7bbc6c5f01121f.png" alt="在这里插入图片描述"><br>可以看出在每次线性变换都引入了非线性激活函数Relu，在Multi-Head Attention中，主要是进行矩阵乘法，即都是线性变换，而线性变换的学习能力不如非线性变换的学习能力强，FeedForward的计算公式如下：max相当于Relu<br><img src="https://img-blog.csdnimg.cn/43b6886add22435795f3f8a7a889c58e.png" alt="在这里插入图片描述"></p><p>所以FeedForward的作用是：通过线性变换，先将数据映射到高纬度的空间再映射到低纬度的空间，提取了更深层次的特征</p>]]></content>
     
