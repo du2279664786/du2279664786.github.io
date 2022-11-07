@@ -6,7 +6,7 @@
   <link href="https://du2279664786.github.io/atom.xml" rel="self"/>
   
   <link href="https://du2279664786.github.io/"/>
-  <updated>2022-10-19T03:48:38.807Z</updated>
+  <updated>2022-11-07T05:02:25.124Z</updated>
   <id>https://du2279664786.github.io/</id>
   
   <author>
@@ -18,12 +18,12 @@
   
   <entry>
     <title>Hello World</title>
-    <link href="https://du2279664786.github.io/2022/10/15/hello-world/"/>
-    <id>https://du2279664786.github.io/2022/10/15/hello-world/</id>
-    <published>2022-10-15T03:00:57.930Z</published>
-    <updated>2022-10-19T03:48:38.807Z</updated>
+    <link href="https://du2279664786.github.io/2022/11/07/hello-world/"/>
+    <id>https://du2279664786.github.io/2022/11/07/hello-world/</id>
+    <published>2022-11-07T14:55:10.000Z</published>
+    <updated>2022-11-07T05:02:25.124Z</updated>
     
-    <content type="html"><![CDATA[<div id="binft"></div>  <script>    var binft = function (r) {      function t() {        return b[Math.floor(Math.random() * b.length)]      }        function e() {        return String.fromCharCode(94 * Math.random() + 33)      }      function n(r) {        for (var n = document.createDocumentFragment(), i = 0; r > i; i++) {          var l = document.createElement("span");          l.textContent = e(), l.style.color = t(), n.appendChild(l)        }        return n      }      function i() {        var t = o[c.skillI];        c.step ? c.step-- : (c.step = g, c.prefixP < l.length ? (c.prefixP >= 0 && (c.text += l[c.prefixP]), c.prefixP++) : "forward" === c.direction ? c.skillP < t.length ? (c.text += t[c.skillP], c.skillP++) : c.delay ? c.delay-- : (c.direction = "backward", c.delay = a) : c.skillP > 0 ? (c.text = c.text.slice(0, -1), c.skillP--) : (c.skillI = (c.skillI + 1) % o.length, c.direction = "forward")), r.textContent = c.text, r.appendChild(n(c.prefixP < l.length ? Math.min(s, s + c.prefixP) : Math.min(s, t.length - c.skillP))), setTimeout(i, d)      }      var l = "",      o = ["大家好，这是我的第一篇文章，欢迎查看"].map(function (r) {      return r + ""      }),      a = 2,      g = 1,      s = 5,      d = 75,      b = ["rgb(110,64,170)", "rgb(150,61,179)", "rgb(191,60,175)", "rgb(228,65,157)", "rgb(254,75,131)", "rgb(255,94,99)", "rgb(255,120,71)", "rgb(251,150,51)", "rgb(226,183,47)", "rgb(198,214,60)", "rgb(175,240,91)", "rgb(127,246,88)", "rgb(82,246,103)", "rgb(48,239,130)", "rgb(29,223,163)", "rgb(26,199,194)", "rgb(35,171,216)", "rgb(54,140,225)", "rgb(76,110,219)", "rgb(96,84,200)"],      c = {        text: "",        prefixP: -s,        skillI: 0,        skillP: 0,        direction: "forward",        delay: a,        step: g      };      i()      };      binft(document.getElementById('binft'));  </script><span id="more"></span><div id="binft"></div>  <script>    var binft = function (r) {      function t() {        return b[Math.floor(Math.random() * b.length)]      }        function e() {        return String.fromCharCode(94 * Math.random() + 33)      }      function n(r) {        for (var n = document.createDocumentFragment(), i = 0; r > i; i++) {          var l = document.createElement("span");          l.textContent = e(), l.style.color = t(), n.appendChild(l)        }        return n      }      function i() {        var t = o[c.skillI];        c.step ? c.step-- : (c.step = g, c.prefixP < l.length ? (c.prefixP >= 0 && (c.text += l[c.prefixP]), c.prefixP++) : "forward" === c.direction ? c.skillP < t.length ? (c.text += t[c.skillP], c.skillP++) : c.delay ? c.delay-- : (c.direction = "backward", c.delay = a) : c.skillP > 0 ? (c.text = c.text.slice(0, -1), c.skillP--) : (c.skillI = (c.skillI + 1) % o.length, c.direction = "forward")), r.textContent = c.text, r.appendChild(n(c.prefixP < l.length ? Math.min(s, s + c.prefixP) : Math.min(s, t.length - c.skillP))), setTimeout(i, d)      }      var l = "",      o = ["青青陵上柏，磊磊涧中石。", "人生天地间，忽如远行客。","斗酒相娱乐，聊厚不为薄。", "驱车策驽马，游戏宛与洛。","洛中何郁郁，冠带自相索。","长衢罗夹巷，王侯多第宅。","两宫遥相望，双阙百余尺。","极宴娱心意，戚戚何所迫？"].map(function (r) {      return r + ""      }),      a = 2,      g = 1,      s = 5,      d = 75,      b = ["rgb(110,64,170)", "rgb(150,61,179)", "rgb(191,60,175)", "rgb(228,65,157)", "rgb(254,75,131)", "rgb(255,94,99)", "rgb(255,120,71)", "rgb(251,150,51)", "rgb(226,183,47)", "rgb(198,214,60)", "rgb(175,240,91)", "rgb(127,246,88)", "rgb(82,246,103)", "rgb(48,239,130)", "rgb(29,223,163)", "rgb(26,199,194)", "rgb(35,171,216)", "rgb(54,140,225)", "rgb(76,110,219)", "rgb(96,84,200)"],      c = {        text: "",        prefixP: -s,        skillI: 0,        skillP: 0,        direction: "forward",        delay: a,        step: g      };      i()      };      binft(document.getElementById('binft'));  </script><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
+    <content type="html"><![CDATA[<div id="binft"></div>  <script>    var binft = function (r) {      function t() {        return b[Math.floor(Math.random() * b.length)]      }        function e() {        return String.fromCharCode(94 * Math.random() + 33)      }      function n(r) {        for (var n = document.createDocumentFragment(), i = 0; r > i; i++) {          var l = document.createElement("span");          l.textContent = e(), l.style.color = t(), n.appendChild(l)        }        return n      }      function i() {        var t = o[c.skillI];        c.step ? c.step-- : (c.step = g, c.prefixP < l.length ? (c.prefixP >= 0 && (c.text += l[c.prefixP]), c.prefixP++) : "forward" === c.direction ? c.skillP < t.length ? (c.text += t[c.skillP], c.skillP++) : c.delay ? c.delay-- : (c.direction = "backward", c.delay = a) : c.skillP > 0 ? (c.text = c.text.slice(0, -1), c.skillP--) : (c.skillI = (c.skillI + 1) % o.length, c.direction = "forward")), r.textContent = c.text, r.appendChild(n(c.prefixP < l.length ? Math.min(s, s + c.prefixP) : Math.min(s, t.length - c.skillP))), setTimeout(i, d)      }      var l = "",      o = ["大家好，这是我的第一篇文章，欢迎查看"].map(function (r) {      return r + ""      }),      a = 2,      g = 1,      s = 5,      d = 75,      b = ["rgb(110,64,170)", "rgb(150,61,179)", "rgb(191,60,175)", "rgb(228,65,157)", "rgb(254,75,131)", "rgb(255,94,99)", "rgb(255,120,71)", "rgb(251,150,51)", "rgb(226,183,47)", "rgb(198,214,60)", "rgb(175,240,91)", "rgb(127,246,88)", "rgb(82,246,103)", "rgb(48,239,130)", "rgb(29,223,163)", "rgb(26,199,194)", "rgb(35,171,216)", "rgb(54,140,225)", "rgb(76,110,219)", "rgb(96,84,200)"],      c = {        text: "",        prefixP: -s,        skillI: 0,        skillP: 0,        direction: "forward",        delay: a,        step: g      };      i()      };      binft(document.getElementById('binft'));  </script><span id="more"></span><div id="binft"></div>  <script>    var binft = function (r) {      function t() {        return b[Math.floor(Math.random() * b.length)]      }        function e() {        return String.fromCharCode(94 * Math.random() + 33)      }      function n(r) {        for (var n = document.createDocumentFragment(), i = 0; r > i; i++) {          var l = document.createElement("span");          l.textContent = e(), l.style.color = t(), n.appendChild(l)        }        return n      }      function i() {        var t = o[c.skillI];        c.step ? c.step-- : (c.step = g, c.prefixP < l.length ? (c.prefixP >= 0 && (c.text += l[c.prefixP]), c.prefixP++) : "forward" === c.direction ? c.skillP < t.length ? (c.text += t[c.skillP], c.skillP++) : c.delay ? c.delay-- : (c.direction = "backward", c.delay = a) : c.skillP > 0 ? (c.text = c.text.slice(0, -1), c.skillP--) : (c.skillI = (c.skillI + 1) % o.length, c.direction = "forward")), r.textContent = c.text, r.appendChild(n(c.prefixP < l.length ? Math.min(s, s + c.prefixP) : Math.min(s, t.length - c.skillP))), setTimeout(i, d)      }      var l = "",      o = ["青青陵上柏，磊磊涧中石。", "人生天地间，忽如远行客。","斗酒相娱乐，聊厚不为薄。", "驱车策驽马，游戏宛与洛。","洛中何郁郁，冠带自相索。","长衢罗夹巷，王侯多第宅。","两宫遥相望，双阙百余尺。","极宴娱心意，戚戚何所迫？"].map(function (r) {      return r + ""      }),      a = 2,      g = 1,      s = 5,      d = 75,      b = ["rgb(110,64,170)", "rgb(150,61,179)", "rgb(191,60,175)", "rgb(228,65,157)", "rgb(254,75,131)", "rgb(255,94,99)", "rgb(255,120,71)", "rgb(251,150,51)", "rgb(226,183,47)", "rgb(198,214,60)", "rgb(175,240,91)", "rgb(127,246,88)", "rgb(82,246,103)", "rgb(48,239,130)", "rgb(29,223,163)", "rgb(26,199,194)", "rgb(35,171,216)", "rgb(54,140,225)", "rgb(76,110,219)", "rgb(96,84,200)"],      c = {        text: "",        prefixP: -s,        skillI: 0,        skillP: 0,        direction: "forward",        delay: a,        step: g      };      i()      };      binft(document.getElementById('binft'));  </script><h1 id="欢迎查看我的第一篇文章"><a href="#欢迎查看我的第一篇文章" class="headerlink" title="欢迎查看我的第一篇文章"></a>欢迎查看我的第一篇文章</h1><p>大一的时候搭建过一次博客，但是由于长时间不使用，导致配置文件丢失<br>所以在大三上学期我又重新搭建了一下，将去年（大二）所学的知识进行了“简单”的汇总（PS：李明虎老师讲的实在是太丰富了，我只整理了简单的）</p><p>转眼间已经大三了，回顾过去两年：<br>        ·大一上：人工智能导论<br>        ·大一下：爬虫<br>        ·大二上：机器学习<br>        ·大二下：深度学习和神经网络<br>….. …..</p><p>希望考研可以成功上岸！</p>]]></content>
     
     
     <summary type="html">&lt;div id=&quot;binft&quot;&gt;&lt;/div&gt;
@@ -75,6 +75,31 @@
   </entry>
   
   <entry>
+    <title>中国大学生计算机设计大赛复盘</title>
+    <link href="https://du2279664786.github.io/2022/10/27/2022-10-27%E4%B8%AD%E5%9B%BD%E5%A4%A7%E5%AD%A6%E7%94%9F%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AE%BE%E8%AE%A1%E5%A4%A7%E8%B5%9B/"/>
+    <id>https://du2279664786.github.io/2022/10/27/2022-10-27%E4%B8%AD%E5%9B%BD%E5%A4%A7%E5%AD%A6%E7%94%9F%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%AE%BE%E8%AE%A1%E5%A4%A7%E8%B5%9B/</id>
+    <published>2022-10-27T14:55:10.000Z</published>
+    <updated>2022-11-07T05:01:37.083Z</updated>
+    
+    <content type="html"><![CDATA[<p>2022年中国大学生计算机设计大赛-人工智能挑战赛-国家二等奖</p><span id="more"></span><p>此篇文章写于2022年10月27日，为了复盘、回顾上一次的计算机设计大赛<br>中国大学生计算机设计大赛</p><h1 id="日程"><a href="#日程" class="headerlink" title="日程"></a>日程</h1><p>5-6月份开始初赛省赛，我和我的两位队友努力的写文档，整理代码，提交了相关资料，由于初赛（省赛）没有答辩，所以差不多等到六月多收到获得省二的通知<br>7月份多得之进了国赛<br>7月底-8月底就开始修改文档，修改代码，录制相关视频，等待国赛的答辩</p><h1 id="内容"><a href="#内容" class="headerlink" title="内容"></a>内容</h1><p>项目背景：在数字经济蓬勃发展的时代背景下， “数字化”“智慧化”成为了企业管理转型升级的核心引擎。传统建管理模式已不再符合可持续发展的要求，迫切需要利用以信息技术为代表的现代科技手段，实现中国企业管理转型升级与跨越式发展。为了更好的解决时代问题的痛点，并在一定程度上节约人力成本，本项目设计了一个基于云端和硬件的人工智能多场景实时物体监测平台，将多场景实时监测与报警系统进行了融合创新，做到了监控、检测、分类、识别四位一体的平台建设。<br>整体布局：<br><img src="https://img-blog.csdnimg.cn/d652a2b775ee475f951a36c928d2054e.png" alt="在这里插入图片描述"></p><p>算法介绍：<br>移动物体检测：本项目采用OpenCV（Open Source Computer Vision Library）算法，使用灰度转化、图片缩放和高斯滤波等相关操作，对图像进行预处理，增强了移动物体的可检测性。</p><p>物体识别：为提高精确度并且处理时间尽可能短，本项目采用了运算速度比较快的 Yolov3 算法，它是基于深度学习框架Darknet的目标检测开源项目，不仅可以充分发挥多核处理器和 GPU 并行运算的功能，还可以基于预训练模型进行实时目标检测,预期效果如下：<br><img src="https://img-blog.csdnimg.cn/d1d870e51929499fb0637ed6a3ba3703.png" alt="在这里插入图片描述"><br>以及安全帽检测、疲劳监测、口罩检测<br>具体代码仓库如下：<a href="https://github.com/du2279664786/Chinese-undergraduate-computer-design-contest">https://github.com/du2279664786/Chinese-undergraduate-computer-design-contest</a></p><p>最终获得证书：一个省二证书、一个国二证书、外加一枚金匾<br><img src="https://img-blog.csdnimg.cn/736f6b9f339841fc832f0180d06ab5d8.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/99c107c9a863454e8ee0d84169935b90.png" alt="在这里插入图片描述"></p>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;2022年中国大学生计算机设计大赛-人工智能挑战赛-国家二等奖&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="竞赛" scheme="https://du2279664786.github.io/categories/%E7%AB%9E%E8%B5%9B/"/>
+    
+    
+    <category term="机器学习" scheme="https://du2279664786.github.io/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+    <category term="竞赛" scheme="https://du2279664786.github.io/tags/%E7%AB%9E%E8%B5%9B/"/>
+    
+    <category term="机器视觉" scheme="https://du2279664786.github.io/tags/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89/"/>
+    
+  </entry>
+  
+  <entry>
     <title>数学建模省一思路及其代码</title>
     <link href="https://du2279664786.github.io/2022/10/14/2022-10-14%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1%E7%9C%81%E4%B8%80%E6%80%9D%E8%B7%AF%E5%8F%8A%E5%85%B6%E4%BB%A3%E7%A0%81/"/>
     <id>https://du2279664786.github.io/2022/10/14/2022-10-14%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1%E7%9C%81%E4%B8%80%E6%80%9D%E8%B7%AF%E5%8F%8A%E5%85%B6%E4%BB%A3%E7%A0%81/</id>
@@ -102,9 +127,9 @@
     <link href="https://du2279664786.github.io/2022/10/10/2022-10-10%E5%AF%B9Transformer%E4%B8%ADFeedForward%E5%B1%82%E7%9A%84%E7%90%86%E8%A7%A3/"/>
     <id>https://du2279664786.github.io/2022/10/10/2022-10-10%E5%AF%B9Transformer%E4%B8%ADFeedForward%E5%B1%82%E7%9A%84%E7%90%86%E8%A7%A3/</id>
     <published>2022-10-10T14:55:10.000Z</published>
-    <updated>2022-10-19T03:42:21.422Z</updated>
+    <updated>2022-10-30T03:04:33.367Z</updated>
     
-    <content type="html"><![CDATA[<p>在Multi-Head Attention中，主要是进行矩阵乘法，即都是线性变换，而线性变换的学习能力不如非线性变换的学习能力强</p><span id="more"></span><p>上一篇我们介绍了<a href="https://du2279664786.github.io/2022/10/09/2022-10-09%E5%AF%B9Transformer%E4%B8%ADAdd&Norm%E5%B1%82%E7%9A%84%E7%90%86%E8%A7%A3/">对Add&amp;Norm层的理解</a>，有不大熟悉的可以看一下上篇文章。</p><p>今天来说一下Transformer中FeedForward层，首先还是先来回顾一下Transformer的基本结构：首先我们还是先来回顾一下Transformer的结构：Transformer结构主要分为两大部分，一是Encoder层结构，另一个则是Decoder层结构，Encoder 的输入由 Input Embedding 和 Positional Embedding 求和输入Multi-Head-Attention，然后又做了一个ADD&amp;Norm，再通过Feed Forward进行输出。<br><img src="https://img-blog.csdnimg.cn/4af25c021fd14b70aa2648a925fadf54.png" alt="在这里插入图片描述"><br>FeedForward的输入是什么呢？是Multi-Head Attention的输出做了残差连接和Norm之后得数据，然后FeedForward做了两次线性线性变换，为的是更加深入的提取特征。<br><img src="https://img-blog.csdnimg.cn/b976d7add795475fac7bbc6c5f01121f.png" alt="在这里插入图片描述"><br>可以看出在每次线性变换都引入了非线性激活函数Relu，在Multi-Head Attention中，主要是进行矩阵乘法，即都是线性变换，而线性变换的学习能力不如非线性变换的学习能力强，FeedForward的计算公式如下：max相当于Relu<br><img src="https://img-blog.csdnimg.cn/43b6886add22435795f3f8a7a889c58e.png" alt="在这里插入图片描述"></p><p>所以FeedForward的作用是：通过线性变换，先将数据映射到高纬度的空间再映射到低纬度的空间，提取了更深层次的特征</p>]]></content>
+    <content type="html"><![CDATA[<p>在Multi-Head Attention中，主要是进行矩阵乘法，即都是线性变换，而线性变换的学习能力不如非线性变换的学习能力强</p><span id="more"></span><p>上一篇我们介绍了<a href="https://du2279664786.github.io/2022/10/09/2022-10-09%E5%AF%B9Transformer%E4%B8%ADAdd&Norm%E5%B1%82%E7%9A%84%E7%90%86%E8%A7%A3/">对Add&amp;Norm层的理解</a>，有不大熟悉的可以看一下上篇文章。</p><p>今天来说一下Transformer中FeedForward层，首先还是先来回顾一下Transformer的基本结构：首先我们还是先来回顾一下Transformer的结构：Transformer结构主要分为两大部分，一是Encoder层结构，另一个则是Decoder层结构，Encoder 的输入由 Input Embedding 和 Positional Embedding 求和输入Multi-Head-Attention，然后又做了一个ADD&amp;Norm，再通过Feed Forward进行输出。<br><img src="https://img-blog.csdnimg.cn/4af25c021fd14b70aa2648a925fadf54.png"><br>FeedForward的输入是什么呢？是Multi-Head Attention的输出做了残差连接和Norm之后得数据，然后FeedForward做了两次线性线性变换，为的是更加深入的提取特征。<br><img src="https://img-blog.csdnimg.cn/b976d7add795475fac7bbc6c5f01121f.png" alt="在这里插入图片描述"><br>可以看出在每次线性变换都引入了非线性激活函数Relu，在Multi-Head Attention中，主要是进行矩阵乘法，即都是线性变换，而线性变换的学习能力不如非线性变换的学习能力强，FeedForward的计算公式如下：max相当于Relu<br><img src="https://img-blog.csdnimg.cn/43b6886add22435795f3f8a7a889c58e.png" alt="在这里插入图片描述"></p><p>所以FeedForward的作用是：通过线性变换，先将数据映射到高纬度的空间再映射到低纬度的空间，提取了更深层次的特征</p>]]></content>
     
     
     <summary type="html">&lt;p&gt;在Multi-Head Attention中，主要是进行矩阵乘法，即都是线性变换，而线性变换的学习能力不如非线性变换的学习能力强&lt;/p&gt;</summary>
@@ -507,29 +532,6 @@
     <category term="机器学习" scheme="https://du2279664786.github.io/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
     
     <category term="pytorch" scheme="https://du2279664786.github.io/tags/pytorch/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>快速安装python包</title>
-    <link href="https://du2279664786.github.io/2021/12/08/2021-12-08%E5%BF%AB%E9%80%9F%E5%AE%89%E8%A3%85python%E5%8C%85/"/>
-    <id>https://du2279664786.github.io/2021/12/08/2021-12-08%E5%BF%AB%E9%80%9F%E5%AE%89%E8%A3%85python%E5%8C%85/</id>
-    <published>2021-12-08T14:55:10.000Z</published>
-    <updated>2022-10-18T08:58:45.854Z</updated>
-    
-    <content type="html"><![CDATA[<p>使用源快速安装python包</p><span id="more"></span><p>使用以下代码</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install -i https://pypi.tuna.tsinghua.edu.cn/simple    </span><br></pre></td></tr></table></figure><p>在最后加上你要安装的包，就OK了<br>例如：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install -i https://pypi.tuna.tsinghua.edu.cn/simple pandas</span><br></pre></td></tr></table></figure>]]></content>
-    
-    
-    <summary type="html">&lt;p&gt;使用源快速安装python包&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="机器学习" scheme="https://du2279664786.github.io/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
-    
-    
-    <category term="机器学习" scheme="https://du2279664786.github.io/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
-    
-    <category term="逻辑回归" scheme="https://du2279664786.github.io/tags/%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92/"/>
     
   </entry>
   
