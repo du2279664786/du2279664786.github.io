@@ -6,7 +6,7 @@
   <link href="https://du2279664786.github.io/atom.xml" rel="self"/>
   
   <link href="https://du2279664786.github.io/"/>
-  <updated>2022-11-13T15:33:48.636Z</updated>
+  <updated>2022-11-14T02:43:18.470Z</updated>
   <id>https://du2279664786.github.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://du2279664786.github.io/2022/11/13/2022-11-13%E7%AC%AC%E4%BA%94%E5%B1%8A%E2%80%9C%E6%B3%B0%E8%BF%AA%E6%9D%AF%E2%80%9D%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E6%8A%80%E8%83%BD%E8%B5%9B/"/>
     <id>https://du2279664786.github.io/2022/11/13/2022-11-13%E7%AC%AC%E4%BA%94%E5%B1%8A%E2%80%9C%E6%B3%B0%E8%BF%AA%E6%9D%AF%E2%80%9D%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90%E6%8A%80%E8%83%BD%E8%B5%9B/</id>
     <published>2022-11-13T14:55:10.000Z</published>
-    <updated>2022-11-13T15:33:48.636Z</updated>
+    <updated>2022-11-14T02:43:18.470Z</updated>
     
     <content type="html"><![CDATA[<p>第五届“泰迪杯”数据分析技能赛复盘</p><span id="more"></span><p>今天刚结束了第五届“泰迪杯”数据分析技能赛，我们选择的B题做，昨天的A题太伤心了，做不出来A题（时间太短，再加上太麻烦，晚上直接跑路去操场看70周年校庆了）</p><p>先上代码：<a href="https://github.com/du2279664786/2022-taidi-competition">https://github.com/du2279664786/2022-taidi-competition</a>，直接在前面仓库可以看到代码和相关数据</p><h1 id="竞赛日程；"><a href="#竞赛日程；" class="headerlink" title="竞赛日程；"></a>竞赛日程；</h1><p>报名起始时间：2022年9月5日-11月10日<br>赛前指导时间：2022年9月13日-11月10日<br>A题竞赛时间：2022年11月12日 8:00-21:00（8:00:00公布赛题）<br>B题竞赛时间：2022年11月13日 8:00-20:00（8:00:00公布赛题）<br>视频答辩时间：2022年12月上旬，具体时间另行通知<br>成绩公示时间：2022年12月中下旬<br>最终成绩公布时间：2022年12月中下旬</p><h1 id="赛题基本情况"><a href="#赛题基本情况" class="headerlink" title="赛题基本情况"></a>赛题基本情况</h1><p>A题基本如下：<br><img src="https://img-blog.csdnimg.cn/fc0e1942da0840e581af2f1a07f92294.png"><br>B题基本如下：<br><img src="https://img-blog.csdnimg.cn/60fe3adf19504c08858bb6e0335dae6c.png"><br><img src="https://img-blog.csdnimg.cn/0bd891ee6bc648db963bbb5be25ff832.png"><br><img src="https://img-blog.csdnimg.cn/32ce46c165fb4f959267a3ee388aa68e.png"><br><img src="https://img-blog.csdnimg.cn/528ac1e435114bd781e6ad1f5de35bb8.png"></p><h1 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h1><p>昨天做A题，今天做B题，每个题的做题时间是8:00-20:00（8:00:00公布赛题），共12个小时的竞赛时间，完成一篇论文</p><p>可以看出，A题和我们人工智能专业相关性不大，所以昨天我和两个队友基本出于摆烂状态，也没有提交论文，基本放弃了A题，而转身去看建校70周年的节目去了</p><p>然后今天早晨又看了B题，发现可以冲，于是我们三个就去201教室开干，一共写了20页，差不多从9点开干，一直到晚上8点，难度不大，但也需要一定的思考逻辑，模型部分如下图展示：<br><img src="https://img-blog.csdnimg.cn/492c0617f3ce49c68980a8c3d4e23b36.png"><br><img src="https://img-blog.csdnimg.cn/4b25af9f99db44c195bb9ce3f6079b28.png"><br><img src="https://img-blog.csdnimg.cn/b7c75b831b574d3fb7c78f100c022287.png"></p><h1 id="感悟"><a href="#感悟" class="headerlink" title="感悟"></a>感悟</h1><p>做的还可以，基本都是按照题目要求做的，美中不足就是正第一页排版不大好，其他的都还可以，希望能够摸一个奖</p>]]></content>
     
@@ -35,9 +35,11 @@
     
     <category term="机器学习" scheme="https://du2279664786.github.io/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
     
+    <category term="数据挖掘" scheme="https://du2279664786.github.io/tags/%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98/"/>
+    
     <category term="竞赛" scheme="https://du2279664786.github.io/tags/%E7%AB%9E%E8%B5%9B/"/>
     
-    <category term="机器视觉" scheme="https://du2279664786.github.io/tags/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89/"/>
+    <category term="数据分析" scheme="https://du2279664786.github.io/tags/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/"/>
     
   </entry>
   
@@ -129,7 +131,7 @@
     <link href="https://du2279664786.github.io/2022/10/14/2022-10-14%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1%E7%9C%81%E4%B8%80%E6%80%9D%E8%B7%AF%E5%8F%8A%E5%85%B6%E4%BB%A3%E7%A0%81/"/>
     <id>https://du2279664786.github.io/2022/10/14/2022-10-14%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1%E7%9C%81%E4%B8%80%E6%80%9D%E8%B7%AF%E5%8F%8A%E5%85%B6%E4%BB%A3%E7%A0%81/</id>
     <published>2022-10-14T14:55:10.000Z</published>
-    <updated>2022-10-21T02:34:41.450Z</updated>
+    <updated>2022-11-14T02:42:57.417Z</updated>
     
     <content type="html"><![CDATA[<p>2022年全国大学生数学建模竞赛山东省一等奖</p><span id="more"></span><p>连肝三天，撸了三天代码，9.17早-9.18晚日夜不停，终于和队友拿下了2022年全国大学生数学建模竞赛山东省一等奖<br>基本思路如下：<br><img src="https://img-blog.csdnimg.cn/c6128ba97db94cf489182b2fe05ee6ec.jpeg"><br>下面是代码部分，仓库连接如下：<a href="https://github.com/du2279664786/CUMCM">https://github.com/du2279664786/CUMCM</a><br><img src="https://img-blog.csdnimg.cn/1b6a9e5ed0054967b790696d20f287ce.png" alt="在这里插入图片描述"></p>]]></content>
     
@@ -144,6 +146,8 @@
     <category term="机器学习" scheme="https://du2279664786.github.io/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
     
     <category term="竞赛" scheme="https://du2279664786.github.io/tags/%E7%AB%9E%E8%B5%9B/"/>
+    
+    <category term="数学建模" scheme="https://du2279664786.github.io/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/"/>
     
   </entry>
   
@@ -223,6 +227,33 @@
     <category term="深度学习" scheme="https://du2279664786.github.io/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
     
     <category term="HuggingFace" scheme="https://du2279664786.github.io/tags/HuggingFace/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>第三届“大湾区杯”粤港澳金融数学建模竞赛</title>
+    <link href="https://du2279664786.github.io/2022/10/08/2022-11-08%E7%AC%AC%E4%B8%89%E5%B1%8A%E2%80%9C%E5%A4%A7%E6%B9%BE%E5%8C%BA%E6%9D%AF%E2%80%9D%E7%B2%A4%E6%B8%AF%E6%BE%B3%E9%87%91%E8%9E%8D%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1%E7%AB%9E%E8%B5%9B/"/>
+    <id>https://du2279664786.github.io/2022/10/08/2022-11-08%E7%AC%AC%E4%B8%89%E5%B1%8A%E2%80%9C%E5%A4%A7%E6%B9%BE%E5%8C%BA%E6%9D%AF%E2%80%9D%E7%B2%A4%E6%B8%AF%E6%BE%B3%E9%87%91%E8%9E%8D%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1%E7%AB%9E%E8%B5%9B/</id>
+    <published>2022-10-08T14:55:10.000Z</published>
+    <updated>2022-11-14T03:02:23.562Z</updated>
+    
+    <content type="html"><![CDATA[<p>2022年第三届“大湾区杯”粤港澳金融数学建模竞赛复盘</p><span id="more"></span><p>老规矩先上代码仓库：<a href="https://github.com/du2279664786/2022-JinRong-Mathematics-modeling">https://github.com/du2279664786/2022-JinRong-Mathematics-modeling</a></p><h1 id="竞赛日程"><a href="#竞赛日程" class="headerlink" title="竞赛日程"></a>竞赛日程</h1><p>报名时间：10月12日10:00:00-10月30日22:00:00<br>竞赛时间：11月1日10:00:00-11月8日14:00:00</p><h1 id="赛题基本情况"><a href="#赛题基本情况" class="headerlink" title="赛题基本情况"></a>赛题基本情况</h1><p>A题如下<br><img src="https://img-blog.csdnimg.cn/4d314192ae304e3ab220fddc93379418.png"><br>B题如下<br><img src="https://img-blog.csdnimg.cn/1c6b8f2fcc844fc891edbf488f9078df.png"><br>AB两个题都是比较偏向金融的（题目就叫‘金融’数学建模）</p><h1 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h1><p>我们三个都是计算机专业的，对金融一窍不通，刚开始选择的是A题，因为我们感觉A比较偏代码，实践性更强一些，但是当我们做了两天之后发现：A题根本没有头绪，对他们所给的数据也是不会处理，11月3号，还是没有思路，于是我们果断换成了B题，容易水论文<br><img src="https://img-blog.csdnimg.cn/83574b6bd9624a229fb935074e4c808a.png"></p><h1 id="感悟"><a href="#感悟" class="headerlink" title="感悟"></a>感悟</h1><p>整体还行，至少尽力做了，对金融领域不大了解，这也是我们的短处，希望能摸一个奖！</p>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;2022年第三届“大湾区杯”粤港澳金融数学建模竞赛复盘&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="竞赛" scheme="https://du2279664786.github.io/categories/%E7%AB%9E%E8%B5%9B/"/>
+    
+    
+    <category term="机器学习" scheme="https://du2279664786.github.io/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+    <category term="竞赛" scheme="https://du2279664786.github.io/tags/%E7%AB%9E%E8%B5%9B/"/>
+    
+    <category term="数学建模" scheme="https://du2279664786.github.io/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/"/>
+    
+    <category term="金融" scheme="https://du2279664786.github.io/tags/%E9%87%91%E8%9E%8D/"/>
     
   </entry>
   
@@ -511,29 +542,6 @@
     <category term="深度学习" scheme="https://du2279664786.github.io/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
     
     <category term="梯度" scheme="https://du2279664786.github.io/tags/%E6%A2%AF%E5%BA%A6/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Pytorch中Tensor的创建</title>
-    <link href="https://du2279664786.github.io/2022/04/17/2022-04-17Pytorch%E4%B8%ADTensor%E7%9A%84%E5%88%9B%E5%BB%BA/"/>
-    <id>https://du2279664786.github.io/2022/04/17/2022-04-17Pytorch%E4%B8%ADTensor%E7%9A%84%E5%88%9B%E5%BB%BA/</id>
-    <published>2022-04-17T14:55:10.000Z</published>
-    <updated>2022-10-18T09:04:24.850Z</updated>
-    
-    <content type="html"><![CDATA[<p>创建Tensor的几种方式</p><span id="more"></span><h1 id="创建Tensor"><a href="#创建Tensor" class="headerlink" title="创建Tensor"></a>创建Tensor</h1><h3 id="创建一个5行3列未初始化的tensor"><a href="#创建一个5行3列未初始化的tensor" class="headerlink" title="创建一个5行3列未初始化的tensor"></a>创建一个5行3列未初始化的tensor</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">x = torch.empty(<span class="number">5</span>, <span class="number">3</span>)</span><br><span class="line"><span class="built_in">print</span>(x)</span><br></pre></td></tr></table></figure><p>输出：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">tensor([[<span class="number">1.0194e-38</span>, <span class="number">1.0469e-38</span>, <span class="number">1.0010e-38</span>],</span><br><span class="line">        [<span class="number">8.9081e-39</span>, <span class="number">8.9082e-39</span>, <span class="number">5.9694e-39</span>],</span><br><span class="line">        [<span class="number">8.9082e-39</span>, <span class="number">1.0194e-38</span>, <span class="number">9.1837e-39</span>],</span><br><span class="line">        [<span class="number">4.6837e-39</span>, <span class="number">9.2755e-39</span>, <span class="number">1.0837e-38</span>],</span><br><span class="line">        [<span class="number">8.4490e-39</span>, <span class="number">1.1112e-38</span>, <span class="number">1.0194e-38</span>]])</span><br></pre></td></tr></table></figure><h3 id="创建一个5行3列随机初始化的tensor："><a href="#创建一个5行3列随机初始化的tensor：" class="headerlink" title="创建一个5行3列随机初始化的tensor："></a>创建一个5行3列随机初始化的tensor：</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">x = torch.rand(<span class="number">5</span>, <span class="number">3</span>)</span><br><span class="line"><span class="built_in">print</span>(x)</span><br></pre></td></tr></table></figure><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">tensor([[<span class="number">0.5911</span>, <span class="number">0.9191</span>, <span class="number">0.9826</span>],</span><br><span class="line">        [<span class="number">0.4801</span>, <span class="number">0.1648</span>, <span class="number">0.8578</span>],</span><br><span class="line">        [<span class="number">0.9937</span>, <span class="number">0.8051</span>, <span class="number">0.6952</span>],</span><br><span class="line">        [<span class="number">0.9682</span>, <span class="number">0.1975</span>, <span class="number">0.1151</span>],</span><br><span class="line">        [<span class="number">0.2434</span>, <span class="number">0.2917</span>, <span class="number">0.7866</span>]])</span><br></pre></td></tr></table></figure><h3 id="创建Tensor还可以指定数据类型：创建一个5行3列的类型为long的全0数据"><a href="#创建Tensor还可以指定数据类型：创建一个5行3列的类型为long的全0数据" class="headerlink" title="创建Tensor还可以指定数据类型：创建一个5行3列的类型为long的全0数据"></a>创建Tensor还可以指定数据类型：创建一个5行3列的类型为long的全0数据</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">x = torch.zeros(<span class="number">5</span>, <span class="number">3</span>, dtype=torch.long)</span><br><span class="line"><span class="built_in">print</span>(x)</span><br></pre></td></tr></table></figure><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">tensor([[<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],</span><br><span class="line">        [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],</span><br><span class="line">        [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],</span><br><span class="line">        [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],</span><br><span class="line">        [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>]])</span><br></pre></td></tr></table></figure><h3 id="直接输入数据进行创建tensor："><a href="#直接输入数据进行创建tensor：" class="headerlink" title="直接输入数据进行创建tensor："></a>直接输入数据进行创建tensor：</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">x = torch.tensor([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>])</span><br><span class="line"><span class="built_in">print</span>(x)</span><br></pre></td></tr></table></figure><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tensor([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>])</span><br></pre></td></tr></table></figure><h3 id="根据现有的tensor创建新的tensor："><a href="#根据现有的tensor创建新的tensor：" class="headerlink" title="根据现有的tensor创建新的tensor："></a>根据现有的tensor创建新的tensor：</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">x = torch.randn_like(x,dtype = torch.float64)</span><br><span class="line">x</span><br></pre></td></tr></table></figure><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">tensor([[-<span class="number">0.6669</span>,  <span class="number">0.5308</span>,  <span class="number">1.5981</span>],</span><br><span class="line">        [ <span class="number">1.2061</span>,  <span class="number">0.6624</span>, -<span class="number">0.4535</span>],</span><br><span class="line">        [-<span class="number">0.5667</span>, -<span class="number">0.8755</span>, -<span class="number">2.1078</span>],</span><br><span class="line">        [-<span class="number">3.0560</span>, -<span class="number">0.6035</span>,  <span class="number">0.7990</span>],</span><br><span class="line">        [-<span class="number">0.3979</span>, -<span class="number">1.3582</span>, -<span class="number">0.8427</span>]], dtype=torch.float64)</span><br></pre></td></tr></table></figure><h3 id="2根据numpy创建新的tensor："><a href="#2根据numpy创建新的tensor：" class="headerlink" title="2根据numpy创建新的tensor："></a>2根据numpy创建新的tensor：</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># tensor转化为array</span></span><br><span class="line">a = torch.ones(<span class="number">5</span>,<span class="number">3</span>)</span><br><span class="line">b = a.numpy()</span><br><span class="line">b</span><br></pre></td></tr></table></figure><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">array([[<span class="number">1.</span>, <span class="number">1.</span>, <span class="number">1.</span>],</span><br><span class="line">       [<span class="number">1.</span>, <span class="number">1.</span>, <span class="number">1.</span>],</span><br><span class="line">       [<span class="number">1.</span>, <span class="number">1.</span>, <span class="number">1.</span>],</span><br><span class="line">       [<span class="number">1.</span>, <span class="number">1.</span>, <span class="number">1.</span>],</span><br><span class="line">       [<span class="number">1.</span>, <span class="number">1.</span>, <span class="number">1.</span>]], dtype=float32)</span><br></pre></td></tr></table></figure><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将array转化为tensor</span></span><br><span class="line">x = torch.from_numpy(b)</span><br><span class="line">x</span><br></pre></td></tr></table></figure><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">tensor([[<span class="number">1.</span>, <span class="number">1.</span>, <span class="number">1.</span>],</span><br><span class="line">        [<span class="number">1.</span>, <span class="number">1.</span>, <span class="number">1.</span>],</span><br><span class="line">        [<span class="number">1.</span>, <span class="number">1.</span>, <span class="number">1.</span>],</span><br><span class="line">        [<span class="number">1.</span>, <span class="number">1.</span>, <span class="number">1.</span>],</span><br><span class="line">        [<span class="number">1.</span>, <span class="number">1.</span>, <span class="number">1.</span>]])</span><br></pre></td></tr></table></figure><p>不过要注意的是：无论是array转化为tensor，还是tensor转化为array，他们都是和原来的数据共享内存的，例如：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">b+=<span class="number">1</span></span><br><span class="line"><span class="built_in">print</span>(b)</span><br><span class="line"><span class="built_in">print</span>(x)</span><br></pre></td></tr></table></figure><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[[<span class="number">2.</span> <span class="number">2.</span> <span class="number">2.</span>]</span><br><span class="line"> [<span class="number">2.</span> <span class="number">2.</span> <span class="number">2.</span>]</span><br><span class="line"> [<span class="number">2.</span> <span class="number">2.</span> <span class="number">2.</span>]</span><br><span class="line"> [<span class="number">2.</span> <span class="number">2.</span> <span class="number">2.</span>]</span><br><span class="line"> [<span class="number">2.</span> <span class="number">2.</span> <span class="number">2.</span>]]</span><br><span class="line">tensor([[<span class="number">2.</span>, <span class="number">2.</span>, <span class="number">2.</span>],</span><br><span class="line">        [<span class="number">2.</span>, <span class="number">2.</span>, <span class="number">2.</span>],</span><br><span class="line">        [<span class="number">2.</span>, <span class="number">2.</span>, <span class="number">2.</span>],</span><br><span class="line">        [<span class="number">2.</span>, <span class="number">2.</span>, <span class="number">2.</span>],</span><br><span class="line">        [<span class="number">2.</span>, <span class="number">2.</span>, <span class="number">2.</span>]])</span><br><span class="line"><span class="comment"># b的数值发生变化，x的数值也发生变化，需要注意</span></span><br></pre></td></tr></table></figure><p>更多详情请查看<a href="https://pytorch.org/docs/stable/tensors.html">官方文档</a><br>喜欢文章可以点赞收藏，欢迎关注，如有错误请指正！</p>]]></content>
-    
-    
-    <summary type="html">&lt;p&gt;创建Tensor的几种方式&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="深度学习" scheme="https://du2279664786.github.io/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
-    
-    
-    <category term="pytorch" scheme="https://du2279664786.github.io/tags/pytorch/"/>
-    
-    <category term="深度学习" scheme="https://du2279664786.github.io/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
     
   </entry>
   
