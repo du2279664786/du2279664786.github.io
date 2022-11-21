@@ -1,0 +1,136 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="Pre-training"><meta name="keywords" content="深度学习,NLP,HuggingFace,BERT,Pre-training"><meta name="author" content="江东"><meta name="copyright" content="江东"><title>Pre-training | 江东的笔记</title><link rel="shortcut icon" href="/melody-favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.9.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css?version=1.9.1"><meta name="format-detection" content="telephone=no"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  hexoVersion: '6.3.0'
+} </script><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="江东的笔记" type="application/atom+xml">
+</head><body><canvas class="fireworks"></canvas><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="切换文章详情">切换站点概览</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="https://avatars.githubusercontent.com/u/76576534?v=4"></div><div class="author-info__name text-center">江东</div><div class="author-info__description text-center">热爱生活，努力工作</div><div class="follow-button"><a target="_blank" rel="noopener" href="https://github.com/du2279664786">Follow Me</a></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">文章</span><span class="pull-right">59</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">标签</span><span class="pull-right">47</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">分类</span><span class="pull-right">7</span></a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(https://source.unsplash.com/random/1600x900?wallpapers)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">江东的笔记</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a></span><span class="pull-right"></span></div><div id="post-info"><div id="post-title">Pre-training</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2022-11-21</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/">自然语言处理</a></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><hr>
+<p>Pre-train BERT (Chinese language model) from scratch</p>
+<span id="more"></span>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> transformers,tokenizers</span><br><span class="line">transformers.__version__,tokenizers.__version__</span><br></pre></td></tr></table></figure>
+
+
+<pre><code>(&#39;4.24.0&#39;, &#39;0.13.2&#39;)
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tokenizers</span><br><span class="line"><span class="keyword">from</span> transformers <span class="keyword">import</span> BertTokenizer, LineByLineTextDataset</span><br><span class="line"><span class="keyword">from</span> transformers <span class="keyword">import</span> BertConfig, BertForMaskedLM, DataCollatorForLanguageModeling</span><br><span class="line"><span class="keyword">from</span> transformers <span class="keyword">import</span> Trainer, TrainingArguments</span><br><span class="line"><span class="keyword">from</span> transformers <span class="keyword">import</span> pipeline</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Train a tokenizer</span></span><br><span class="line"></span><br><span class="line">bwpt = tokenizers.BertWordPieceTokenizer(vocab_file=<span class="literal">None</span>)</span><br><span class="line"> </span><br><span class="line"><span class="comment"># filepath = &quot;../input/bert-bangla/raw_bangla_for_BERT.txt&quot;</span></span><br><span class="line">filepath = <span class="string">&quot;./train.txt&quot;</span></span><br><span class="line"></span><br><span class="line">bwpt.train(</span><br><span class="line">    files=[filepath],</span><br><span class="line">    vocab_size=<span class="number">50000</span>,</span><br><span class="line">    min_frequency=<span class="number">3</span>,</span><br><span class="line">    limit_alphabet=<span class="number">1000</span></span><br><span class="line">)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bwpt.save(<span class="string">&#x27;./训练中文的bert输出/&#x27;</span>, <span class="string">&#x27;name&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+
+<pre><code>[&#39;./训练中文的bert输出/name-vocab.txt&#39;]
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Load the tokenizer</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># vocab_file_dir = &#x27;/kaggle/input/bert-bangla/bangla-vocab.txt&#x27; </span></span><br><span class="line">vocab_file_dir = <span class="string">&#x27;./vocab.txt&#x27;</span> </span><br><span class="line"></span><br><span class="line">tokenizer = BertTokenizer.from_pretrained(vocab_file_dir)</span><br><span class="line"></span><br><span class="line">sentence = <span class="string">&#x27;今天晚上我要吃啵啵鱼&#x27;</span></span><br><span class="line"></span><br><span class="line">encoded_input = tokenizer.tokenize(sentence)</span><br><span class="line"><span class="built_in">print</span>(encoded_input)</span><br><span class="line"><span class="comment"># print(encoded_input[&#x27;input_ids&#x27;])</span></span><br></pre></td></tr></table></figure>
+
+<pre><code>[&#39;今&#39;, &#39;天&#39;, &#39;晚&#39;, &#39;上&#39;, &#39;我&#39;, &#39;要&#39;, &#39;吃&#39;, &#39;啵&#39;, &#39;啵&#39;, &#39;鱼&#39;]
+
+
+C:\Users\dupeibo\Anaconda3\envs\pt\lib\site-packages\transformers\tokenization_utils_base.py:1679: FutureWarning: Calling BertTokenizer.from_pretrained() with the path to a single file or url is deprecated and won&#39;t be possible anymore in v5. Use a model identifier or the path to a directory instead.
+  warnings.warn(
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">%%time</span><br><span class="line"></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">transformers has a predefined class LineByLineTextDataset()</span></span><br><span class="line"><span class="string">which reads your text line by line and converts them to tokens</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line">dataset= LineByLineTextDataset(</span><br><span class="line">    tokenizer = tokenizer,</span><br><span class="line"><span class="comment">#     file_path = &#x27;/kaggle/input/bert-bangla/raw_bangla_for_BERT.txt&#x27;,</span></span><br><span class="line">    file_path = <span class="string">&#x27;./train.txt&#x27;</span>,</span><br><span class="line">    block_size = <span class="number">128</span>  <span class="comment"># maximum sequence length</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;No. of lines: &#x27;</span>, <span class="built_in">len</span>(dataset)) <span class="comment"># No of lines in your datset</span></span><br><span class="line">dataset</span><br></pre></td></tr></table></figure>
+
+<pre><code>No. of lines:  24494
+Wall time: 10.4 s
+
+&lt;transformers.data.datasets.language_modeling.LineByLineTextDataset at 0x2084eb42ac8&gt;
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">config = BertConfig(</span><br><span class="line">    vocab_size=<span class="number">50000</span>,</span><br><span class="line">    hidden_size=<span class="number">768</span>, </span><br><span class="line">    num_hidden_layers=<span class="number">6</span>, </span><br><span class="line">    num_attention_heads=<span class="number">12</span>,</span><br><span class="line">    max_position_embeddings=<span class="number">512</span></span><br><span class="line">)</span><br><span class="line"> </span><br><span class="line">model = BertForMaskedLM(config)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;No of parameters: &#x27;</span>, model.num_parameters())</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 做掩码机制</span></span><br><span class="line">data_collator = DataCollatorForLanguageModeling(</span><br><span class="line">    tokenizer=tokenizer, mlm=<span class="literal">True</span>, mlm_probability=<span class="number">0.15</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<pre><code>No of parameters:  82556240
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">training_args = TrainingArguments(</span><br><span class="line">    output_dir=<span class="string">&#x27;./训练中文的bert输出/&#x27;</span>,</span><br><span class="line">    overwrite_output_dir=<span class="literal">True</span>,</span><br><span class="line">    num_train_epochs=<span class="number">1</span>,</span><br><span class="line">    per_device_train_batch_size=<span class="number">4</span>,</span><br><span class="line">    save_steps=<span class="number">10_000</span>,</span><br><span class="line">    save_total_limit=<span class="number">2</span>,</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">trainer = Trainer(</span><br><span class="line">    model=model,</span><br><span class="line">    args=training_args,</span><br><span class="line">    data_collator=data_collator,</span><br><span class="line">    train_dataset=dataset,</span><br><span class="line">    prediction_loss_only=<span class="literal">True</span>,</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">%%time</span><br><span class="line">trainer.train()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<pre><code>Epoch:   0%|          | 0/1 [00:00&lt;?, ?it/s]
+
+Iteration:   0%|          | 0/6124 [00:00&lt;?, ?it/s]
+
+
+&#123;&quot;loss&quot;: 7.0956006441116335, &quot;learning_rate&quot;: 4.591770084911823e-05, &quot;epoch&quot;: 0.08164598301763554, &quot;step&quot;: 500&#125;
+&#123;&quot;loss&quot;: 6.214028715133667, &quot;learning_rate&quot;: 4.183540169823645e-05, &quot;epoch&quot;: 0.16329196603527107, &quot;step&quot;: 1000&#125;
+&#123;&quot;loss&quot;: 5.860672056674957, &quot;learning_rate&quot;: 3.775310254735467e-05, &quot;epoch&quot;: 0.24493794905290658, &quot;step&quot;: 1500&#125;
+&#123;&quot;loss&quot;: 5.599938702583313, &quot;learning_rate&quot;: 3.367080339647289e-05, &quot;epoch&quot;: 0.32658393207054215, &quot;step&quot;: 2000&#125;
+&#123;&quot;loss&quot;: 5.412256263256073, &quot;learning_rate&quot;: 2.958850424559112e-05, &quot;epoch&quot;: 0.4082299150881777, &quot;step&quot;: 2500&#125;
+&#123;&quot;loss&quot;: 5.261007954120636, &quot;learning_rate&quot;: 2.550620509470934e-05, &quot;epoch&quot;: 0.48987589810581317, &quot;step&quot;: 3000&#125;
+&#123;&quot;loss&quot;: 5.095327672958374, &quot;learning_rate&quot;: 2.1423905943827566e-05, &quot;epoch&quot;: 0.5715218811234487, &quot;step&quot;: 3500&#125;
+&#123;&quot;loss&quot;: NaN, &quot;learning_rate&quot;: 1.734160679294579e-05, &quot;epoch&quot;: 0.6531678641410843, &quot;step&quot;: 4000&#125;
+&#123;&quot;loss&quot;: NaN, &quot;learning_rate&quot;: 1.3259307642064011e-05, &quot;epoch&quot;: 0.7348138471587198, &quot;step&quot;: 4500&#125;
+&#123;&quot;loss&quot;: NaN, &quot;learning_rate&quot;: 9.177008491182235e-06, &quot;epoch&quot;: 0.8164598301763554, &quot;step&quot;: 5000&#125;
+&#123;&quot;loss&quot;: NaN, &quot;learning_rate&quot;: 5.094709340300458e-06, &quot;epoch&quot;: 0.8981058131939909, &quot;step&quot;: 5500&#125;
+&#123;&quot;loss&quot;: NaN, &quot;learning_rate&quot;: 1.0124101894186806e-06, &quot;epoch&quot;: 0.9797517962116263, &quot;step&quot;: 6000&#125;
+Wall time: 17min 31s
+
+TrainOutput(global_step=6124, training_loss=nan)
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># trainer.save_model(&#x27;./训练中文的bert输出&#x27;)</span></span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">model = BertForMaskedLM.from_pretrained(<span class="string">&#x27;./&#x27;</span>)</span><br><span class="line"></span><br><span class="line">fill_mask = pipeline(</span><br><span class="line">    <span class="string">&quot;fill-mask&quot;</span>,</span><br><span class="line">    model=model,</span><br><span class="line">    tokenizer=tokenizer</span><br><span class="line">)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fill_mask(<span class="string">&#x27;心[MASK]病&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+
+<pre><code>[&#123;&#39;score&#39;: 0.3431047201156616,
+  &#39;token&#39;: 5552,
+  &#39;token_str&#39;: &#39;脏&#39;,
+  &#39;sequence&#39;: &#39;心 脏 病&#39;&#125;,
+ &#123;&#39;score&#39;: 0.07011183351278305,
+  &#39;token&#39;: 2552,
+  &#39;token_str&#39;: &#39;心&#39;,
+  &#39;sequence&#39;: &#39;心 心 病&#39;&#125;,
+ &#123;&#39;score&#39;: 0.05838495120406151,
+  &#39;token&#39;: 4567,
+  &#39;token_str&#39;: &#39;病&#39;,
+  &#39;sequence&#39;: &#39;心 病 病&#39;&#125;,
+ &#123;&#39;score&#39;: 0.014283978380262852,
+  &#39;token&#39;: 107,
+  &#39;token_str&#39;: &#39;&quot;&#39;,
+  &#39;sequence&#39;: &#39;心 &quot; 病&#39;&#125;,
+ &#123;&#39;score&#39;: 0.011550793424248695,
+  &#39;token&#39;: 7315,
+  &#39;token_str&#39;: &#39;闷&#39;,
+  &#39;sequence&#39;: &#39;心 闷 病&#39;&#125;]
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fill_mask(<span class="string">&#x27;怀[MASK]&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+
+<pre><code>[&#123;&#39;score&#39;: 0.4942161738872528,
+  &#39;token&#39;: 2097,
+  &#39;token_str&#39;: &#39;孕&#39;,
+  &#39;sequence&#39;: &#39;怀 孕&#39;&#125;,
+ &#123;&#39;score&#39;: 0.050573259592056274,
+  &#39;token&#39;: 2577,
+  &#39;token_str&#39;: &#39;怀&#39;,
+  &#39;sequence&#39;: &#39;怀 怀&#39;&#125;,
+ &#123;&#39;score&#39;: 0.01493070088326931,
+  &#39;token&#39;: 107,
+  &#39;token_str&#39;: &#39;&quot;&#39;,
+  &#39;sequence&#39;: &#39;怀 &quot;&#39;&#125;,
+ &#123;&#39;score&#39;: 0.010810167528688908,
+  &#39;token&#39;: 5307,
+  &#39;token_str&#39;: &#39;经&#39;,
+  &#39;sequence&#39;: &#39;怀 经&#39;&#125;,
+ &#123;&#39;score&#39;: 0.00741073302924633,
+  &#39;token&#39;: 1453,
+  &#39;token_str&#39;: &#39;周&#39;,
+  &#39;sequence&#39;: &#39;怀 周&#39;&#125;]
+</code></pre>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">江东</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://du2279664786.github.io/2022/11/21/2022-11-21训练中文的bert/">https://du2279664786.github.io/2022/11/21/2022-11-21训练中文的bert/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://du2279664786.github.io">江东的笔记</a>！</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a><a class="post-meta__tags" href="/tags/NLP/">NLP</a><a class="post-meta__tags" href="/tags/HuggingFace/">HuggingFace</a><a class="post-meta__tags" href="/tags/BERT/">BERT</a><a class="post-meta__tags" href="/tags/Pre-training/">Pre-training</a></div><nav id="pagination"><div class="prev-post pull-left"><a href="/2022/11/21/hello-world/"><i class="fa fa-chevron-left">  </i><span>Hello World</span></a></div><div class="next-post pull-right"><a href="/2022/11/20/2022-11-20Transformer%E6%80%BB%E7%BB%93%E5%92%8C%E6%A2%B3%E7%90%86/"><span>Transformer总结和梳理</span><i class="fa fa-chevron-right"></i></a></div></nav></div></div><footer class="footer-bg" style="background-image: url(https://source.unsplash.com/random/1600x900?wallpapers)"><div class="layout" id="footer"><div class="copyright">&copy;2020 - 2022 By 江东</div><div class="framework-info"><span>驱动 - </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 - </span><a target="_blank" rel="noopener" href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="footer_custom_text">江东弟子今犹在，卷土重来天下知</div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="https://cdn.jsdelivr.net/npm/animejs@latest/lib/anime.min.js"></script><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.9.1"></script><script src="/js/fancybox.js?version=1.9.1"></script><script src="/js/sidebar.js?version=1.9.1"></script><script src="/js/copy.js?version=1.9.1"></script><script src="/js/fireworks.js?version=1.9.1"></script><script src="/js/transition.js?version=1.9.1"></script><script src="/js/scroll.js?version=1.9.1"></script><script src="/js/head.js?version=1.9.1"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+  $('#top-container').addClass('is-mobile')
+}</script><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body></html>
