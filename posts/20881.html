@@ -1,0 +1,1555 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"du2279664786.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="通过智能化手段识别其中是否存在“虚报、假报”的情况">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于BERT的文本分类">
+<meta property="og:url" content="https://du2279664786.github.io/posts/20881.html">
+<meta property="og:site_name" content="江东的笔记">
+<meta property="og:description" content="通过智能化手段识别其中是否存在“虚报、假报”的情况">
+<meta property="og:locale">
+<meta property="og:image" content="c:\Users\dupeibo\AppData\Roaming\Typora\typora-user-images\1669078534834.png">
+<meta property="og:image" content="c:\Users\dupeibo\AppData\Roaming\Typora\typora-user-images\1669079055167.png">
+<meta property="og:image" content="c:\Users\dupeibo\AppData\Roaming\Typora\typora-user-images\1669079168255.png">
+<meta property="og:image" content="c:\Users\dupeibo\AppData\Roaming\Typora\typora-user-images\1669079408883.png">
+<meta property="og:image" content="c:\Users\dupeibo\AppData\Roaming\Typora\typora-user-images\1669079467197.png">
+<meta property="og:image" content="c:\Users\dupeibo\AppData\Roaming\Typora\typora-user-images\1669079499324.png">
+<meta property="article:published_time" content="2022-11-21T10:55:10.000Z">
+<meta property="article:modified_time" content="2022-11-24T06:54:45.776Z">
+<meta property="article:author" content="江东">
+<meta property="article:tag" content="深度学习">
+<meta property="article:tag" content="NLP">
+<meta property="article:tag" content="HuggingFace">
+<meta property="article:tag" content="文本分类">
+<meta property="article:tag" content="BERT">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="c:\Users\dupeibo\AppData\Roaming\Typora\typora-user-images\1669078534834.png">
+
+<link rel="canonical" href="https://du2279664786.github.io/posts/20881.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>基于BERT的文本分类 | 江东的笔记</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="江东的笔记" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+<a target="_blank" rel="noopener" href="https://github.com/du2279664786" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">江东的笔记</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Be overcome difficulties is victory</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/du2279664786" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://du2279664786.github.io/posts/20881.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="江东">
+      <meta itemprop="description" content="热爱生活，努力工作">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="江东的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          基于BERT的文本分类
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-11-21 18:55:10" itemprop="dateCreated datePublished" datetime="2022-11-21T18:55:10+08:00">2022-11-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-11-24 14:54:45" itemprop="dateModified" datetime="2022-11-24T14:54:45+08:00">2022-11-24</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/" itemprop="url" rel="index"><span itemprop="name">自然语言处理</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>通过智能化手段识别其中是否存在“虚报、假报”的情况</p>
+<span id="more"></span>
+<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>企业自主填报安全生产隐患，对于将风险消除在事故萌芽阶段具有重要意义。企业在填报隐患时，往往存在不认真填报的情况，“虚报、假报”隐患内容，增大了企业监管的难度。采用大数据手段分析隐患内容，找出不切实履行主体责任的企业，向监管部门进行推送，实现精准执法，能够提高监管手段的有效性，增强企业安全责任意识。</p>
+<h2 id="任务"><a href="#任务" class="headerlink" title="任务"></a>任务</h2><p>本赛题提供企业填报隐患数据，参赛选手需通过智能化手段识别其中是否存在“虚报、假报”的情况。</p>
+<h1 id="数据简介"><a href="#数据简介" class="headerlink" title="数据简介"></a>数据简介</h1><p>本赛题数据集为脱敏后的企业填报自查隐患记录,数据说明如下：</p>
+<ul>
+<li><p>训练集数据包含“【id、level_1（一级标准）、level_2（二级标准）、level_3（三级标准）、level_4（四级标准）、content（隐患内容）和label（标签）】”共7个字段。<br>其中“id”为主键，无业务意义；“一级标准、二级标准、三级标准、四级标准”为《深圳市安全隐患自查和巡查基本指引（2016年修订版）》规定的排查指引，一级标准对应不同隐患类型，二至四级标准是对一级标准的细化，企业自主上报隐患时，根据不同类型隐患的四级标准开展隐患自查工作；“隐患内容”为企业上报的具体隐患；“标签”标识的是该条隐患的合格性，“1”表示隐患填报不合格，“0”表示隐患填报合格。</p>
+</li>
+<li><p>预测结果文件results.csv</p>
+</li>
+</ul>
+<p><img src="C:\Users\dupeibo\AppData\Roaming\Typora\typora-user-images\1669078534834.png" alt="1669078534834"></p>
+<h1 id="评测标准"><a href="#评测标准" class="headerlink" title="评测标准"></a>评测标准</h1><p>本赛题采用F1 -score作为模型评判标准。</p>
+<h1 id="具体实现代码如下："><a href="#具体实现代码如下：" class="headerlink" title="具体实现代码如下："></a>具体实现代码如下：</h1><h2 id="导入所以需要的包"><a href="#导入所以需要的包" class="headerlink" title="导入所以需要的包"></a>导入所以需要的包</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 导入transformers</span></span><br><span class="line"><span class="keyword">import</span> transformers</span><br><span class="line"><span class="comment"># from transformers import BertModel, BertTokenizer,BertConfig, AdamW, get_linear_schedule_with_warmup</span></span><br><span class="line"><span class="keyword">from</span> transformers <span class="keyword">import</span> AutoModel, AutoTokenizer,AutoConfig, AdamW, get_linear_schedule_with_warmup</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">from</span> torch <span class="keyword">import</span> nn, optim</span><br><span class="line"><span class="keyword">from</span> torch.utils.data <span class="keyword">import</span> Dataset, DataLoader</span><br><span class="line"><span class="keyword">import</span> torch.nn.functional <span class="keyword">as</span> F</span><br><span class="line"></span><br><span class="line"><span class="comment"># 常用包</span></span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> seaborn <span class="keyword">as</span> sns</span><br><span class="line"><span class="keyword">from</span> pylab <span class="keyword">import</span> rcParams</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">from</span> matplotlib <span class="keyword">import</span> rc</span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split</span><br><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> confusion_matrix, classification_report</span><br><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> defaultdict</span><br><span class="line"><span class="keyword">from</span> textwrap <span class="keyword">import</span> wrap</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> warnings</span><br><span class="line">warnings.filterwarnings(<span class="string">&quot;ignore&quot;</span>)</span><br><span class="line">%matplotlib inline</span><br><span class="line">%config InlineBackend.figure_format=<span class="string">&#x27;retina&#x27;</span> <span class="comment"># 主题</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="初始化设置"><a href="#初始化设置" class="headerlink" title="初始化设置"></a>初始化设置</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">sns.<span class="built_in">set</span>(style=<span class="string">&#x27;whitegrid&#x27;</span>, palette=<span class="string">&#x27;muted&#x27;</span>, font_scale=<span class="number">1.2</span>)</span><br><span class="line">HAPPY_COLORS_PALETTE = [<span class="string">&quot;#01BEFE&quot;</span>, <span class="string">&quot;#FFDD00&quot;</span>, <span class="string">&quot;#FF7D00&quot;</span>, <span class="string">&quot;#FF006D&quot;</span>, <span class="string">&quot;#ADFF02&quot;</span>, <span class="string">&quot;#8F00FF&quot;</span>]</span><br><span class="line">sns.set_palette(sns.color_palette(HAPPY_COLORS_PALETTE))</span><br><span class="line">rcParams[<span class="string">&#x27;figure.figsize&#x27;</span>] = <span class="number">12</span>, <span class="number">8</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 固定随机种子</span></span><br><span class="line">RANDOM_SEED = <span class="number">42</span></span><br><span class="line">np.random.seed(RANDOM_SEED)</span><br><span class="line">torch.manual_seed(RANDOM_SEED)</span><br><span class="line"></span><br><span class="line">device = torch.device(<span class="string">&quot;cuda:0&quot;</span> <span class="keyword">if</span> torch.cuda.is_available() <span class="keyword">else</span> <span class="string">&quot;cpu&quot;</span>)</span><br><span class="line">device</span><br></pre></td></tr></table></figure>
+
+
+<pre><code>device(type=&#39;cuda&#39;, index=0)
+</code></pre>
+<h1 id="读取数据"><a href="#读取数据" class="headerlink" title="读取数据"></a>读取数据</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sub=pd.read_csv(<span class="string">&#x27;./data/02企业隐患排查/sub.csv&#x27;</span>)</span><br><span class="line">test=pd.read_csv(<span class="string">&#x27;./data/02企业隐患排查/test.csv&#x27;</span>)</span><br><span class="line">train=pd.read_csv(<span class="string">&#x27;./data/02企业隐患排查/train.csv&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">train.head()</span><br></pre></td></tr></table></figure>
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+<pre><code>.dataframe tbody tr th &#123;
+    vertical-align: top;
+&#125;
+
+.dataframe thead th &#123;
+    text-align: right;
+&#125;
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>level_1</th>
+      <th>level_2</th>
+      <th>level_3</th>
+      <th>level_4</th>
+      <th>content</th>
+      <th>label</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>工业/危化品类（现场）—2016版</td>
+      <td>（二）电气安全</td>
+      <td>6、移动用电产品、电动工具及照明</td>
+      <td>1、移动使用的用电产品和I类电动工具的绝缘线，必须采用三芯(单相)或四芯(三相)多股铜芯橡套软线。</td>
+      <td>使用移动手动电动工具,外接线绝缘皮破损,应停止使用.</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>工业/危化品类（现场）—2016版</td>
+      <td>（一）消防检查</td>
+      <td>1、防火巡查</td>
+      <td>3、消防设施、器材和消防安全标志是否在位、完整；</td>
+      <td>一般</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>工业/危化品类（现场）—2016版</td>
+      <td>（一）消防检查</td>
+      <td>2、防火检查</td>
+      <td>6、重点工种人员以及其他员工消防知识的掌握情况；</td>
+      <td>消防知识要加强</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3</td>
+      <td>工业/危化品类（现场）—2016版</td>
+      <td>（一）消防检查</td>
+      <td>1、防火巡查</td>
+      <td>3、消防设施、器材和消防安全标志是否在位、完整；</td>
+      <td>消防通道有货物摆放 清理不及时</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4</td>
+      <td>工业/危化品类（现场）—2016版</td>
+      <td>（一）消防检查</td>
+      <td>1、防火巡查</td>
+      <td>4、常闭式防火门是否处于关闭状态，防火卷帘下是否堆放物品影响使用；</td>
+      <td>防火门打开状态</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">test.head()</span><br></pre></td></tr></table></figure>
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+<pre><code>.dataframe tbody tr th &#123;
+    vertical-align: top;
+&#125;
+
+.dataframe thead th &#123;
+    text-align: right;
+&#125;
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>level_1</th>
+      <th>level_2</th>
+      <th>level_3</th>
+      <th>level_4</th>
+      <th>content</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>交通运输类（现场）—2016版</td>
+      <td>（一）消防安全</td>
+      <td>2、防火检查</td>
+      <td>2、安全疏散通道、疏散指示标志、应急照明和安全出口情况。</td>
+      <td>RB1洗地机占用堵塞安全通道</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>工业/危化品类（选项）—2016版</td>
+      <td>（二）仓库</td>
+      <td>1、一般要求</td>
+      <td>1、库房内储存物品应分类、分堆、限额存放。</td>
+      <td>未分类堆放</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>工业/危化品类（现场）—2016版</td>
+      <td>（一）消防检查</td>
+      <td>1、防火巡查</td>
+      <td>3、消防设施、器材和消防安全标志是否在位、完整；</td>
+      <td>消防设施、器材和消防安全标志是否在位、完整</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3</td>
+      <td>商贸服务教文卫类（现场）—2016版</td>
+      <td>（二）电气安全</td>
+      <td>3、电气线路及电源插头插座</td>
+      <td>3、电源插座、电源插头应按规定正确接线。</td>
+      <td>插座随意放在电器旁边</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4</td>
+      <td>商贸服务教文卫类（现场）—2016版</td>
+      <td>（一）消防检查</td>
+      <td>1、防火巡查</td>
+      <td>6、其他消防安全情况。</td>
+      <td>检查中发现一瓶灭火器过期</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2 id="查看数据的形状"><a href="#查看数据的形状" class="headerlink" title="查看数据的形状"></a>查看数据的形状</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="string">&quot;train.shape,test.shape,sub.shape&quot;</span>,train.shape,test.shape,sub.shape)</span><br></pre></td></tr></table></figure>
+
+<pre><code>train.shape,test.shape,sub.shape (12000, 7) (18000, 6) (18000, 2)
+</code></pre>
+<h2 id="查看是否存在空值"><a href="#查看是否存在空值" class="headerlink" title="查看是否存在空值"></a>查看是否存在空值</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">train[train[<span class="string">&#x27;content&#x27;</span>].isna()]</span><br></pre></td></tr></table></figure>
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+<pre><code>.dataframe tbody tr th &#123;
+    vertical-align: top;
+&#125;
+
+.dataframe thead th &#123;
+    text-align: right;
+&#125;
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>level_1</th>
+      <th>level_2</th>
+      <th>level_3</th>
+      <th>level_4</th>
+      <th>content</th>
+      <th>label</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>6193</th>
+      <td>6193</td>
+      <td>工业/危化品类（现场）—2016版</td>
+      <td>（一）消防检查</td>
+      <td>1、防火巡查</td>
+      <td>3、消防设施、器材和消防安全标志是否在位、完整；</td>
+      <td>NaN</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>9248</th>
+      <td>9248</td>
+      <td>工业/危化品类（现场）—2016版</td>
+      <td>（一）消防检查</td>
+      <td>1、防火巡查</td>
+      <td>4、常闭式防火门是否处于关闭状态，防火卷帘下是否堆放物品影响使用；</td>
+      <td>NaN</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;train null nums&#x27;</span>)</span><br><span class="line">train.shape[<span class="number">0</span>]-train.count()</span><br></pre></td></tr></table></figure>
+
+<pre><code>train null nums
+
+id         0
+level_1    0
+level_2    0
+level_3    0
+level_4    0
+content    2
+label      0
+dtype: int64
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;test null nums&#x27;</span>)</span><br><span class="line">test.shape[<span class="number">0</span>]-test.count()</span><br></pre></td></tr></table></figure>
+
+<pre><code>test null nums
+
+id         0
+level_1    0
+level_2    0
+level_3    0
+level_4    0
+content    4
+dtype: int64
+</code></pre>
+<h2 id="查看标签的分布"><a href="#查看标签的分布" class="headerlink" title="查看标签的分布"></a>查看标签的分布</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">train[<span class="string">&#x27;label&#x27;</span>].value_counts()</span><br></pre></td></tr></table></figure>
+
+
+<pre><code>0    10712
+1     1288
+Name: label, dtype: int64
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># sns.countplot(train.label)</span></span><br><span class="line"><span class="comment"># plt.xlabel(&#x27;label count&#x27;)</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="数据预处理"><a href="#数据预处理" class="headerlink" title="数据预处理"></a>数据预处理</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">train.fillna(<span class="string">&quot;空值&quot;</span>,inplace=<span class="literal">True</span>)</span><br><span class="line">test.fillna(<span class="string">&quot;空值&quot;</span>,inplace=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">train.shape[<span class="number">0</span>]-train.count()</span><br></pre></td></tr></table></figure>
+
+
+<pre><code>id         0
+level_1    0
+level_2    0
+level_3    0
+level_4    0
+content    0
+label      0
+dtype: int64
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">train[<span class="string">&#x27;level_3&#x27;</span>].value_counts()</span><br></pre></td></tr></table></figure>
+
+
+<pre><code>1、防火巡查             4225
+2、防火检查             2911
+2、配电箱（柜、板）          710
+1、作业通道              664
+3、电气线路及电源插头插座       497
+                   ... 
+3、安全带                 1
+4、特种设备及操作人员管理记录       1
+4、安全技术交底              1
+3、停车场                 1
+1、水库安全                1
+Name: level_3, Length: 153, dtype: int64
+</code></pre>
+<h3 id="对训练集处理"><a href="#对训练集处理" class="headerlink" title="对训练集处理"></a>对训练集处理</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">train[<span class="string">&#x27;level_1&#x27;</span>] = train[<span class="string">&#x27;level_1&#x27;</span>].apply(<span class="keyword">lambda</span> x:x.split(<span class="string">&#x27;（&#x27;</span>)[<span class="number">0</span>])</span><br><span class="line">train[<span class="string">&#x27;level_2&#x27;</span>] = train[<span class="string">&#x27;level_2&#x27;</span>].apply(<span class="keyword">lambda</span> x:x.split(<span class="string">&#x27;）&#x27;</span>)[<span class="number">1</span>])</span><br><span class="line">train[<span class="string">&#x27;level_3&#x27;</span>] = train[<span class="string">&#x27;level_3&#x27;</span>].apply(<span class="keyword">lambda</span> x:re.split(<span class="string">&#x27;[0-9]、&#x27;</span>,x)[-<span class="number">1</span>])</span><br><span class="line">train[<span class="string">&#x27;level_4&#x27;</span>] = train[<span class="string">&#x27;level_4&#x27;</span>].apply(<span class="keyword">lambda</span> x:re.split(<span class="string">&#x27;[0-9]、&#x27;</span>,x)[-<span class="number">1</span>])</span><br></pre></td></tr></table></figure>
+
+<h3 id="对测试集处理"><a href="#对测试集处理" class="headerlink" title="对测试集处理"></a>对测试集处理</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">test[<span class="string">&#x27;level_1&#x27;</span>] = test[<span class="string">&#x27;level_1&#x27;</span>].apply(<span class="keyword">lambda</span> x:x.split(<span class="string">&#x27;（&#x27;</span>)[<span class="number">0</span>])</span><br><span class="line">test[<span class="string">&#x27;level_2&#x27;</span>] = test[<span class="string">&#x27;level_2&#x27;</span>].apply(<span class="keyword">lambda</span> x:x.split(<span class="string">&#x27;）&#x27;</span>)[-<span class="number">1</span>])</span><br><span class="line">test[<span class="string">&#x27;level_3&#x27;</span>] = test[<span class="string">&#x27;level_3&#x27;</span>].apply(<span class="keyword">lambda</span> x:re.split(<span class="string">&#x27;[0-9]、&#x27;</span>,x)[-<span class="number">1</span>])</span><br><span class="line">test[<span class="string">&#x27;level_4&#x27;</span>] = test[<span class="string">&#x27;level_4&#x27;</span>].apply(<span class="keyword">lambda</span> x:re.split(<span class="string">&#x27;[0-9]、&#x27;</span>,x)[-<span class="number">1</span>])</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">train.head()</span><br></pre></td></tr></table></figure>
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+<pre><code>.dataframe tbody tr th &#123;
+    vertical-align: top;
+&#125;
+
+.dataframe thead th &#123;
+    text-align: right;
+&#125;
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>level_1</th>
+      <th>level_2</th>
+      <th>level_3</th>
+      <th>level_4</th>
+      <th>content</th>
+      <th>label</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>工业/危化品类</td>
+      <td>电气安全</td>
+      <td>移动用电产品、电动工具及照明</td>
+      <td>移动使用的用电产品和I类电动工具的绝缘线，必须采用三芯(单相)或四芯(三相)多股铜芯橡套软线。</td>
+      <td>使用移动手动电动工具,外接线绝缘皮破损,应停止使用.</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>工业/危化品类</td>
+      <td>消防检查</td>
+      <td>防火巡查</td>
+      <td>消防设施、器材和消防安全标志是否在位、完整；</td>
+      <td>一般</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>工业/危化品类</td>
+      <td>消防检查</td>
+      <td>防火检查</td>
+      <td>重点工种人员以及其他员工消防知识的掌握情况；</td>
+      <td>消防知识要加强</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3</td>
+      <td>工业/危化品类</td>
+      <td>消防检查</td>
+      <td>防火巡查</td>
+      <td>消防设施、器材和消防安全标志是否在位、完整；</td>
+      <td>消防通道有货物摆放 清理不及时</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4</td>
+      <td>工业/危化品类</td>
+      <td>消防检查</td>
+      <td>防火巡查</td>
+      <td>常闭式防火门是否处于关闭状态，防火卷帘下是否堆放物品影响使用；</td>
+      <td>防火门打开状态</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2 id="文本拼接"><a href="#文本拼接" class="headerlink" title="文本拼接"></a>文本拼接</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">train[<span class="string">&#x27;text&#x27;</span>]=train[<span class="string">&#x27;content&#x27;</span>]+<span class="string">&#x27;[SEP]&#x27;</span>+train[<span class="string">&#x27;level_1&#x27;</span>]+<span class="string">&#x27;[SEP]&#x27;</span>+train[<span class="string">&#x27;level_2&#x27;</span>]+<span class="string">&#x27;[SEP]&#x27;</span>+train[<span class="string">&#x27;level_3&#x27;</span>]+<span class="string">&#x27;[SEP]&#x27;</span>+train[<span class="string">&#x27;level_4&#x27;</span>]</span><br><span class="line">test[<span class="string">&#x27;text&#x27;</span>]=test[<span class="string">&#x27;content&#x27;</span>]+<span class="string">&#x27;[SEP]&#x27;</span>+test[<span class="string">&#x27;level_1&#x27;</span>]+<span class="string">&#x27;[SEP]&#x27;</span>+test[<span class="string">&#x27;level_2&#x27;</span>]+<span class="string">&#x27;[SEP]&#x27;</span>+test[<span class="string">&#x27;level_3&#x27;</span>]+<span class="string">&#x27;[SEP]&#x27;</span>+test[<span class="string">&#x27;level_4&#x27;</span>]</span><br><span class="line">train.head()</span><br></pre></td></tr></table></figure>
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+<pre><code>.dataframe tbody tr th &#123;
+    vertical-align: top;
+&#125;
+
+.dataframe thead th &#123;
+    text-align: right;
+&#125;
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>level_1</th>
+      <th>level_2</th>
+      <th>level_3</th>
+      <th>level_4</th>
+      <th>content</th>
+      <th>label</th>
+      <th>text</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>工业/危化品类</td>
+      <td>电气安全</td>
+      <td>移动用电产品、电动工具及照明</td>
+      <td>移动使用的用电产品和I类电动工具的绝缘线，必须采用三芯(单相)或四芯(三相)多股铜芯橡套软线。</td>
+      <td>使用移动手动电动工具,外接线绝缘皮破损,应停止使用.</td>
+      <td>0</td>
+      <td>使用移动手动电动工具,外接线绝缘皮破损,应停止使用.[SEP]工业/危化品类[SEP]电气安...</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>工业/危化品类</td>
+      <td>消防检查</td>
+      <td>防火巡查</td>
+      <td>消防设施、器材和消防安全标志是否在位、完整；</td>
+      <td>一般</td>
+      <td>1</td>
+      <td>一般[SEP]工业/危化品类[SEP]消防检查[SEP]防火巡查[SEP]消防设施、器材和消...</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>工业/危化品类</td>
+      <td>消防检查</td>
+      <td>防火检查</td>
+      <td>重点工种人员以及其他员工消防知识的掌握情况；</td>
+      <td>消防知识要加强</td>
+      <td>0</td>
+      <td>消防知识要加强[SEP]工业/危化品类[SEP]消防检查[SEP]防火检查[SEP]重点工种...</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3</td>
+      <td>工业/危化品类</td>
+      <td>消防检查</td>
+      <td>防火巡查</td>
+      <td>消防设施、器材和消防安全标志是否在位、完整；</td>
+      <td>消防通道有货物摆放 清理不及时</td>
+      <td>0</td>
+      <td>消防通道有货物摆放 清理不及时[SEP]工业/危化品类[SEP]消防检查[SEP]防火巡查[...</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4</td>
+      <td>工业/危化品类</td>
+      <td>消防检查</td>
+      <td>防火巡查</td>
+      <td>常闭式防火门是否处于关闭状态，防火卷帘下是否堆放物品影响使用；</td>
+      <td>防火门打开状态</td>
+      <td>0</td>
+      <td>防火门打开状态[SEP]工业/危化品类[SEP]消防检查[SEP]防火巡查[SEP]常闭式防...</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">train[<span class="string">&#x27;text_len&#x27;</span>]=train[<span class="string">&#x27;text&#x27;</span>].<span class="built_in">map</span>(<span class="built_in">len</span>)</span><br><span class="line">train[<span class="string">&#x27;text&#x27;</span>].<span class="built_in">map</span>(<span class="built_in">len</span>).describe()<span class="comment"># 298-12=286</span></span><br></pre></td></tr></table></figure>
+
+
+<pre><code>count    12000.000000
+mean        80.444500
+std         21.910859
+min         43.000000
+25%         66.000000
+50%         75.000000
+75%         92.000000
+max        298.000000
+Name: text, dtype: float64
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">test[<span class="string">&#x27;text&#x27;</span>].<span class="built_in">map</span>(<span class="built_in">len</span>).describe() <span class="comment"># 520-12=518</span></span><br></pre></td></tr></table></figure>
+
+
+<pre><code>count    18000.000000
+mean        80.762611
+std         22.719823
+min         43.000000
+25%         66.000000
+50%         76.000000
+75%         92.000000
+max        520.000000
+Name: text, dtype: float64
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">train[<span class="string">&#x27;text_len&#x27;</span>].plot(kind=<span class="string">&#x27;kde&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+
+<pre><code>&lt;AxesSubplot:ylabel=&#39;Density&#39;&gt;
+</code></pre>
+<p><img src="C:\Users\dupeibo\AppData\Roaming\Typora\typora-user-images\1669079055167.png" alt="1669079055167"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sum</span>(train[<span class="string">&#x27;text_len&#x27;</span>]&gt;<span class="number">100</span>) <span class="comment"># text文本长度大于100的个数     1878</span></span><br><span class="line"><span class="built_in">sum</span>(train[<span class="string">&#x27;text_len&#x27;</span>]&gt;<span class="number">200</span>) <span class="comment"># text文本长度大于200的个数     11</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="模型的加载和配置"><a href="#模型的加载和配置" class="headerlink" title="模型的加载和配置"></a>模型的加载和配置</h1><h3 id="embedding"><a href="#embedding" class="headerlink" title="embedding"></a>embedding</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">PRE_TRAINED_MODEL_NAME = <span class="string">&#x27;bert-base-chinese&#x27;</span></span><br><span class="line"><span class="comment"># PRE_TRAINED_MODEL_NAME = &#x27;hfl/chinese-roberta-wwm-ext&#x27;</span></span><br><span class="line"><span class="comment"># PRE_TRAINED_MODEL_NAME = &#x27;hfl/chinese-roberta-wwm&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># tokenizer = BertTokenizer.from_pretrained(PRE_TRAINED_MODEL_NAME)</span></span><br><span class="line">tokenizer = AutoTokenizer.from_pretrained(PRE_TRAINED_MODEL_NAME)</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tokenizer</span><br></pre></td></tr></table></figure>
+
+
+<pre><code>PreTrainedTokenizerFast(name_or_path=&#39;bert-base-chinese&#39;, vocab_size=21128, model_max_len=512, is_fast=True, padding_side=&#39;right&#39;, truncation_side=&#39;right&#39;, special_tokens=&#123;&#39;unk_token&#39;: &#39;[UNK]&#39;, &#39;sep_token&#39;: &#39;[SEP]&#39;, &#39;pad_token&#39;: &#39;[PAD]&#39;, &#39;cls_token&#39;: &#39;[CLS]&#39;, &#39;mask_token&#39;: &#39;[MASK]&#39;&#125;)
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sample_txt = <span class="string">&#x27;今天早上9点半起床，我在学习预训练模型的使用.&#x27;</span></span><br><span class="line"><span class="built_in">len</span>(sample_txt)</span><br></pre></td></tr></table></figure>
+
+
+<pre><code>23
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">tokens = tokenizer.tokenize(sample_txt)</span><br><span class="line">token_ids = tokenizer.convert_tokens_to_ids(tokens)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&#x27;文本为: <span class="subst">&#123;sample_txt&#125;</span>&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&#x27;分词的列表为: <span class="subst">&#123;tokens&#125;</span>&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&#x27;词对应的唯一id: <span class="subst">&#123;token_ids&#125;</span>&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<pre><code>文本为: 今天早上9点半起床，我在学习预训练模型的使用.
+分词的列表为: [&#39;今&#39;, &#39;天&#39;, &#39;早&#39;, &#39;上&#39;, &#39;9&#39;, &#39;点&#39;, &#39;半&#39;, &#39;起&#39;, &#39;床&#39;, &#39;，&#39;, &#39;我&#39;, &#39;在&#39;, &#39;学&#39;, &#39;习&#39;, &#39;预&#39;, &#39;训&#39;, &#39;练&#39;, &#39;模&#39;, &#39;型&#39;, &#39;的&#39;, &#39;使&#39;, &#39;用&#39;, &#39;.&#39;]
+词对应的唯一id: [791, 1921, 3193, 677, 130, 4157, 1288, 6629, 2414, 8024, 2769, 1762, 2110, 739, 7564, 6378, 5298, 3563, 1798, 4638, 886, 4500, 119]
+</code></pre>
+<h3 id="查看特殊的Token"><a href="#查看特殊的Token" class="headerlink" title="查看特殊的Token"></a>查看特殊的Token</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tokenizer.sep_token,tokenizer.sep_token_id</span><br></pre></td></tr></table></figure>
+
+
+<pre><code>(&#39;[SEP]&#39;, 102)
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tokenizer.cls_token,tokenizer.cls_token_id</span><br></pre></td></tr></table></figure>
+
+
+<pre><code>(&#39;[CLS]&#39;, 101)
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tokenizer.pad_token,tokenizer.pad_token_id</span><br></pre></td></tr></table></figure>
+
+
+<pre><code>(&#39;[PAD]&#39;, 0)
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tokenizer.mask_token,tokenizer.mask_token_id</span><br></pre></td></tr></table></figure>
+
+
+<pre><code>(&#39;[MASK]&#39;, 103)
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tokenizer.unk_token,tokenizer.unk_token_id</span><br></pre></td></tr></table></figure>
+
+
+<pre><code>(&#39;[UNK]&#39;, 100)
+</code></pre>
+<h3 id="简单的编码测试"><a href="#简单的编码测试" class="headerlink" title="简单的编码测试"></a>简单的编码测试</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">encoding=tokenizer.encode_plus(</span><br><span class="line">    sample_txt,</span><br><span class="line">    <span class="comment"># sample_txt_another,</span></span><br><span class="line">    max_length=<span class="number">32</span>,</span><br><span class="line">    add_special_tokens=<span class="literal">True</span>,<span class="comment"># [CLS]和[SEP]</span></span><br><span class="line">    return_token_type_ids=<span class="literal">True</span>,</span><br><span class="line">    pad_to_max_length=<span class="literal">True</span>,</span><br><span class="line">    return_attention_mask=<span class="literal">True</span>,</span><br><span class="line">    return_tensors=<span class="string">&#x27;pt&#x27;</span>,<span class="comment"># Pytorch tensor张量</span></span><br><span class="line"></span><br><span class="line">)</span><br><span class="line">encoding</span><br></pre></td></tr></table></figure>
+
+<pre><code>Truncation was not explicitly activated but `max_length` is provided a specific value, please use `truncation=True` to explicitly truncate examples to max length. Defaulting to &#39;longest_first&#39; truncation strategy. If you encode pairs of sequences (GLUE-style) with the tokenizer you can select this strategy more precisely by providing a specific strategy to `truncation`.
+
+&#123;&#39;input_ids&#39;: tensor([[ 101,  791, 1921, 3193,  677,  130, 4157, 1288, 6629, 2414, 8024, 2769,
+         1762, 2110,  739, 7564, 6378, 5298, 3563, 1798, 4638,  886, 4500,  119,
+          102,    0,    0,    0,    0,    0,    0,    0]]), &#39;token_type_ids&#39;: tensor([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+         0, 0, 0, 0, 0, 0, 0, 0]]), &#39;attention_mask&#39;: tensor([[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+         1, 0, 0, 0, 0, 0, 0, 0]])&#125;
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">encoding[<span class="string">&#x27;attention_mask&#x27;</span>][<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+
+
+<pre><code>tensor([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 0, 0, 0, 0, 0, 0, 0])
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">token_lens = []</span><br><span class="line"><span class="comment"># 选的是每一句话的长度</span></span><br><span class="line"><span class="keyword">for</span> txt <span class="keyword">in</span> train.text:</span><br><span class="line"><span class="comment">#     print(txt)</span></span><br><span class="line">    tokens = tokenizer.encode(txt, max_length=<span class="number">512</span>)</span><br><span class="line">    token_lens.append(<span class="built_in">len</span>(tokens))</span><br><span class="line"><span class="comment"># token_lens</span></span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sns.distplot(token_lens)</span><br><span class="line">plt.xlim([<span class="number">0</span>, <span class="number">256</span>]);</span><br><span class="line">plt.xlabel(<span class="string">&#x27;Token count&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<p><img src="C:\Users\dupeibo\AppData\Roaming\Typora\typora-user-images\1669079168255.png" alt="1669079168255"></p>
+<p>​    </p>
+<h3 id="通过分析，长度一般都在160之内"><a href="#通过分析，长度一般都在160之内" class="headerlink" title="通过分析，长度一般都在160之内"></a>通过分析，长度一般都在160之内</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MAX_LEN = <span class="number">160</span></span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">encoding[<span class="string">&#x27;input_ids&#x27;</span>].flatten()</span><br></pre></td></tr></table></figure>
+
+
+<pre><code>tensor([ 101,  791, 1921, 3193,  677,  130, 4157, 1288, 6629, 2414, 8024, 2769,
+        1762, 2110,  739, 7564, 6378, 5298, 3563, 1798, 4638,  886, 4500,  119,
+         102,    0,    0,    0,    0,    0,    0,    0])
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">encoding[<span class="string">&#x27;input_ids&#x27;</span>]</span><br></pre></td></tr></table></figure>
+
+
+<pre><code>tensor([[ 101,  791, 1921, 3193,  677,  130, 4157, 1288, 6629, 2414, 8024, 2769,
+         1762, 2110,  739, 7564, 6378, 5298, 3563, 1798, 4638,  886, 4500,  119,
+          102,    0,    0,    0,    0,    0,    0,    0]])
+</code></pre>
+<h2 id="处理数据"><a href="#处理数据" class="headerlink" title="处理数据"></a>处理数据</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">EnterpriseDataset</span>(<span class="title class_ inherited__">Dataset</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self,texts,labels,tokenizer,max_len</span>):</span><br><span class="line">        self.texts=texts</span><br><span class="line">        self.labels=labels</span><br><span class="line">        self.tokenizer=tokenizer</span><br><span class="line">        self.max_len=max_len</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__len__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">len</span>(self.texts)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__getitem__</span>(<span class="params">self,item</span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        item 为数据索引，迭代取第item条数据</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        text=<span class="built_in">str</span>(self.texts[item])</span><br><span class="line">        label=self.labels[item]</span><br><span class="line">        </span><br><span class="line">        encoding=self.tokenizer.encode_plus(</span><br><span class="line">            text,</span><br><span class="line">            add_special_tokens=<span class="literal">True</span>,</span><br><span class="line">            max_length=self.max_len,</span><br><span class="line">            return_token_type_ids=<span class="literal">True</span>,</span><br><span class="line">            pad_to_max_length=<span class="literal">True</span>,</span><br><span class="line">            return_attention_mask=<span class="literal">True</span>,</span><br><span class="line">            return_tensors=<span class="string">&#x27;pt&#x27;</span>,</span><br><span class="line">        )</span><br><span class="line">        </span><br><span class="line"><span class="comment">#         print(encoding[&#x27;input_ids&#x27;])</span></span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">            <span class="string">&#x27;texts&#x27;</span>:text,</span><br><span class="line">            <span class="string">&#x27;input_ids&#x27;</span>:encoding[<span class="string">&#x27;input_ids&#x27;</span>].flatten(),</span><br><span class="line">            <span class="string">&#x27;attention_mask&#x27;</span>:encoding[<span class="string">&#x27;attention_mask&#x27;</span>].flatten(),</span><br><span class="line">            <span class="comment"># toeken_type_ids:0</span></span><br><span class="line">            <span class="string">&#x27;labels&#x27;</span>:torch.tensor(label,dtype=torch.long)</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="分割数据集"><a href="#分割数据集" class="headerlink" title="分割数据集"></a>分割数据集</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">df_train, df_test = train_test_split(train, test_size=<span class="number">0.1</span>, random_state=RANDOM_SEED)</span><br><span class="line">df_val, df_test = train_test_split(df_test, test_size=<span class="number">0.5</span>, random_state=RANDOM_SEED)</span><br><span class="line">df_train.shape, df_val.shape, df_test.shape</span><br></pre></td></tr></table></figure>
+
+
+<pre><code>((10800, 9), (600, 9), (600, 9))
+</code></pre>
+<h3 id="创建DataLoader"><a href="#创建DataLoader" class="headerlink" title="创建DataLoader"></a>创建DataLoader</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">create_data_loader</span>(<span class="params">df,tokenizer,max_len,batch_size</span>):</span><br><span class="line">    ds=EnterpriseDataset(</span><br><span class="line">        texts=df[<span class="string">&#x27;text&#x27;</span>].values,</span><br><span class="line">        labels=df[<span class="string">&#x27;label&#x27;</span>].values,</span><br><span class="line">        tokenizer=tokenizer,</span><br><span class="line">        max_len=max_len</span><br><span class="line">    )</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> DataLoader(</span><br><span class="line">        ds,</span><br><span class="line">        batch_size=batch_size,</span><br><span class="line"><span class="comment">#         num_workers=4 # windows多线程</span></span><br><span class="line">    )</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">BATCH_SIZE = <span class="number">4</span></span><br><span class="line"></span><br><span class="line">train_data_loader = create_data_loader(df_train, tokenizer, MAX_LEN, BATCH_SIZE)</span><br><span class="line">val_data_loader = create_data_loader(df_val, tokenizer, MAX_LEN, BATCH_SIZE)</span><br><span class="line">test_data_loader = create_data_loader(df_test, tokenizer, MAX_LEN, BATCH_SIZE)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">next</span>(<span class="built_in">iter</span>(train_data_loader))</span><br></pre></td></tr></table></figure>
+
+
+<pre><code>&#123;&#39;texts&#39;: [&#39;指示标识不清楚[SEP]工业/危化品类[SEP]消防检查[SEP]防火巡查[SEP]安全出口、疏散通道是否畅通，安全疏散指示标志、应急照明是否完好；&#39;,
+  &#39;发现本月有灭火器过期，已安排购买灭火器更换[SEP]商贸服务教文卫类[SEP]消防检查[SEP]防火检查[SEP]灭火器材配置及有效情况。&#39;,
+  &#39;安全出口标志灯有一个有故障，已买回安装改正。[SEP]工业/危化品类[SEP]消防检查[SEP]防火巡查[SEP]安全出口、疏散通道是否畅通，安全疏散指示标志、应急照明是否完好；&#39;,
+  &#39;堵了消防通道[SEP]工业/危化品类[SEP]消防检查[SEP]防火巡查[SEP]安全出口、疏散通道是否畅通，安全疏散指示标志、应急照明是否完好；&#39;],
+ &#39;input_ids&#39;: tensor([[ 101, 2900, 4850, 3403, 6399,  679, 3926, 3504,  102, 2339,  689,  120,
+          1314, 1265, 1501, 5102,  102, 3867, 7344, 3466, 3389,  102, 7344, 4125,
+          2337, 3389,  102, 2128, 1059, 1139, 1366,  510, 4541, 3141, 6858, 6887,
+          3221, 1415, 4517, 6858, 8024, 2128, 1059, 4541, 3141, 2900, 4850, 3403,
+          2562,  510, 2418, 2593, 4212, 3209, 3221, 1415, 2130, 1962, 8039,  102,
+             0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+             0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+             0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+             0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+             0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+             0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+             0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+             0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+             0,    0,    0,    0],
+         [ 101, 1355, 4385, 3315, 3299, 3300, 4127, 4125, 1690, 6814, 3309, 8024,
+          2347, 2128, 2961, 6579,  743, 4127, 4125, 1690, 3291, 2940,  102, 1555,
+          6588, 3302, 1218, 3136, 3152, 1310, 5102,  102, 3867, 7344, 3466, 3389,
+           102, 7344, 4125, 3466, 3389,  102, 4127, 4125, 1690, 3332, 6981, 5390,
+          1350, 3300, 3126, 2658, 1105,  511,  102,    0,    0,    0,    0,    0,
+             0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+             0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+             0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+             0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+             0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+             0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+             0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+             0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+             0,    0,    0,    0],
+         [ 101, 2128, 1059, 1139, 1366, 3403, 2562, 4128, 3300,  671,  702, 3300,
+          3125, 7397, 8024, 2347,  743, 1726, 2128, 6163, 3121, 3633,  511,  102,
+          2339,  689,  120, 1314, 1265, 1501, 5102,  102, 3867, 7344, 3466, 3389,
+           102, 7344, 4125, 2337, 3389,  102, 2128, 1059, 1139, 1366,  510, 4541,
+          3141, 6858, 6887, 3221, 1415, 4517, 6858, 8024, 2128, 1059, 4541, 3141,
+          2900, 4850, 3403, 2562,  510, 2418, 2593, 4212, 3209, 3221, 1415, 2130,
+          1962, 8039,  102,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+             0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+             0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+             0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+             0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+             0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+             0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+             0,    0,    0,    0],
+         [ 101, 1843,  749, 3867, 7344, 6858, 6887,  102, 2339,  689,  120, 1314,
+          1265, 1501, 5102,  102, 3867, 7344, 3466, 3389,  102, 7344, 4125, 2337,
+          3389,  102, 2128, 1059, 1139, 1366,  510, 4541, 3141, 6858, 6887, 3221,
+          1415, 4517, 6858, 8024, 2128, 1059, 4541, 3141, 2900, 4850, 3403, 2562,
+           510, 2418, 2593, 4212, 3209, 3221, 1415, 2130, 1962, 8039,  102,    0,
+             0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+             0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+             0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+             0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+             0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+             0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+             0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+             0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+             0,    0,    0,    0]]),
+ &#39;attention_mask&#39;: tensor([[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+          1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+          1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+          1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+          1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+          1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+          1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+          1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+          1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+          1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]),
+ &#39;labels&#39;: tensor([0, 0, 0, 0])&#125;
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">data = <span class="built_in">next</span>(<span class="built_in">iter</span>(train_data_loader))</span><br><span class="line">data.keys()</span><br></pre></td></tr></table></figure>
+
+
+<pre><code>dict_keys([&#39;texts&#39;, &#39;input_ids&#39;, &#39;attention_mask&#39;, &#39;labels&#39;])
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(data[<span class="string">&#x27;input_ids&#x27;</span>].shape)</span><br><span class="line"><span class="built_in">print</span>(data[<span class="string">&#x27;attention_mask&#x27;</span>].shape)</span><br><span class="line"><span class="built_in">print</span>(data[<span class="string">&#x27;labels&#x27;</span>].shape)</span><br></pre></td></tr></table></figure>
+
+<pre><code>torch.Size([4, 160])
+torch.Size([4, 160])
+torch.Size([4])
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bert_model = AutoModel.from_pretrained(PRE_TRAINED_MODEL_NAME)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">encoding[<span class="string">&#x27;input_ids&#x27;</span>]</span><br></pre></td></tr></table></figure>
+
+
+<pre><code>tensor([[ 101,  791, 1921, 3193,  677,  130, 4157, 1288, 6629, 2414, 8024, 2769,
+         1762, 2110,  739, 7564, 6378, 5298, 3563, 1798, 4638,  886, 4500,  119,
+          102,    0,    0,    0,    0,    0,    0,    0]])
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">last_hidden_state, pooled_output = bert_model(</span><br><span class="line">    input_ids=encoding[<span class="string">&#x27;input_ids&#x27;</span>], </span><br><span class="line">    attention_mask=encoding[<span class="string">&#x27;attention_mask&#x27;</span>],</span><br><span class="line">    return_dict = <span class="literal">False</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h2 id="查看输出结果"><a href="#查看输出结果" class="headerlink" title="查看输出结果"></a>查看输出结果</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">last_hidden_state[<span class="number">0</span>][<span class="number">0</span>].shape</span><br></pre></td></tr></table></figure>
+
+
+<pre><code>torch.Size([768])
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pooled_output</span><br></pre></td></tr></table></figure>
+
+
+<pre><code>tensor([[ 0.9999,  0.9998,  0.9989,  0.9629,  0.3075, -0.1866, -0.9904,  0.8628,
+          0.9710, -0.9993,  1.0000,  1.0000,  0.9312, -0.9394,  0.9998, -0.9999,
+          0.0417,  0.9999,  0.9458,  0.3190,  1.0000, -1.0000, -0.9062, -0.9048,
+          0.1764,  0.9983,  0.9346, -0.8122, -0.9999,  0.9996,  0.7879,  0.9999,
+          0.8475, -1.0000, -1.0000,  0.9413, -0.8260,  0.9889, -0.4976, -0.9857,
+         -0.9955, -0.9580,  0.5833, -0.9996, -0.8932,  0.8563, -1.0000, -0.9999,
+          0.9719,  0.9999, -0.7430, -0.9993,  0.9756, -0.9754,  0.2991,  0.8933,
+         -0.9991,  0.9987,  1.0000,  0.4156,  0.9992, -0.9452, -0.8020, -0.9999,
+          1.0000, -0.9964, -0.9900,  0.4365,  1.0000,  1.0000, -0.9400,  0.8794,
+          1.0000,  0.9105, -0.6616,  1.0000, -0.9999,  0.6892, -1.0000, -0.9817,
+          1.0000,  0.9957, -0.8844, -0.8248, -0.9921, -0.9999, -0.9998,  1.0000,
+          0.5228,  0.1297,  0.9932, -0.9999, -1.0000,  0.9993, -0.9996, -0.9948,
+         -0.9561,  0.9996, -0.5785, -0.9386, -0.2035,  0.9086, -0.9999, -0.9993,
+          0.9959,  0.9984,  0.6953, -0.9995,  1.0000,  0.8610, -1.0000, -0.4507,
+         -1.0000,  0.2384, -0.9812,  0.9998,  0.9504,  0.5421,  0.9995, -0.9998,
+          0.9320, -0.9941, -0.9718, -0.9910,  0.9822,  1.0000,  0.9997, -0.9990,
+          1.0000,  1.0000,  0.8608,  0.9964, -0.9997,  0.9799,  0.5985, -0.9098,
+          0.5329, -0.6345,  1.0000,  0.9872,  0.9970, -0.9719,  0.9988, -0.9933,
+          1.0000, -0.9999,  0.9973, -1.0000, -0.6550,  0.9996,  0.8899,  1.0000,
+          0.2969,  0.9999, -0.9983, -0.9991,  0.9906, -0.6590,  0.9872, -1.0000,
+          0.7658,  0.7876, -0.8556,  0.6304, -1.0000,  1.0000, -0.7938,  1.0000,
+          0.9898,  0.2216, -0.9942, -0.9969,  0.8345, -0.9998, -0.9779,  0.9914,
+          0.5227,  0.9992, -0.9893, -0.9889,  0.2325, -0.9887, -0.9999,  0.9885,
+          0.0340,  0.9284,  0.5197,  0.4143,  0.8315,  0.1585, -0.5348,  1.0000,
+          0.2361,  0.9985,  0.9999, -0.3446,  0.1012, -0.9924, -1.0000, -0.7542,
+          0.9999, -0.2807, -0.9999,  0.9490, -1.0000,  0.9906, -0.7288, -0.5263,
+         -0.9545, -0.9999,  0.9998, -0.9286, -0.9997, -0.5303,  0.8886,  0.5605,
+         -0.9989, -0.3324,  0.9804, -0.9075,  0.9905, -0.9800, -0.9946,  0.6855,
+         -0.9393,  0.9929,  0.9874,  1.0000,  0.9997, -0.0714, -0.9440,  1.0000,
+          0.1676, -1.0000,  0.5573, -0.9611,  0.8835,  0.9999, -0.9980,  0.9294,
+          1.0000,  0.7968,  1.0000, -0.7065, -0.9793, -0.9997,  1.0000,  0.9922,
+          0.9999, -0.9984, -0.9995, -0.1701, -0.5426, -1.0000, -1.0000, -0.6334,
+          0.9969,  0.9999, -0.1620, -0.9818, -0.9921, -0.9994,  1.0000, -0.9759,
+          1.0000,  0.8570, -0.7434, -0.9164,  0.9438, -0.7311, -0.9986, -0.3936,
+         -0.9997, -0.9650, -1.0000,  0.9433, -0.9999, -1.0000,  0.6913,  1.0000,
+          0.8762, -1.0000,  0.9997,  0.9764,  0.7094, -0.9294,  0.9522, -1.0000,
+          1.0000, -0.9965,  0.9428, -0.9972, -0.9897, -0.7680,  0.9922,  0.9999,
+         -0.9999, -0.9597, -0.9922, -0.9807, -0.3632,  0.9936, -0.7280,  0.4117,
+         -0.9498, -0.9666,  0.9545, -0.9957, -0.9970,  0.4028,  1.0000, -0.9798,
+          1.0000,  0.9941,  1.0000,  0.9202, -0.9942,  0.9996,  0.5352, -0.5836,
+         -0.8829, -0.9418,  0.9497, -0.0532,  0.6966, -0.9999,  0.9998,  0.9917,
+          0.9612,  0.7289,  0.0167,  0.3179,  0.9627, -0.9911,  0.9995, -0.9996,
+         -0.6737,  0.9991,  1.0000,  0.9932,  0.4880, -0.7488,  0.9986, -0.9961,
+          0.9995, -1.0000,  0.9999, -0.9940,  0.9705, -0.9970, -0.9856,  1.0000,
+          0.9846, -0.7932,  0.9997, -0.9386,  0.9938,  0.9738,  0.8173,  0.9913,
+          0.9981,  1.0000, -0.9998, -0.9918, -0.9727, -0.9987, -0.9955, -1.0000,
+         -0.1038, -1.0000, -0.9874, -0.9287,  0.5109, -0.9056,  0.1022,  0.7864,
+         -0.8197,  0.5724, -0.5905,  0.2713, -0.7239, -0.9976, -0.9844, -1.0000,
+         -0.9988,  0.8835,  0.9999, -0.9997,  0.9999, -0.9999, -0.9782,  0.9383,
+         -0.5609,  0.7721,  0.9999, -1.0000,  0.9585,  0.9987,  1.0000,  0.9960,
+          0.9993, -0.9741, -0.9999, -0.9989, -0.9999, -1.0000, -0.9998,  0.9343,
+          0.6337, -1.0000,  0.0902,  0.8980,  1.0000,  0.9964, -0.9985, -0.6136,
+         -0.9996, -0.8252,  0.9996, -0.0566, -1.0000,  0.9962, -0.8744,  1.0000,
+         -0.8865,  0.9879,  0.8897,  0.9571,  0.9823, -1.0000,  0.9145,  1.0000,
+          0.0365, -1.0000, -0.9985, -0.9075, -0.9998,  0.0369,  0.8120,  0.9999,
+         -1.0000, -0.9155, -0.9975,  0.7988,  0.9922,  0.9998,  0.9982,  0.9267,
+          0.9165,  0.5368,  0.1464,  0.9998,  0.4663, -0.9989,  0.9996, -0.7952,
+          0.4527, -1.0000,  0.9998,  0.4073,  0.9999,  0.9159, -0.5480, -0.6821,
+         -0.9904,  0.9938,  1.0000, -0.4229, -0.4845, -0.9981, -1.0000, -0.9861,
+         -0.0950, -0.4625, -0.9629, -0.9998,  0.6675, -0.5244,  1.0000,  1.0000,
+          0.9924, -0.9253, -0.9974,  0.9974, -0.9012,  0.9900, -0.2582, -1.0000,
+         -0.9919, -0.9986,  1.0000, -0.9716, -0.9262, -0.9911, -0.2593,  0.5919,
+         -0.9999, -0.4994, -0.9962,  0.9818,  1.0000, -0.9996,  0.9918, -0.9970,
+          0.7085, -0.1369,  0.8077,  0.9955, -0.3394, -0.5860, -0.6887, -0.9841,
+          0.9970,  0.9987, -0.9948, -0.8401,  0.9999,  0.0856,  0.9999,  0.5099,
+          0.9466,  0.9567,  1.0000,  0.8771,  1.0000, -0.0815,  1.0000,  0.9999,
+         -0.9392,  0.5744,  0.8723, -0.9686,  0.5958,  0.9822,  0.9997,  0.8854,
+         -0.1952, -0.9967,  0.9994,  1.0000,  1.0000, -0.3391,  0.9883, -0.4452,
+          0.9252,  0.4495,  0.9870,  0.3479,  0.2266,  0.9942,  0.9990, -0.9999,
+         -0.9999, -1.0000,  1.0000,  0.9996, -0.6637, -1.0000,  0.9999,  0.4543,
+          0.7471,  0.9983,  0.3772, -0.9812,  0.9853, -0.9995, -0.3404,  0.9788,
+          0.9867,  0.7564,  0.9995, -0.9997,  0.7990,  1.0000,  0.0752,  0.9999,
+          0.2912, -0.9941,  0.9970, -0.9935, -0.9995, -0.9743,  0.9991,  0.9981,
+         -0.9273, -0.8402,  0.9996, -0.9999,  0.9999, -0.9998,  0.9724, -0.9939,
+          1.0000, -0.9752, -0.9998, -0.3806,  0.8830,  0.8352, -0.8892,  1.0000,
+         -0.8875, -0.8107,  0.7083, -0.8909, -0.9931, -0.9630,  0.0800, -1.0000,
+          0.7777, -0.9611,  0.5867, -0.9947, -0.9999,  1.0000, -0.9084, -0.9414,
+          0.9999, -0.8838, -1.0000,  0.9549, -0.9999, -0.6522,  0.7967, -0.6850,
+          0.1524, -1.0000,  0.4800,  0.9999, -0.9998, -0.7089, -0.9129, -0.9864,
+          0.6220,  0.8855,  0.9855, -0.8651,  0.3988, -0.2548,  0.9793, -0.7212,
+         -0.2582, -0.9999, -0.8692, -0.6282, -0.9999, -0.9999, -1.0000,  1.0000,
+          0.9996,  0.9999, -0.5600,  0.7442,  0.9460,  0.9927, -0.9999,  0.4407,
+         -0.0461,  0.9937, -0.4887, -0.9994, -0.9198, -1.0000, -0.6905,  0.3538,
+         -0.7728,  0.6622,  1.0000,  0.9999, -0.9999, -0.9994, -0.9995, -0.9979,
+          0.9998,  0.9999,  0.9996, -0.9072, -0.5844,  0.9997,  0.9689,  0.5231,
+         -0.9999, -0.9981, -0.9999,  0.7505, -0.9922, -0.9986,  0.9971,  1.0000,
+          0.8730, -1.0000, -0.9533,  1.0000,  0.9997,  1.0000, -0.7768,  0.9999,
+         -0.9838,  0.9819, -0.9993,  1.0000, -1.0000,  1.0000,  0.9999,  0.9809,
+          0.9984, -0.9928,  0.9776, -0.9998, -0.7407,  0.9298, -0.4495, -0.9902,
+          0.8053,  0.9996, -0.9952,  1.0000,  0.9243, -0.2028,  0.8002,  0.9873,
+          0.9419, -0.6913, -0.9999,  0.8162,  0.9995,  0.9509,  1.0000,  0.9177,
+          0.9996, -0.9839, -0.9998,  0.9914, -0.6991, -0.7821, -0.9998,  1.0000,
+          1.0000, -0.9999, -0.9227,  0.7483,  0.1186,  1.0000,  0.9963,  0.9971,
+          0.9857,  0.3887,  0.9996, -0.9999,  0.8526, -0.9980, -0.8613,  0.9999,
+         -0.9899,  0.9999, -0.9981,  1.0000, -0.9858,  0.9944,  0.9989,  0.9684,
+         -0.9968,  1.0000,  0.8246, -0.9956, -0.8348, -0.9374, -0.9999,  0.7827]],
+       grad_fn=&lt;TanhBackward0&gt;)
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">last_hidden_state.shape <span class="comment"># 每个token的向量表示</span></span><br></pre></td></tr></table></figure>
+
+
+<pre><code>torch.Size([1, 32, 768])
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bert_model.config</span><br></pre></td></tr></table></figure>
+
+
+<pre><code>BertConfig &#123;
+  &quot;_name_or_path&quot;: &quot;bert-base-chinese&quot;,
+  &quot;architectures&quot;: [
+    &quot;BertForMaskedLM&quot;
+  ],
+  &quot;attention_probs_dropout_prob&quot;: 0.1,
+  &quot;classifier_dropout&quot;: null,
+  &quot;directionality&quot;: &quot;bidi&quot;,
+  &quot;hidden_act&quot;: &quot;gelu&quot;,
+  &quot;hidden_dropout_prob&quot;: 0.1,
+  &quot;hidden_size&quot;: 768,
+  &quot;initializer_range&quot;: 0.02,
+  &quot;intermediate_size&quot;: 3072,
+  &quot;layer_norm_eps&quot;: 1e-12,
+  &quot;max_position_embeddings&quot;: 512,
+  &quot;model_type&quot;: &quot;bert&quot;,
+  &quot;num_attention_heads&quot;: 12,
+  &quot;num_hidden_layers&quot;: 12,
+  &quot;pad_token_id&quot;: 0,
+  &quot;pooler_fc_size&quot;: 768,
+  &quot;pooler_num_attention_heads&quot;: 12,
+  &quot;pooler_num_fc_layers&quot;: 3,
+  &quot;pooler_size_per_head&quot;: 128,
+  &quot;pooler_type&quot;: &quot;first_token_transform&quot;,
+  &quot;position_embedding_type&quot;: &quot;absolute&quot;,
+  &quot;transformers_version&quot;: &quot;4.24.0&quot;,
+  &quot;type_vocab_size&quot;: 2,
+  &quot;use_cache&quot;: true,
+  &quot;vocab_size&quot;: 21128
+&#125;
+</code></pre>
+<h2 id="bert后面又接了一个全连接层"><a href="#bert后面又接了一个全连接层" class="headerlink" title="bert后面又接了一个全连接层"></a>bert后面又接了一个全连接层</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">EnterpriseDangerClassifier</span>(nn.Module):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, n_classes</span>):</span><br><span class="line">        <span class="built_in">super</span>(EnterpriseDangerClassifier, self).__init__()</span><br><span class="line">        self.bert = BertModel.from_pretrained(PRE_TRAINED_MODEL_NAME)</span><br><span class="line">        self.drop = nn.Dropout(p=<span class="number">0.3</span>)</span><br><span class="line">        self.out = nn.Linear(self.bert.config.hidden_size, n_classes) <span class="comment"># 两个类别</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">forward</span>(<span class="params">self, input_ids, attention_mask</span>):</span><br><span class="line">        _, pooled_output = self.bert(</span><br><span class="line">            input_ids=input_ids,</span><br><span class="line">            attention_mask=attention_mask,</span><br><span class="line">            return_dict = <span class="literal">False</span></span><br><span class="line">        )</span><br><span class="line">        output = self.drop(pooled_output) <span class="comment"># dropout</span></span><br><span class="line">        <span class="keyword">return</span> self.out(output)</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class_names=[<span class="number">0</span>,<span class="number">1</span>]</span><br></pre></td></tr></table></figure>
+
+<h2 id="将数据和模型送到CUDA"><a href="#将数据和模型送到CUDA" class="headerlink" title="将数据和模型送到CUDA"></a>将数据和模型送到CUDA</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> transformers <span class="keyword">import</span> BertModel, BertTokenizer,BertConfig, AdamW, get_linear_schedule_with_warmup</span><br><span class="line"></span><br><span class="line">model = EnterpriseDangerClassifier(<span class="built_in">len</span>(class_names))</span><br><span class="line">model = model.to(device)</span><br></pre></td></tr></table></figure>
+
+<pre><code>Some weights of the model checkpoint at bert-base-chinese were not used when initializing BertModel: [&#39;cls.seq_relationship.bias&#39;, &#39;cls.predictions.transform.dense.bias&#39;, &#39;cls.predictions.bias&#39;, &#39;cls.predictions.transform.dense.weight&#39;, &#39;cls.predictions.decoder.weight&#39;, &#39;cls.predictions.transform.LayerNorm.bias&#39;, &#39;cls.predictions.transform.LayerNorm.weight&#39;, &#39;cls.seq_relationship.weight&#39;]
+- This IS expected if you are initializing BertModel from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing BertModel from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">input_ids = data[<span class="string">&#x27;input_ids&#x27;</span>].to(device)</span><br><span class="line">attention_mask = data[<span class="string">&#x27;attention_mask&#x27;</span>].to(device)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(input_ids.shape) <span class="comment"># batch size x seq length</span></span><br><span class="line"><span class="built_in">print</span>(attention_mask.shape) <span class="comment"># batch size x seq length</span></span><br></pre></td></tr></table></figure>
+
+<pre><code>torch.Size([4, 160])
+torch.Size([4, 160])
+</code></pre>
+<h2 id="得到单个batch的输出token"><a href="#得到单个batch的输出token" class="headerlink" title="得到单个batch的输出token"></a>得到单个batch的输出token</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">model(input_ids, attention_mask)</span><br></pre></td></tr></table></figure>
+
+
+<pre><code>tensor([[ 0.2120, -0.4050],
+        [ 0.3156, -0.4160],
+        [ 0.5127, -0.4634],
+        [ 0.3168,  0.5057]], device=&#39;cuda:0&#39;, grad_fn=&lt;AddmmBackward0&gt;)
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">F.softmax(model(input_ids, attention_mask), dim=<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+
+
+<pre><code>tensor([[0.4999, 0.5001],
+        [0.5258, 0.4742],
+        [0.5899, 0.4101],
+        [0.4575, 0.5425]], device=&#39;cuda:0&#39;, grad_fn=&lt;SoftmaxBackward0&gt;)
+</code></pre>
+<h2 id="训练模型前期配置"><a href="#训练模型前期配置" class="headerlink" title="训练模型前期配置"></a>训练模型前期配置</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">EPOCHS = <span class="number">10</span> <span class="comment"># 训练轮数</span></span><br><span class="line"></span><br><span class="line">optimizer = AdamW(model.parameters(), lr=<span class="number">2e-5</span>, correct_bias=<span class="literal">False</span>)</span><br><span class="line">total_steps = <span class="built_in">len</span>(train_data_loader) * EPOCHS</span><br><span class="line"></span><br><span class="line"><span class="comment"># Warmup预热学习率的方式，可以使得开始训练的几个epoches或者一些steps内学习率较小,在预热的小学习率下，模型可以慢慢趋于稳定,</span></span><br><span class="line"><span class="comment"># 等模型相对稳定后再选择预先设置的学习率进行训练,使得模型收敛速度变得更快，模型效果更佳</span></span><br><span class="line">scheduler = get_linear_schedule_with_warmup(</span><br><span class="line">  optimizer,</span><br><span class="line">  num_warmup_steps=<span class="number">0</span>,</span><br><span class="line">  num_training_steps=total_steps</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment"># optimizer： 优化器</span></span><br><span class="line"><span class="comment"># num_warmup_steps：初始预热步数</span></span><br><span class="line"><span class="comment"># num_training_steps：整个训练过程的总步数</span></span><br><span class="line"></span><br><span class="line">loss_fn = nn.CrossEntropyLoss().to(device)</span><br></pre></td></tr></table></figure>
+
+<h2 id="定义模型的训练"><a href="#定义模型的训练" class="headerlink" title="定义模型的训练"></a>定义模型的训练</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">train_epoch</span>(<span class="params"></span></span><br><span class="line"><span class="params">  model, </span></span><br><span class="line"><span class="params">  data_loader, </span></span><br><span class="line"><span class="params">  loss_fn, </span></span><br><span class="line"><span class="params">  optimizer, </span></span><br><span class="line"><span class="params">  device, </span></span><br><span class="line"><span class="params">  scheduler, </span></span><br><span class="line"><span class="params">  n_examples</span></span><br><span class="line"><span class="params"></span>):</span><br><span class="line">    model = model.train() <span class="comment"># train模式</span></span><br><span class="line">    losses = []</span><br><span class="line">    correct_predictions = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> d <span class="keyword">in</span> data_loader:</span><br><span class="line">        input_ids = d[<span class="string">&quot;input_ids&quot;</span>].to(device)</span><br><span class="line">        attention_mask = d[<span class="string">&quot;attention_mask&quot;</span>].to(device)</span><br><span class="line">        targets = d[<span class="string">&quot;labels&quot;</span>].to(device)</span><br><span class="line">        outputs = model(</span><br><span class="line">            input_ids=input_ids,</span><br><span class="line">            attention_mask=attention_mask</span><br><span class="line">        )</span><br><span class="line">        _, preds = torch.<span class="built_in">max</span>(outputs, dim=<span class="number">1</span>)</span><br><span class="line">        loss = loss_fn(outputs, targets)</span><br><span class="line">        correct_predictions += torch.<span class="built_in">sum</span>(preds == targets)</span><br><span class="line">        losses.append(loss.item())</span><br><span class="line">        loss.backward()</span><br><span class="line">        nn.utils.clip_grad_norm_(model.parameters(), max_norm=<span class="number">1.0</span>)</span><br><span class="line">        optimizer.step()</span><br><span class="line">        <span class="comment"># 预热学习率</span></span><br><span class="line">        scheduler.step()</span><br><span class="line">        optimizer.zero_grad()</span><br><span class="line">    <span class="keyword">return</span> correct_predictions.double() / n_examples, np.mean(losses)</span><br></pre></td></tr></table></figure>
+
+<h2 id="模型的评估函数"><a href="#模型的评估函数" class="headerlink" title="模型的评估函数"></a>模型的评估函数</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">eval_model</span>(<span class="params">model, data_loader, loss_fn, device, n_examples</span>):</span><br><span class="line">    model = model.<span class="built_in">eval</span>() <span class="comment"># 验证预测模式</span></span><br><span class="line"></span><br><span class="line">    losses = []</span><br><span class="line">    correct_predictions = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">with</span> torch.no_grad():</span><br><span class="line">        <span class="keyword">for</span> d <span class="keyword">in</span> data_loader:</span><br><span class="line">            input_ids = d[<span class="string">&quot;input_ids&quot;</span>].to(device)</span><br><span class="line">            attention_mask = d[<span class="string">&quot;attention_mask&quot;</span>].to(device)</span><br><span class="line">            targets = d[<span class="string">&quot;labels&quot;</span>].to(device)</span><br><span class="line"></span><br><span class="line">            outputs = model(</span><br><span class="line">                input_ids=input_ids,</span><br><span class="line">                attention_mask=attention_mask</span><br><span class="line">            )</span><br><span class="line">            _, preds = torch.<span class="built_in">max</span>(outputs, dim=<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">            loss = loss_fn(outputs, targets)</span><br><span class="line"></span><br><span class="line">            correct_predictions += torch.<span class="built_in">sum</span>(preds == targets)</span><br><span class="line">            losses.append(loss.item())</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> correct_predictions.double() / n_examples, np.mean(losses)</span><br></pre></td></tr></table></figure>
+
+<h2 id="训练模型：10EPOCHS"><a href="#训练模型：10EPOCHS" class="headerlink" title="训练模型：10EPOCHS"></a>训练模型：10EPOCHS</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">history = defaultdict(<span class="built_in">list</span>) <span class="comment"># 记录10轮loss和acc</span></span><br><span class="line">best_accuracy = <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> epoch <span class="keyword">in</span> <span class="built_in">range</span>(EPOCHS):</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&#x27;Epoch <span class="subst">&#123;epoch + <span class="number">1</span>&#125;</span>/<span class="subst">&#123;EPOCHS&#125;</span>&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;-&#x27;</span> * <span class="number">10</span>)</span><br><span class="line"></span><br><span class="line">    train_acc, train_loss = train_epoch(</span><br><span class="line">        model,</span><br><span class="line">        train_data_loader,</span><br><span class="line">        loss_fn,</span><br><span class="line">        optimizer,</span><br><span class="line">        device,</span><br><span class="line">        scheduler,</span><br><span class="line">        <span class="built_in">len</span>(df_train)</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&#x27;Train loss <span class="subst">&#123;train_loss&#125;</span> accuracy <span class="subst">&#123;train_acc&#125;</span>&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    val_acc, val_loss = eval_model(</span><br><span class="line">        model,</span><br><span class="line">        val_data_loader,</span><br><span class="line">        loss_fn,</span><br><span class="line">        device,</span><br><span class="line">        <span class="built_in">len</span>(df_val)</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&#x27;Val   loss <span class="subst">&#123;val_loss&#125;</span> accuracy <span class="subst">&#123;val_acc&#125;</span>&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span>()</span><br><span class="line"></span><br><span class="line">    history[<span class="string">&#x27;train_acc&#x27;</span>].append(train_acc)</span><br><span class="line">    history[<span class="string">&#x27;train_loss&#x27;</span>].append(train_loss)</span><br><span class="line">    history[<span class="string">&#x27;val_acc&#x27;</span>].append(val_acc)</span><br><span class="line">    history[<span class="string">&#x27;val_loss&#x27;</span>].append(val_loss)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> val_acc &gt; best_accuracy:</span><br><span class="line">        torch.save(model.state_dict(), <span class="string">&#x27;best_model_state.bin&#x27;</span>)</span><br><span class="line">        best_accuracy = val_acc</span><br></pre></td></tr></table></figure>
+
+<pre><code>Epoch 1/10
+----------
+Train loss 0.4988938277521757 accuracy 0.8899999999999999
+Val   loss 0.4194765945523977 accuracy 0.9
+
+Epoch 2/10
+----------
+Train loss 0.4967574527254328 accuracy 0.8905555555555555
+Val   loss 0.43736912585794924 accuracy 0.9
+
+Epoch 3/10
+----------
+Train loss 0.49347498720511795 accuracy 0.8905555555555555
+Val   loss 0.41818931301434836 accuracy 0.9
+
+Epoch 4/10
+----------
+Train loss 0.4900011462407807 accuracy 0.8905555555555555
+Val   loss 0.42409916249414287 accuracy 0.9
+
+Epoch 5/10
+----------
+Train loss 0.4952681002088098 accuracy 0.8888888888888888
+Val   loss 0.31909402589624125 accuracy 0.9
+
+Epoch 6/10
+----------
+Train loss 0.2478140213253425 accuracy 0.9463888888888888
+Val   loss 0.1787985412031412 accuracy 0.9666666666666667
+
+Epoch 7/10
+----------
+Train loss 0.17434944392257387 accuracy 0.9677777777777777
+Val   loss 0.15001839348037416 accuracy 0.9700000000000001
+
+Epoch 8/10
+----------
+Train loss 0.12048366091100939 accuracy 0.9775925925925926
+Val   loss 0.11547344802587758 accuracy 0.9783333333333334
+
+Epoch 9/10
+----------
+Train loss 0.10136666681817992 accuracy 0.9813888888888889
+Val   loss 0.10292303454208498 accuracy 0.9800000000000001
+
+Epoch 10/10
+----------
+Train loss 0.08721379442805402 accuracy 0.9831481481481481
+Val   loss 0.12598223814862042 accuracy 0.9766666666666667
+</code></pre>
+<h2 id="准确率绘图"><a href="#准确率绘图" class="headerlink" title="准确率绘图"></a>准确率绘图</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">plt.plot([i.cpu() <span class="keyword">for</span> i <span class="keyword">in</span> history[<span class="string">&#x27;train_acc&#x27;</span>]], label=<span class="string">&#x27;train accuracy&#x27;</span>)</span><br><span class="line">plt.plot([i.cpu() <span class="keyword">for</span> i <span class="keyword">in</span> history[<span class="string">&#x27;val_acc&#x27;</span>]], label=<span class="string">&#x27;validation accuracy&#x27;</span>)</span><br><span class="line"></span><br><span class="line">plt.title(<span class="string">&#x27;Training history&#x27;</span>)</span><br><span class="line">plt.ylabel(<span class="string">&#x27;Accuracy&#x27;</span>)</span><br><span class="line">plt.xlabel(<span class="string">&#x27;Epoch&#x27;</span>)</span><br><span class="line">plt.legend()</span><br><span class="line">plt.ylim([<span class="number">0</span>, <span class="number">1</span>]);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<p><img src="C:\Users\dupeibo\AppData\Roaming\Typora\typora-user-images\1669079408883.png" alt="1669079408883"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">test_acc, _ = eval_model(</span><br><span class="line">  model,</span><br><span class="line">  test_data_loader,</span><br><span class="line">  loss_fn,</span><br><span class="line">  device,</span><br><span class="line">  <span class="built_in">len</span>(df_test)</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">test_acc.item()</span><br></pre></td></tr></table></figure>
+
+
+<pre><code>0.9783333333333334
+</code></pre>
+<h2 id="预测模型"><a href="#预测模型" class="headerlink" title="预测模型"></a>预测模型</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">get_predictions</span>(<span class="params">model, data_loader</span>):</span><br><span class="line">    model = model.<span class="built_in">eval</span>()</span><br><span class="line"></span><br><span class="line">    raw_texts = []</span><br><span class="line">    predictions = []</span><br><span class="line">    prediction_probs = []</span><br><span class="line">    real_values = []</span><br><span class="line"></span><br><span class="line">    <span class="keyword">with</span> torch.no_grad():</span><br><span class="line">        <span class="keyword">for</span> d <span class="keyword">in</span> data_loader:</span><br><span class="line">            texts = d[<span class="string">&quot;texts&quot;</span>]</span><br><span class="line">            input_ids = d[<span class="string">&quot;input_ids&quot;</span>].to(device)</span><br><span class="line">            attention_mask = d[<span class="string">&quot;attention_mask&quot;</span>].to(device)</span><br><span class="line">            targets = d[<span class="string">&quot;labels&quot;</span>].to(device)</span><br><span class="line"></span><br><span class="line">            outputs = model(</span><br><span class="line">                input_ids=input_ids,</span><br><span class="line">                attention_mask=attention_mask</span><br><span class="line">            )</span><br><span class="line">            _, preds = torch.<span class="built_in">max</span>(outputs, dim=<span class="number">1</span>) <span class="comment"># 类别</span></span><br><span class="line"></span><br><span class="line">            probs = F.softmax(outputs, dim=<span class="number">1</span>) <span class="comment"># 概率</span></span><br><span class="line"></span><br><span class="line">            raw_texts.extend(texts)</span><br><span class="line">            predictions.extend(preds)</span><br><span class="line">            prediction_probs.extend(probs)</span><br><span class="line">            real_values.extend(targets)</span><br><span class="line"></span><br><span class="line">    predictions = torch.stack(predictions).cpu()</span><br><span class="line">    prediction_probs = torch.stack(prediction_probs).cpu()</span><br><span class="line">    real_values = torch.stack(real_values).cpu()</span><br><span class="line">    <span class="keyword">return</span> raw_texts, predictions, prediction_probs, real_values</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">y_texts, y_pred, y_pred_probs, y_test = get_predictions(</span><br><span class="line">  model,</span><br><span class="line">  test_data_loader</span><br><span class="line">)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(classification_report(y_test, y_pred, target_names=[<span class="built_in">str</span>(label) <span class="keyword">for</span> label <span class="keyword">in</span> class_names])) <span class="comment"># 分类报告</span></span><br></pre></td></tr></table></figure>
+
+<pre><code>              precision    recall  f1-score   support
+
+           0       0.99      0.99      0.99       554
+           1       0.84      0.89      0.86        46
+
+    accuracy                           0.98       600
+   macro avg       0.91      0.94      0.93       600
+weighted avg       0.98      0.98      0.98       600
+</code></pre>
+<h2 id="查看混淆矩阵"><a href="#查看混淆矩阵" class="headerlink" title="查看混淆矩阵"></a>查看混淆矩阵</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">show_confusion_matrix</span>(<span class="params">confusion_matrix</span>):</span><br><span class="line">    hmap = sns.heatmap(confusion_matrix, annot=<span class="literal">True</span>, fmt=<span class="string">&quot;d&quot;</span>, cmap=<span class="string">&quot;Blues&quot;</span>)</span><br><span class="line">    hmap.yaxis.set_ticklabels(hmap.yaxis.get_ticklabels(), rotation=<span class="number">0</span>, ha=<span class="string">&#x27;right&#x27;</span>)</span><br><span class="line">    hmap.xaxis.set_ticklabels(hmap.xaxis.get_ticklabels(), rotation=<span class="number">30</span>, ha=<span class="string">&#x27;right&#x27;</span>)</span><br><span class="line">    plt.ylabel(<span class="string">&#x27;True label&#x27;</span>)</span><br><span class="line">    plt.xlabel(<span class="string">&#x27;Predicted label&#x27;</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">cm = confusion_matrix(y_test, y_pred)</span><br><span class="line">df_cm = pd.DataFrame(cm, index=class_names, columns=class_names)</span><br><span class="line">show_confusion_matrix(df_cm)</span><br></pre></td></tr></table></figure>
+
+
+<p><img src="C:\Users\dupeibo\AppData\Roaming\Typora\typora-user-images\1669079467197.png" alt="1669079467197">    </p>
+<h2 id="评估单条数据"><a href="#评估单条数据" class="headerlink" title="评估单条数据"></a>评估单条数据</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">idx = <span class="number">2</span></span><br><span class="line"></span><br><span class="line">sample_text = y_texts[idx]</span><br><span class="line">true_label = y_test[idx]</span><br><span class="line">pred_df = pd.DataFrame(&#123;</span><br><span class="line">  <span class="string">&#x27;class_names&#x27;</span>: class_names,</span><br><span class="line">  <span class="string">&#x27;values&#x27;</span>: y_pred_probs[idx]</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pred_d</span><br></pre></td></tr></table></figure>
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+<pre><code>.dataframe tbody tr th &#123;
+    vertical-align: top;
+&#125;
+
+.dataframe thead th &#123;
+    text-align: right;
+&#125;
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>class_names</th>
+      <th>values</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>0.999889</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>0.000111</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="string">&quot;\n&quot;</span>.join(wrap(sample_text)))</span><br><span class="line"><span class="built_in">print</span>()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&#x27;True label: <span class="subst">&#123;class_names[true_label]&#125;</span>&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<pre><code>小A班应急照明灯坏[SEP]商贸服务教文卫类[SEP]消防检查[SEP]防火巡查[SEP]安全出口、疏散通道是否畅通，安全疏散指示标志、应急
+照明是否完好。
+
+True label: 0
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sns.barplot(x=<span class="string">&#x27;values&#x27;</span>, y=<span class="string">&#x27;class_names&#x27;</span>, data=pred_df, orient=<span class="string">&#x27;h&#x27;</span>)</span><br><span class="line">plt.ylabel(<span class="string">&#x27;sentiment&#x27;</span>)</span><br><span class="line">plt.xlabel(<span class="string">&#x27;probability&#x27;</span>)</span><br><span class="line">plt.xlim([<span class="number">0</span>, <span class="number">1</span>]);</span><br></pre></td></tr></table></figure>
+
+
+<p><img src="C:\Users\dupeibo\AppData\Roaming\Typora\typora-user-images\1669079499324.png" alt="1669079499324"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sample_text = <span class="string">&#x27; &#x27;</span></span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">encoded_text = tokenizer.encode_plus(</span><br><span class="line">  sample_text,</span><br><span class="line">  max_length=MAX_LEN,</span><br><span class="line">  add_special_tokens=<span class="literal">True</span>,</span><br><span class="line">  return_token_type_ids=<span class="literal">False</span>,</span><br><span class="line">  pad_to_max_length=<span class="literal">True</span>,</span><br><span class="line">  return_attention_mask=<span class="literal">True</span>,</span><br><span class="line">  return_tensors=<span class="string">&#x27;pt&#x27;</span>,</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">input_ids = encoded_text[<span class="string">&#x27;input_ids&#x27;</span>].to(device)</span><br><span class="line">attention_mask = encoded_text[<span class="string">&#x27;attention_mask&#x27;</span>].to(device)</span><br><span class="line"></span><br><span class="line">output = model(input_ids, attention_mask)</span><br><span class="line">_, prediction = torch.<span class="built_in">max</span>(output, dim=<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&#x27;Sample text: <span class="subst">&#123;sample_text&#125;</span>&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&#x27;Danger label  : <span class="subst">&#123;class_names[prediction]&#125;</span>&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<pre><code>Sample text:  
+Danger label  : 1
+</code></pre>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+          	
+            		<a href="/" rel="tag"><i class="fa fa-tag"></i> </a>
+          	
+            		<a href="/" rel="tag"><i class="fa fa-tag"></i> </a>
+          	
+            		<a href="/" rel="tag"><i class="fa fa-tag"></i> </a>
+          	
+            		<a href="/" rel="tag"><i class="fa fa-tag"></i> </a>
+          	
+            		<a href="/" rel="tag"><i class="fa fa-tag"></i> </a>
+          	
+         </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/posts/55106.html" rel="prev" title="Transformer总结和梳理">
+      <i class="fa fa-chevron-left"></i> Transformer总结和梳理
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/posts/36882.html" rel="next" title="Pre-training">
+      Pre-training <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%BB%E5%8A%A1"><span class="nav-number">1.1.</span> <span class="nav-text">任务</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%AE%80%E4%BB%8B"><span class="nav-number">2.</span> <span class="nav-text">数据简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AF%84%E6%B5%8B%E6%A0%87%E5%87%86"><span class="nav-number">3.</span> <span class="nav-text">评测标准</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%B7%E4%BD%93%E5%AE%9E%E7%8E%B0%E4%BB%A3%E7%A0%81%E5%A6%82%E4%B8%8B%EF%BC%9A"><span class="nav-number">4.</span> <span class="nav-text">具体实现代码如下：</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%BC%E5%85%A5%E6%89%80%E4%BB%A5%E9%9C%80%E8%A6%81%E7%9A%84%E5%8C%85"><span class="nav-number">4.1.</span> <span class="nav-text">导入所以需要的包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E8%AE%BE%E7%BD%AE"><span class="nav-number">4.2.</span> <span class="nav-text">初始化设置</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AF%BB%E5%8F%96%E6%95%B0%E6%8D%AE"><span class="nav-number">5.</span> <span class="nav-text">读取数据</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E6%95%B0%E6%8D%AE%E7%9A%84%E5%BD%A2%E7%8A%B6"><span class="nav-number">5.1.</span> <span class="nav-text">查看数据的形状</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E6%98%AF%E5%90%A6%E5%AD%98%E5%9C%A8%E7%A9%BA%E5%80%BC"><span class="nav-number">5.2.</span> <span class="nav-text">查看是否存在空值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E6%A0%87%E7%AD%BE%E7%9A%84%E5%88%86%E5%B8%83"><span class="nav-number">5.3.</span> <span class="nav-text">查看标签的分布</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86"><span class="nav-number">5.4.</span> <span class="nav-text">数据预处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9%E8%AE%AD%E7%BB%83%E9%9B%86%E5%A4%84%E7%90%86"><span class="nav-number">5.4.1.</span> <span class="nav-text">对训练集处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9%E6%B5%8B%E8%AF%95%E9%9B%86%E5%A4%84%E7%90%86"><span class="nav-number">5.4.2.</span> <span class="nav-text">对测试集处理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E6%9C%AC%E6%8B%BC%E6%8E%A5"><span class="nav-number">5.5.</span> <span class="nav-text">文本拼接</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E7%9A%84%E5%8A%A0%E8%BD%BD%E5%92%8C%E9%85%8D%E7%BD%AE"><span class="nav-number">6.</span> <span class="nav-text">模型的加载和配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#embedding"><span class="nav-number">6.0.1.</span> <span class="nav-text">embedding</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E7%89%B9%E6%AE%8A%E7%9A%84Token"><span class="nav-number">6.0.2.</span> <span class="nav-text">查看特殊的Token</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E5%8D%95%E7%9A%84%E7%BC%96%E7%A0%81%E6%B5%8B%E8%AF%95"><span class="nav-number">6.0.3.</span> <span class="nav-text">简单的编码测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%9A%E8%BF%87%E5%88%86%E6%9E%90%EF%BC%8C%E9%95%BF%E5%BA%A6%E4%B8%80%E8%88%AC%E9%83%BD%E5%9C%A8160%E4%B9%8B%E5%86%85"><span class="nav-number">6.0.4.</span> <span class="nav-text">通过分析，长度一般都在160之内</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%84%E7%90%86%E6%95%B0%E6%8D%AE"><span class="nav-number">6.1.</span> <span class="nav-text">处理数据</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E5%89%B2%E6%95%B0%E6%8D%AE%E9%9B%86"><span class="nav-number">6.1.1.</span> <span class="nav-text">分割数据集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BADataLoader"><span class="nav-number">6.1.2.</span> <span class="nav-text">创建DataLoader</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E8%BE%93%E5%87%BA%E7%BB%93%E6%9E%9C"><span class="nav-number">6.2.</span> <span class="nav-text">查看输出结果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bert%E5%90%8E%E9%9D%A2%E5%8F%88%E6%8E%A5%E4%BA%86%E4%B8%80%E4%B8%AA%E5%85%A8%E8%BF%9E%E6%8E%A5%E5%B1%82"><span class="nav-number">6.3.</span> <span class="nav-text">bert后面又接了一个全连接层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%86%E6%95%B0%E6%8D%AE%E5%92%8C%E6%A8%A1%E5%9E%8B%E9%80%81%E5%88%B0CUDA"><span class="nav-number">6.4.</span> <span class="nav-text">将数据和模型送到CUDA</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BE%97%E5%88%B0%E5%8D%95%E4%B8%AAbatch%E7%9A%84%E8%BE%93%E5%87%BAtoken"><span class="nav-number">6.5.</span> <span class="nav-text">得到单个batch的输出token</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E5%89%8D%E6%9C%9F%E9%85%8D%E7%BD%AE"><span class="nav-number">6.6.</span> <span class="nav-text">训练模型前期配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AE%AD%E7%BB%83"><span class="nav-number">6.7.</span> <span class="nav-text">定义模型的训练</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0%E5%87%BD%E6%95%B0"><span class="nav-number">6.8.</span> <span class="nav-text">模型的评估函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%EF%BC%9A10EPOCHS"><span class="nav-number">6.9.</span> <span class="nav-text">训练模型：10EPOCHS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%86%E7%A1%AE%E7%8E%87%E7%BB%98%E5%9B%BE"><span class="nav-number">6.10.</span> <span class="nav-text">准确率绘图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%84%E6%B5%8B%E6%A8%A1%E5%9E%8B"><span class="nav-number">6.11.</span> <span class="nav-text">预测模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E6%B7%B7%E6%B7%86%E7%9F%A9%E9%98%B5"><span class="nav-number">6.12.</span> <span class="nav-text">查看混淆矩阵</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%84%E4%BC%B0%E5%8D%95%E6%9D%A1%E6%95%B0%E6%8D%AE"><span class="nav-number">6.13.</span> <span class="nav-text">评估单条数据</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">江东</p>
+  <div class="site-description" itemprop="description">热爱生活，努力工作</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">48</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">江东</span>
+</div>
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+-->
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

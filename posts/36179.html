@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"du2279664786.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="使用的是PyAudio库进行录音，存为wav格式的文件，这里使用的是借用科大讯飞API进行语音转文字，然后进行语音播报">
+<meta property="og:type" content="article">
+<meta property="og:title" content="爬虫期末作业：爬虫+基本的天气对话机器人">
+<meta property="og:url" content="https://du2279664786.github.io/posts/36179.html">
+<meta property="og:site_name" content="江东的笔记">
+<meta property="og:description" content="使用的是PyAudio库进行录音，存为wav格式的文件，这里使用的是借用科大讯飞API进行语音转文字，然后进行语音播报">
+<meta property="og:locale">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/17921d845ceb4f5fa903a091e88e43af.png">
+<meta property="article:published_time" content="2021-11-23T14:55:10.000Z">
+<meta property="article:modified_time" content="2022-11-24T06:54:45.719Z">
+<meta property="article:author" content="江东">
+<meta property="article:tag" content="爬虫">
+<meta property="article:tag" content="对话机器人">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/17921d845ceb4f5fa903a091e88e43af.png">
+
+<link rel="canonical" href="https://du2279664786.github.io/posts/36179.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>爬虫期末作业：爬虫+基本的天气对话机器人 | 江东的笔记</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="江东的笔记" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+<a target="_blank" rel="noopener" href="https://github.com/du2279664786" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">江东的笔记</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Be overcome difficulties is victory</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/du2279664786" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://du2279664786.github.io/posts/36179.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="江东">
+      <meta itemprop="description" content="热爱生活，努力工作">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="江东的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          爬虫期末作业：爬虫+基本的天气对话机器人
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-11-23 22:55:10" itemprop="dateCreated datePublished" datetime="2021-11-23T22:55:10+08:00">2021-11-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-11-24 14:54:45" itemprop="dateModified" datetime="2022-11-24T14:54:45+08:00">2022-11-24</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%88%AC%E8%99%AB/" itemprop="url" rel="index"><span itemprop="name">爬虫</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>使用的是PyAudio库进行录音，存为wav格式的文件，这里使用的是借用科大讯飞API进行语音转文字，然后进行语音播报</p>
+<span id="more"></span>
+
+<h2 id="基本思路"><a href="#基本思路" class="headerlink" title="基本思路"></a>基本思路</h2><pre><code>    使用selenium模块来进行谷歌驱动，爬取相关的数据，然后将数据进行处理，利用正则分离数据，然后就是把每个功能包装成一个函数，利用得到的数据，实现存入数据库，以及存入csv等相关功能，还有一个就是数据可视化，先后荣立使用的是matplotlib和Pyecharts两个库，相对于matplotlib而言，Pyecharts做出的数据可视化更加的真实，可以动态交互的展现图表，然后对于语音处理方面，主要分为两个方面，一方面是录音转文字，录音的话，使用的是PyAudio库进行录音，存为wav格式的文件，这里使用的是借用科大讯飞API进行语音转文字，然后进行语音播报，使用的是Pyttsx3进行语音播报，然后可以进行死板式聊天，能力有限，并不能搭建出一套完整的人机对话项目。
+</code></pre>
+<h2 id="关于数据的爬取"><a href="#关于数据的爬取" class="headerlink" title="关于数据的爬取"></a>关于数据的爬取</h2><h3 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h3><pre><code>    爬取是用的谷歌驱动后来又换成了谷歌驱动，爬取前需要安装谷歌驱动[（下载地址)](http://npm.taobao.org/mirrors/chromedriver/)，然后才可以导入，然后就是爬取对应代码里面的spider_jinan()函数和spider_shandong()函数分别爬取
+</code></pre>
+<h3 id="爬取的过程分析"><a href="#爬取的过程分析" class="headerlink" title="爬取的过程分析"></a>爬取的过程分析</h3><pre><code>    用驱动打开浏览器，打开网页，通过xpath找到想要的数据，然后将数据保存为txt文件，最后关闭浏览器
+</code></pre>
+<h2 id="数据可视化"><a href="#数据可视化" class="headerlink" title="数据可视化"></a>数据可视化</h2><pre><code>    使用matplotlib和pyecharts两个画图
+</code></pre>
+<h2 id="数据的保存"><a href="#数据的保存" class="headerlink" title="数据的保存"></a>数据的保存</h2><pre><code>    存入数据库，存入csv
+</code></pre>
+<h2 id="声音处理"><a href="#声音处理" class="headerlink" title="声音处理"></a>声音处理</h2><h3 id="录音及其转文字"><a href="#录音及其转文字" class="headerlink" title="录音及其转文字"></a>录音及其转文字</h3><pre><code>    使用的是PyAudio库，进行录音，设置的讲话时间为4秒，然后把数据保存下来，存成wav文件，然后使用wave库进行读取wav文件，设置声道数为1，采样宽度为2字节，采样率设为16000，最后将读入的文件传输给speech2text(speech, TOKEN, int(1536))函数，speech是数据，TOKEN是借助的API，int（1536）表示的是普通话，补充一下，也可以说英语，传入1737就是英语，传入1637就是粤语，传入1837就是四川话，可以传入多种数据，这里的语音识别，借助的是科大讯飞转的文字，使用科大讯飞前要进行数据的注册，注册之后会生成相应的数据，base_url,APIKey,SecretKey,这三个数据要保证传入正确才能正确的将语音转化成文字
+</code></pre>
+<h3 id="关于语音播报"><a href="#关于语音播报" class="headerlink" title="关于语音播报"></a>关于语音播报</h3><pre><code>    使用的是pyttsx3库，这个播报库使用起来非常的方便，首先用pyttsx3.init()函数进行初始化，然后就是用say（）函数写出要说的内容，最后就是使用runAndWait函数进行播报，一共分为这三个步骤
+</code></pre>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><pre><code>    首先要去[讯飞平台](https://www.xfyun.cn/services/online_tts)注册账号，然后就会获得APIKey和SecretKey，才能进行语音转文字
+</code></pre>
+<p>需填入方可使用</p>
+<p><img src="https://img-blog.csdnimg.cn/17921d845ceb4f5fa903a091e88e43af.png"><br>代码如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br><span class="line">357</span><br><span class="line">358</span><br><span class="line">359</span><br><span class="line">360</span><br><span class="line">361</span><br><span class="line">362</span><br><span class="line">363</span><br><span class="line">364</span><br><span class="line">365</span><br><span class="line">366</span><br><span class="line">367</span><br><span class="line">368</span><br><span class="line">369</span><br><span class="line">370</span><br><span class="line">371</span><br><span class="line">372</span><br><span class="line">373</span><br><span class="line">374</span><br><span class="line">375</span><br><span class="line">376</span><br><span class="line">377</span><br><span class="line">378</span><br><span class="line">379</span><br><span class="line">380</span><br><span class="line">381</span><br><span class="line">382</span><br><span class="line">383</span><br><span class="line">384</span><br><span class="line">385</span><br><span class="line">386</span><br><span class="line">387</span><br><span class="line">388</span><br><span class="line">389</span><br><span class="line">390</span><br><span class="line">391</span><br><span class="line">392</span><br><span class="line">393</span><br><span class="line">394</span><br><span class="line">395</span><br><span class="line">396</span><br><span class="line">397</span><br><span class="line">398</span><br><span class="line">399</span><br><span class="line">400</span><br><span class="line">401</span><br><span class="line">402</span><br><span class="line">403</span><br><span class="line">404</span><br><span class="line">405</span><br><span class="line">406</span><br><span class="line">407</span><br><span class="line">408</span><br><span class="line">409</span><br><span class="line">410</span><br><span class="line">411</span><br><span class="line">412</span><br><span class="line">413</span><br><span class="line">414</span><br><span class="line">415</span><br><span class="line">416</span><br><span class="line">417</span><br><span class="line">418</span><br><span class="line">419</span><br><span class="line">420</span><br><span class="line">421</span><br><span class="line">422</span><br><span class="line">423</span><br><span class="line">424</span><br><span class="line">425</span><br><span class="line">426</span><br><span class="line">427</span><br><span class="line">428</span><br><span class="line">429</span><br><span class="line">430</span><br><span class="line">431</span><br><span class="line">432</span><br><span class="line">433</span><br><span class="line">434</span><br><span class="line">435</span><br><span class="line">436</span><br><span class="line">437</span><br><span class="line">438</span><br><span class="line">439</span><br><span class="line">440</span><br><span class="line">441</span><br><span class="line">442</span><br><span class="line">443</span><br><span class="line">444</span><br><span class="line">445</span><br><span class="line">446</span><br><span class="line">447</span><br><span class="line">448</span><br><span class="line">449</span><br><span class="line">450</span><br><span class="line">451</span><br><span class="line">452</span><br><span class="line">453</span><br><span class="line">454</span><br><span class="line">455</span><br><span class="line">456</span><br><span class="line">457</span><br><span class="line">458</span><br><span class="line">459</span><br><span class="line">460</span><br><span class="line">461</span><br><span class="line">462</span><br><span class="line">463</span><br><span class="line">464</span><br><span class="line">465</span><br><span class="line">466</span><br><span class="line">467</span><br><span class="line">468</span><br><span class="line">469</span><br><span class="line">470</span><br><span class="line">471</span><br><span class="line">472</span><br><span class="line">473</span><br><span class="line">474</span><br><span class="line">475</span><br><span class="line">476</span><br><span class="line">477</span><br><span class="line">478</span><br><span class="line">479</span><br><span class="line">480</span><br><span class="line">481</span><br><span class="line">482</span><br><span class="line">483</span><br><span class="line">484</span><br><span class="line">485</span><br><span class="line">486</span><br><span class="line">487</span><br><span class="line">488</span><br><span class="line">489</span><br><span class="line">490</span><br><span class="line">491</span><br><span class="line">492</span><br><span class="line">493</span><br><span class="line">494</span><br><span class="line">495</span><br><span class="line">496</span><br><span class="line">497</span><br><span class="line">498</span><br><span class="line">499</span><br><span class="line">500</span><br><span class="line">501</span><br><span class="line">502</span><br><span class="line">503</span><br><span class="line">504</span><br><span class="line">505</span><br><span class="line">506</span><br><span class="line">507</span><br><span class="line">508</span><br><span class="line">509</span><br><span class="line">510</span><br><span class="line">511</span><br><span class="line">512</span><br><span class="line">513</span><br><span class="line">514</span><br><span class="line">515</span><br><span class="line">516</span><br><span class="line">517</span><br><span class="line">518</span><br><span class="line">519</span><br><span class="line">520</span><br><span class="line">521</span><br><span class="line">522</span><br><span class="line">523</span><br><span class="line">524</span><br><span class="line">525</span><br><span class="line">526</span><br><span class="line">527</span><br><span class="line">528</span><br><span class="line">529</span><br><span class="line">530</span><br><span class="line">531</span><br><span class="line">532</span><br><span class="line">533</span><br><span class="line">534</span><br><span class="line">535</span><br><span class="line">536</span><br><span class="line">537</span><br><span class="line">538</span><br><span class="line">539</span><br><span class="line">540</span><br><span class="line">541</span><br><span class="line">542</span><br><span class="line">543</span><br><span class="line">544</span><br><span class="line">545</span><br><span class="line">546</span><br><span class="line">547</span><br><span class="line">548</span><br><span class="line">549</span><br><span class="line">550</span><br><span class="line">551</span><br><span class="line">552</span><br><span class="line">553</span><br><span class="line">554</span><br><span class="line">555</span><br><span class="line">556</span><br><span class="line">557</span><br><span class="line">558</span><br><span class="line">559</span><br><span class="line">560</span><br><span class="line">561</span><br><span class="line">562</span><br><span class="line">563</span><br><span class="line">564</span><br><span class="line">565</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="comment"># author:杜小皮</span></span><br><span class="line"><span class="comment"># datetime:2021/6/23 10:41</span></span><br><span class="line"><span class="comment"># software: PyCharm</span></span><br><span class="line"><span class="keyword">import</span> wave</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">from</span> pyaudio <span class="keyword">import</span> PyAudio, paInt16</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">from</span> time <span class="keyword">import</span> sleep</span><br><span class="line"><span class="keyword">import</span> pyttsx3</span><br><span class="line"><span class="keyword">from</span> selenium <span class="keyword">import</span> webdriver</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"><span class="keyword">from</span> wordcloud <span class="keyword">import</span> WordCloud</span><br><span class="line"><span class="keyword">from</span> imageio <span class="keyword">import</span> imread</span><br><span class="line"><span class="keyword">import</span> collections</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> pyecharts</span><br><span class="line"><span class="keyword">from</span> sqlalchemy <span class="keyword">import</span> create_engine</span><br><span class="line"></span><br><span class="line"><span class="comment"># from pyecharts import Pie</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">spider_jinan</span>():  <span class="comment"># 爬取所有数据</span></span><br><span class="line">    js = <span class="string">&quot;var q=document.documentElement.scrollTop=100000&quot;</span></span><br><span class="line"></span><br><span class="line">    driver = webdriver.Chrome()  <span class="comment"># 打开浏览器</span></span><br><span class="line">    driver.maximize_window()  <span class="comment"># 最大化窗口</span></span><br><span class="line"></span><br><span class="line">    url = <span class="string">&#x27;https://www.tianqi.com/jinan/&#x27;</span>  <span class="comment"># 打开网页</span></span><br><span class="line">    driver.get(url)</span><br><span class="line">    content = driver.page_source</span><br><span class="line"></span><br><span class="line">    cl = driver.find_elements_by_xpath(<span class="string">&quot;/html/body/div[5]/div/div[2]/div[1]/span[2]/a[2]/h3&quot;</span>)  <span class="comment"># 查看未来30天</span></span><br><span class="line">    cl[<span class="number">0</span>].click()  <span class="comment"># 此处是根据老师讲的京东代码而写</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">list</span> = driver.find_elements_by_xpath(<span class="string">&quot;/html/body/div[6]/div[2]/ul[1]&quot;</span>)  <span class="comment"># 匹配所有数据</span></span><br><span class="line">    result = <span class="built_in">list</span>[<span class="number">0</span>].text.split(<span class="string">&quot;\n&quot;</span>)</span><br><span class="line">    driver.close()</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">spider_res_jinan</span>(<span class="params">result</span>):  <span class="comment"># 数据的分离</span></span><br><span class="line">    weather = []</span><br><span class="line">    temp = []</span><br><span class="line">    data = []</span><br><span class="line">    month = []</span><br><span class="line">    day = []</span><br><span class="line">    a = <span class="number">1</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> result:</span><br><span class="line">        a += <span class="number">1</span></span><br><span class="line">        <span class="comment"># print(i)</span></span><br><span class="line">        <span class="comment"># print(a)</span></span><br><span class="line">        b = (a % <span class="number">4</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (b == <span class="number">0</span>):</span><br><span class="line">            <span class="comment"># print(i)</span></span><br><span class="line">            weather.append(i)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 利用正则表达式找出温度，日期，天气</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> result:</span><br><span class="line">        <span class="comment"># print(i)</span></span><br><span class="line">        lista = re.findall(<span class="string">&quot;\d&#123;2&#125;-\d&#123;2&#125;&quot;</span>, i)</span><br><span class="line">        <span class="comment"># print(data)</span></span><br><span class="line">        <span class="comment"># print(tem)</span></span><br><span class="line">        tem = re.findall(<span class="string">&quot;\d&#123;2&#125;~\d&#123;2&#125;℃&quot;</span>, i)</span><br><span class="line">        <span class="comment"># print(tem)</span></span><br><span class="line">        <span class="keyword">if</span> tem == []:</span><br><span class="line">            <span class="keyword">del</span> tem</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">for</span> iii <span class="keyword">in</span> tem:</span><br><span class="line">                temp.append(iii)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> lista == []:</span><br><span class="line">            <span class="keyword">del</span> lista</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="comment"># print(data)</span></span><br><span class="line">            <span class="keyword">for</span> ii <span class="keyword">in</span> lista:</span><br><span class="line">                <span class="comment"># print(ii)</span></span><br><span class="line">                data.append(ii)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> data:</span><br><span class="line">            month.append(i.split(<span class="string">&quot;-&quot;</span>)[<span class="number">0</span>])</span><br><span class="line">            day.append(i.split(<span class="string">&quot;-&quot;</span>)[<span class="number">1</span>])</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> weather, temp, data, month, day</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">mean_temp_jinan</span>(<span class="params">temp</span>):  <span class="comment"># 求出未来30天的平均温度</span></span><br><span class="line">    temp_mean = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> temp:</span><br><span class="line">        t = <span class="number">0</span></span><br><span class="line">        <span class="comment"># print(i)</span></span><br><span class="line">        z = re.findall(<span class="string">&quot;\d&#123;2&#125;&quot;</span>, i)</span><br><span class="line">        <span class="keyword">for</span> ii <span class="keyword">in</span> z:</span><br><span class="line">            <span class="comment"># print(ii)</span></span><br><span class="line">            ii = <span class="built_in">int</span>(ii)</span><br><span class="line">            t += ii</span><br><span class="line">        temp_mean.append(t / <span class="number">2</span>)</span><br><span class="line">    <span class="keyword">return</span> temp_mean</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">image_jinan</span>(<span class="params">weather</span>):  <span class="comment"># 画出词云</span></span><br><span class="line">    res = pd.Series()</span><br><span class="line">    res[<span class="string">&quot;weather&quot;</span>] = pd.Series(weather)</span><br><span class="line">    qq = pd.DataFrame(&#123;<span class="string">&quot;天气&quot;</span>: res[<span class="string">&quot;weather&quot;</span>]&#125;)</span><br><span class="line">    qq.to_csv(<span class="string">&quot;E:\\tianqi.txt&quot;</span>, index=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line">    stop = pd.read_csv(<span class="string">&#x27;E:\\tianqi.txt&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>, engine=<span class="string">&#x27;python&#x27;</span>, sep=<span class="string">&#x27;limh&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    back_pic = imread(<span class="string">&quot;E:\\code\\spider\\week8\\word_cloud\\helle.jpg&quot;</span>)  <span class="comment"># aixin.jpg # 设置背景图片</span></span><br><span class="line">    wc = WordCloud(font_path=<span class="string">&#x27;C:\\Windows\\Fonts\\simkai.TTF&#x27;</span>,  <span class="comment"># 设置字体 使用的 windows 自带的字体</span></span><br><span class="line">                   background_color=<span class="string">&quot;white&quot;</span>,  <span class="comment"># =&quot;white&quot;, #背景颜色</span></span><br><span class="line">                   max_words=<span class="number">2000</span>,  <span class="comment"># 词云显示的最大数</span></span><br><span class="line">                   mask=back_pic,  <span class="comment"># 设置背景图片</span></span><br><span class="line">                   max_font_size=<span class="number">200</span>,  <span class="comment"># =200, #字体最大值</span></span><br><span class="line">                   random_state=<span class="number">42</span>,</span><br><span class="line">                   collocations=<span class="literal">True</span>, )</span><br><span class="line"></span><br><span class="line">    tupian = Image.<span class="built_in">open</span>(<span class="string">&quot;E:\\helle.jpg&quot;</span>)  <span class="comment"># 打开图片路径，形成轮廓</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 绘图</span></span><br><span class="line">    plt.figure(figsize=(<span class="number">16</span>, <span class="number">8</span>))</span><br><span class="line">    plt.imshow(tupian)</span><br><span class="line">    plt.axis(<span class="string">&#x27;off&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">temp_to_csv</span>(<span class="params">weather, temp, data</span>):  <span class="comment"># 将数据转存为csv</span></span><br><span class="line">    results = pd.DataFrame()</span><br><span class="line">    res = pd.Series()</span><br><span class="line">    res[<span class="string">&quot;weather&quot;</span>] = pd.Series(weather)</span><br><span class="line">    res[<span class="string">&quot;temp&quot;</span>] = pd.Series(temp)</span><br><span class="line">    res[<span class="string">&quot;data&quot;</span>] = pd.Series(data)</span><br><span class="line">    results.insert(<span class="number">0</span>, <span class="string">&#x27;天气&#x27;</span>, res[<span class="string">&quot;weather&quot;</span>])</span><br><span class="line">    results.insert(<span class="number">0</span>, <span class="string">&#x27;温度&#x27;</span>, res[<span class="string">&quot;temp&quot;</span>])</span><br><span class="line">    results.insert(<span class="number">0</span>, <span class="string">&#x27;日期&#x27;</span>, res[<span class="string">&quot;data&quot;</span>])</span><br><span class="line">    <span class="comment"># print(results)</span></span><br><span class="line">    results.to_csv(<span class="string">&quot;E:\\weather.csv&quot;</span>, index=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">plt_mean_temp_jinan</span>(<span class="params">data, mean__temp</span>):  <span class="comment"># 画平均温度折线图</span></span><br><span class="line">    plt.xlabel(<span class="string">&quot;天气&quot;</span>)</span><br><span class="line">    plt.ylabel(<span class="string">&quot;平均温度&quot;</span>)</span><br><span class="line">    plt.title(<span class="string">&quot;温度变化&quot;</span>)</span><br><span class="line">    plt.plot(data, mean__temp)</span><br><span class="line">    plt.grid(<span class="literal">True</span>)</span><br><span class="line">    plt.show()</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">plt_fer_weather</span>(<span class="params">weather</span>):</span><br><span class="line">    tianqi = []</span><br><span class="line">    pinlv = []</span><br><span class="line">    word_counts = collections.Counter(weather)  <span class="comment"># 对分词做词频统计</span></span><br><span class="line">    word_counts_top10 = word_counts.most_common(<span class="number">10</span>)  <span class="comment"># 获取前10最高频的词</span></span><br><span class="line">    <span class="comment"># print(word_counts_top10)  # 输出检查</span></span><br><span class="line">    sun = <span class="number">0</span></span><br><span class="line">    cloud = <span class="number">0</span></span><br><span class="line">    lit_rain = <span class="number">0</span></span><br><span class="line">    mit_rain = <span class="number">0</span></span><br><span class="line">    sail = <span class="number">0</span></span><br><span class="line">    shadom = <span class="number">0</span></span><br><span class="line">    z_rain = <span class="number">0</span></span><br><span class="line">    th_rain = <span class="number">0</span></span><br><span class="line">    xiaoyu = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> word_counts_top10:</span><br><span class="line">        <span class="built_in">print</span>(i[<span class="number">0</span>])</span><br><span class="line">        <span class="keyword">if</span> i[<span class="number">0</span>] == <span class="string">&#x27;多云&#x27;</span>:</span><br><span class="line">            sun += <span class="number">1</span></span><br><span class="line">        <span class="keyword">elif</span> i[<span class="number">0</span>] == <span class="string">&#x27;阴转雨&#x27;</span>:</span><br><span class="line">            cloud += <span class="number">1</span></span><br><span class="line">        <span class="keyword">elif</span> i[<span class="number">0</span>] == <span class="string">&#x27;多云转晴&#x27;</span>:</span><br><span class="line">            lit_rain += <span class="number">1</span></span><br><span class="line">        <span class="keyword">elif</span> i[<span class="number">0</span>] == <span class="string">&#x27;小雨到大雨&#x27;</span>:</span><br><span class="line">            mit_rain += <span class="number">1</span></span><br><span class="line">        <span class="keyword">elif</span> i[<span class="number">0</span>] == <span class="string">&#x27;中雨到大雨&#x27;</span>:</span><br><span class="line">            shadom += <span class="number">1</span></span><br><span class="line">        <span class="keyword">elif</span> i[<span class="number">0</span>] == <span class="string">&#x27;多云转雨&#x27;</span>:</span><br><span class="line">            z_rain += <span class="number">1</span></span><br><span class="line">        <span class="keyword">elif</span> i[<span class="number">0</span>] == <span class="string">&#x27;小雨到中雨&#x27;</span>:</span><br><span class="line">            th_rain += <span class="number">1</span></span><br><span class="line">        <span class="keyword">elif</span> i[<span class="number">0</span>] == <span class="string">&#x27;小雨转多云&#x27;</span>:</span><br><span class="line">            sail += <span class="number">1</span></span><br><span class="line">        <span class="keyword">elif</span> i[<span class="number">0</span>] == <span class="string">&#x27;小雨转阴&#x27;</span>:</span><br><span class="line">            xiaoyu += <span class="number">1</span></span><br><span class="line">        <span class="comment"># print(i[0])</span></span><br><span class="line">        tianqi = [<span class="string">&quot;小雨转阴&quot;</span>, <span class="string">&#x27;小雨到大雨&#x27;</span>, <span class="string">&#x27;多云转晴&#x27;</span>, <span class="string">&#x27;小雨转多云&#x27;</span>, <span class="string">&#x27;多云&#x27;</span>, <span class="string">&#x27;小雨到中雨&#x27;</span>, <span class="string">&#x27;阴转雨&#x27;</span>, <span class="string">&#x27;中雨到大雨&#x27;</span>, <span class="string">&#x27;多云转雨&#x27;</span>]</span><br><span class="line">    pie = pyecharts.Pie(<span class="string">&quot;山东天气比例&quot;</span>, <span class="string">&#x27;2020-7-11&#x27;</span>)</span><br><span class="line">    pie.add(<span class="string">&#x27;天气类型&#x27;</span>, tianqi, [xiaoyu, mit_rain, lit_rain, sail, sun, th_rain, cloud, shadom, z_rain], is_label_show=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">    pie = pyecharts.Pie(<span class="string">&quot;全国天气类型比例&quot;</span>, <span class="string">&#x27;2018-4-16&#x27;</span>)</span><br><span class="line">    pie.render(<span class="string">&#x27;C:\\Users\\dupeibo\\Desktop\\未来30天天气概况.html&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">spider_shandong</span>():</span><br><span class="line">    city = []</span><br><span class="line">    temp = []</span><br><span class="line">    weather = []</span><br><span class="line">    js = <span class="string">&quot;var q=document.documentElement.scrollTop=100000&quot;</span></span><br><span class="line"></span><br><span class="line">    driver = webdriver.Chrome()  <span class="comment"># 打开浏览器</span></span><br><span class="line">    driver.maximize_window()  <span class="comment"># 最大化窗口</span></span><br><span class="line"></span><br><span class="line">    url = <span class="string">&#x27;https://www.tianqi.com/province/shandong/&#x27;</span>  <span class="comment"># 打开网页</span></span><br><span class="line">    driver.get(url)</span><br><span class="line">    content = driver.page_source</span><br><span class="line"></span><br><span class="line">    <span class="built_in">list</span> = driver.find_elements_by_xpath(<span class="string">&quot;/html/body/div[7]/div[1]/div[5]/ul&quot;</span>)  <span class="comment"># 山东数据</span></span><br><span class="line">    result = <span class="built_in">list</span>[<span class="number">0</span>].text.split(<span class="string">&quot;\n&quot;</span>)</span><br><span class="line">    driver.close()</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">shandong_data</span>(<span class="params">result</span>):  <span class="comment"># 爬取山东数据并分离</span></span><br><span class="line">    city = []</span><br><span class="line">    temp = []</span><br><span class="line">    weather = []</span><br><span class="line">    max_temp = []</span><br><span class="line">    min_temp = []</span><br><span class="line">    a = <span class="number">2</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> result:  <span class="comment"># 求出每个城市的天气</span></span><br><span class="line">        a += <span class="number">1</span></span><br><span class="line">        <span class="comment"># print(i)</span></span><br><span class="line">        <span class="comment"># print(a)</span></span><br><span class="line">        b = (a % <span class="number">4</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (b == <span class="number">0</span>):</span><br><span class="line">            <span class="comment"># print(i)</span></span><br><span class="line">            weather.append(i)</span><br><span class="line"></span><br><span class="line">    a = <span class="number">3</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> result:  <span class="comment"># 求出山东的城市</span></span><br><span class="line">        a += <span class="number">1</span></span><br><span class="line">        <span class="comment"># print(i)</span></span><br><span class="line">        <span class="comment"># print(a)</span></span><br><span class="line">        b = (a % <span class="number">4</span>)</span><br><span class="line">        <span class="keyword">if</span> (b == <span class="number">0</span>):</span><br><span class="line">            <span class="comment"># print(i)</span></span><br><span class="line">            city.append(i)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> result:  <span class="comment"># 求出每个城市的温度</span></span><br><span class="line">        tem = re.findall(<span class="string">&#x27;\d&#123;2&#125; ~ \d&#123;2&#125;℃&#x27;</span>, i)</span><br><span class="line">        <span class="comment"># print(tem)</span></span><br><span class="line">        <span class="keyword">if</span> tem == []:</span><br><span class="line">            <span class="keyword">del</span> tem</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">for</span> iii <span class="keyword">in</span> tem:</span><br><span class="line">                temp.append(iii)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> temp:  <span class="comment"># 求出温度的最大值和最小值</span></span><br><span class="line">        t = <span class="number">0</span></span><br><span class="line">        <span class="comment"># print(i)</span></span><br><span class="line">        z = re.findall(<span class="string">&quot;\d&#123;2&#125;&quot;</span>, i)</span><br><span class="line">        <span class="comment"># print(z[0])</span></span><br><span class="line">        min_temp.append(z[<span class="number">0</span>])</span><br><span class="line">        max_temp.append(z[<span class="number">1</span>])</span><br><span class="line">    <span class="keyword">return</span> city, temp, weather, max_temp, min_temp</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">shandong_Parallel</span>(<span class="params">city, max_temp, min_temp</span>):</span><br><span class="line">    parallel = pyecharts.Parallel(<span class="string">&quot;高低温度的平行坐标系图&quot;</span>, <span class="string">&quot;2021-7-13&quot;</span>, width=<span class="number">1200</span>,</span><br><span class="line">                                  height=<span class="number">600</span>)</span><br><span class="line">    parallel.config(city)</span><br><span class="line">    parallel.add(<span class="string">&quot;高低温&quot;</span>, [max_temp, min_temp], is_random=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">    parallel.render(<span class="string">&#x27;C:\\Users\\dupeibo\\Desktop\\山东温度分析.html&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">jinan_to_sql</span>(<span class="params">weather, temp, data</span>):</span><br><span class="line">    <span class="comment"># result = spider_jinan()</span></span><br><span class="line">    <span class="comment"># weather, temp, data = spider_res_jinan(result)</span></span><br><span class="line">    results = pd.DataFrame()</span><br><span class="line">    res = pd.Series()</span><br><span class="line">    res[<span class="string">&quot;weather&quot;</span>] = pd.Series(weather)</span><br><span class="line">    res[<span class="string">&quot;temp&quot;</span>] = pd.Series(temp)</span><br><span class="line">    res[<span class="string">&quot;data&quot;</span>] = pd.Series(data)</span><br><span class="line">    results.insert(<span class="number">0</span>, <span class="string">&#x27;天气&#x27;</span>, res[<span class="string">&quot;weather&quot;</span>])</span><br><span class="line">    results.insert(<span class="number">0</span>, <span class="string">&#x27;温度&#x27;</span>, res[<span class="string">&quot;temp&quot;</span>])</span><br><span class="line">    results.insert(<span class="number">0</span>, <span class="string">&#x27;日期&#x27;</span>, res[<span class="string">&quot;data&quot;</span>])</span><br><span class="line">    <span class="comment"># print(results)</span></span><br><span class="line">    conn = create_engine(<span class="string">&#x27;mysql+pymysql://root:dpb238031@localhost:3306/weather?charset=utf8&#x27;</span>)</span><br><span class="line">    sql = <span class="string">&#x27;select * from runoob_tbl&#x27;</span></span><br><span class="line">    rub = pd.read_sql(sql, conn)</span><br><span class="line">    results.to_sql(name=<span class="string">&#x27;jinan_weather&#x27;</span>, con=conn, if_exists=<span class="string">&#x27;append&#x27;</span>, index=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">shandong_to_sql</span>(<span class="params">city, weather, min_temp, max_temp</span>):</span><br><span class="line">    <span class="comment"># result = spider_shandong()</span></span><br><span class="line">    <span class="comment"># city, temp, weather, max_temp, min_temp = shandong_data(result)</span></span><br><span class="line">    results = pd.DataFrame()</span><br><span class="line">    res = pd.Series()</span><br><span class="line">    res[<span class="string">&quot;city&quot;</span>] = pd.Series(city)</span><br><span class="line">    res[<span class="string">&quot;weather&quot;</span>] = pd.Series(weather)</span><br><span class="line">    res[<span class="string">&quot;max_temp&quot;</span>] = pd.Series(max_temp)</span><br><span class="line">    res[<span class="string">&quot;min_temp&quot;</span>] = pd.Series(min_temp)</span><br><span class="line">    results.insert(<span class="number">0</span>, <span class="string">&#x27;城市&#x27;</span>, res[<span class="string">&quot;city&quot;</span>])</span><br><span class="line">    results.insert(<span class="number">0</span>, <span class="string">&#x27;天气&#x27;</span>, res[<span class="string">&quot;weather&quot;</span>])</span><br><span class="line">    results.insert(<span class="number">0</span>, <span class="string">&#x27;最低温&#x27;</span>, res[<span class="string">&quot;min_temp&quot;</span>])</span><br><span class="line">    results.insert(<span class="number">0</span>, <span class="string">&#x27;最高温&#x27;</span>, res[<span class="string">&quot;max_temp&quot;</span>])</span><br><span class="line">    conn = create_engine(<span class="string">&#x27;mysql+pymysql://root:dpb238031@localhost:3306/weather?charset=utf8&#x27;</span>)</span><br><span class="line">    <span class="comment"># sql = &#x27;select * from runoob_tbl&#x27;</span></span><br><span class="line">    <span class="comment"># rub = pd.read_sql(sql, conn)</span></span><br><span class="line">    results.to_sql(name=<span class="string">&#x27;shandong_weather&#x27;</span>, con=conn, if_exists=<span class="string">&#x27;append&#x27;</span>, index=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">audio</span>(<span class="params">exam, weather, temp, month, day</span>):</span><br><span class="line">    <span class="comment"># put = input(&quot;请输入要查看的信息，例如：今天，明天，后天&quot;)</span></span><br><span class="line">    <span class="keyword">if</span> exam == <span class="string">&quot;今天&quot;</span>:</span><br><span class="line">        pt = pyttsx3.init()</span><br><span class="line">        pt.say(<span class="string">&quot;今天是：&quot;</span> + month[<span class="number">0</span>] + <span class="string">&quot;月&quot;</span> + day[<span class="number">1</span>] + <span class="string">&quot;日\n\n&quot;</span> + <span class="string">&quot;今天的天气是\n&quot;</span> + weather[<span class="number">0</span>] + <span class="string">&quot;\n\n今天的气温是&quot;</span> + temp[<span class="number">0</span>])</span><br><span class="line">        pt.runAndWait()</span><br><span class="line">        <span class="comment"># print(&quot;天气：&quot; + weather[0] + &quot; ，温度为：&quot; + temp[0] + &quot; ，日期：&quot; + data[0])</span></span><br><span class="line">    <span class="keyword">elif</span> exam == <span class="string">&quot;明天&quot;</span>:</span><br><span class="line">        pt = pyttsx3.init()</span><br><span class="line">        pt.say(<span class="string">&quot;明天是：&quot;</span> + month[<span class="number">1</span>] + <span class="string">&quot;月&quot;</span> + day[<span class="number">1</span>] + <span class="string">&quot;日\n\n&quot;</span> + <span class="string">&quot;明天的天气是\n&quot;</span> + weather[<span class="number">1</span>] + <span class="string">&quot;\n\n明天的气温是&quot;</span> + temp[<span class="number">1</span>])</span><br><span class="line">        pt.runAndWait()</span><br><span class="line">    <span class="keyword">elif</span> exam == <span class="string">&quot;后天&quot;</span>:</span><br><span class="line">        pt = pyttsx3.init()</span><br><span class="line">        pt.say(<span class="string">&quot;后天是：&quot;</span> + month[<span class="number">2</span>] + <span class="string">&quot;月&quot;</span> + day[<span class="number">1</span>] + <span class="string">&quot;日\n\n&quot;</span> + <span class="string">&quot;后天的天气是\n&quot;</span> + weather[<span class="number">2</span>] + <span class="string">&quot;\n\n后天的气温是&quot;</span> + temp[<span class="number">2</span>])</span><br><span class="line">        pt.runAndWait()</span><br><span class="line">    <span class="keyword">elif</span> exam == <span class="string">&quot;大后天&quot;</span>:</span><br><span class="line">        pt = pyttsx3.init()</span><br><span class="line">        pt.say(<span class="string">&quot;大后天是：&quot;</span> + month[<span class="number">3</span>] + <span class="string">&quot;月&quot;</span> + day[<span class="number">1</span>] + <span class="string">&quot;日\n\n&quot;</span> + <span class="string">&quot;大后天的天气是\n&quot;</span> + weather[<span class="number">3</span>] + <span class="string">&quot;\n\n大后天的气温是&quot;</span> + temp[<span class="number">3</span>])</span><br><span class="line">        pt.runAndWait()</span><br><span class="line"></span><br><span class="line">framerate = <span class="number">16000</span>  <span class="comment"># 采样率</span></span><br><span class="line">num_samples = <span class="number">2000</span>  <span class="comment"># 采样点</span></span><br><span class="line">channels = <span class="number">1</span>  <span class="comment"># 声道</span></span><br><span class="line">sampwidth = <span class="number">2</span>  <span class="comment"># 采样宽度2bytes</span></span><br><span class="line">FILEPATH = <span class="string">&#x27;speech.wav&#x27;</span></span><br><span class="line"></span><br><span class="line">base_url = <span class="string">&quot;https://openapi.baidu.com/oauth/2.0/token?grant_type=client_credentials&amp;client_id=%s&amp;client_secret=%s&quot;</span></span><br><span class="line">APIKey = <span class="string">&quot;注册的APIKey&quot;</span></span><br><span class="line">SecretKey = <span class="string">&quot;注册的SecretKey&quot;</span></span><br><span class="line"></span><br><span class="line">HOST = base_url % (APIKey, SecretKey)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">getToken</span>(<span class="params">host</span>):</span><br><span class="line">    res = requests.post(host)</span><br><span class="line">    <span class="keyword">return</span> res.json()[<span class="string">&#x27;access_token&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">save_wave_file</span>(<span class="params">filepath, data</span>):</span><br><span class="line">    wf = wave.<span class="built_in">open</span>(filepath, <span class="string">&#x27;wb&#x27;</span>)</span><br><span class="line">    wf.setnchannels(channels)   <span class="comment">#声道数</span></span><br><span class="line">    wf.setsampwidth(sampwidth)    <span class="comment">#采样宽度2bytes</span></span><br><span class="line">    wf.setframerate(framerate)    <span class="comment"># 采样率</span></span><br><span class="line">    wf.writeframes(<span class="string">b&#x27;&#x27;</span>.join(data))</span><br><span class="line">    wf.close()</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">my_record</span>():     <span class="comment">#录音函数</span></span><br><span class="line">    pa = PyAudio()</span><br><span class="line">    stream = pa.<span class="built_in">open</span>(<span class="built_in">format</span>=paInt16, channels=channels,</span><br><span class="line">                     rate=framerate, <span class="built_in">input</span>=<span class="literal">True</span>, frames_per_buffer=num_samples)</span><br><span class="line">    my_buf = []</span><br><span class="line">    <span class="comment"># count = 0</span></span><br><span class="line">    t = time.time()</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;请讲话...&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> time.time() &lt; t + <span class="number">4</span>:  <span class="comment"># 秒</span></span><br><span class="line">        string_audio_data = stream.read(num_samples)</span><br><span class="line">        my_buf.append(string_audio_data)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;录音结束.&#x27;</span>)</span><br><span class="line">    save_wave_file(FILEPATH, my_buf)</span><br><span class="line">    stream.close()</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_audio</span>(<span class="params">file</span>):</span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(file, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        data = f.read()</span><br><span class="line">    <span class="keyword">return</span> data</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">speech2text</span>(<span class="params">speech_data, token, dev_pid=<span class="number">1537</span></span>):</span><br><span class="line">    FORMAT = <span class="string">&#x27;wav&#x27;</span></span><br><span class="line">    RATE = <span class="string">&#x27;16000&#x27;</span></span><br><span class="line">    CHANNEL = <span class="number">1</span></span><br><span class="line">    CUID = <span class="string">&#x27;24422381&#x27;</span></span><br><span class="line">    SPEECH = base64.b64encode(speech_data).decode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    data = &#123;</span><br><span class="line">        <span class="string">&#x27;format&#x27;</span>: FORMAT,</span><br><span class="line">        <span class="string">&#x27;rate&#x27;</span>: RATE,</span><br><span class="line">        <span class="string">&#x27;channel&#x27;</span>: CHANNEL,</span><br><span class="line">        <span class="string">&#x27;cuid&#x27;</span>: CUID,</span><br><span class="line">        <span class="string">&#x27;len&#x27;</span>: <span class="built_in">len</span>(speech_data),</span><br><span class="line">        <span class="string">&#x27;speech&#x27;</span>: SPEECH,</span><br><span class="line">        <span class="string">&#x27;token&#x27;</span>: token,</span><br><span class="line">        <span class="string">&#x27;dev_pid&#x27;</span>: dev_pid</span><br><span class="line">    &#125;</span><br><span class="line">    url = <span class="string">&#x27;https://vop.baidu.com/server_api&#x27;</span></span><br><span class="line">    headers = &#123;<span class="string">&#x27;Content-Type&#x27;</span>: <span class="string">&#x27;application/json&#x27;</span>&#125;</span><br><span class="line">    <span class="comment"># r=requests.post(url,data=json.dumps(data),headers=headers)</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;正在识别...&#x27;</span>)</span><br><span class="line">    r = requests.post(url, json=data, headers=headers)</span><br><span class="line">    Result = r.json()</span><br><span class="line">    <span class="keyword">if</span> <span class="string">&#x27;result&#x27;</span> <span class="keyword">in</span> Result:</span><br><span class="line">        <span class="keyword">return</span> Result[<span class="string">&#x27;result&#x27;</span>][<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> Result</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    flag = <span class="string">&#x27;重新开始&#x27;</span></span><br><span class="line">    <span class="keyword">while</span> flag.lower() == <span class="string">&#x27;重新开始&#x27;</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;您是要查看&#x27;济南天气&#x27;还是&#x27;山东所有城市的天气&#x27;？&quot;</span>)</span><br><span class="line">        pt = pyttsx3.init()</span><br><span class="line">        pt.say(<span class="string">&quot;您是要查看济南天气还是山东所有城市的天气？&quot;</span>)</span><br><span class="line">        pt.runAndWait()</span><br><span class="line">        sleep(<span class="number">2</span>)</span><br><span class="line">        <span class="comment"># print(&#x27;请输入数字选择语言：&#x27;)</span></span><br><span class="line">        <span class="comment"># devpid = input(&#x27;1536：普通话(简单英文),1537:普通话(有标点),1737:英语,1637:粤语,1837:四川话\n&#x27;)</span></span><br><span class="line">        my_record()</span><br><span class="line">        TOKEN = getToken(HOST)</span><br><span class="line">        speech = get_audio(FILEPATH)</span><br><span class="line">        result = speech2text(speech, TOKEN, <span class="built_in">int</span>(<span class="number">1536</span>))</span><br><span class="line">        sleep(<span class="number">2</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;识别结果：&quot;</span> + result)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;开始收集数据....&quot;</span>)</span><br><span class="line">        sleep(<span class="number">2</span>)</span><br><span class="line">        <span class="comment"># abc = &quot;返回上一级&quot;</span></span><br><span class="line">        <span class="keyword">if</span> result == <span class="string">&quot;济南天气&quot;</span>:</span><br><span class="line">            <span class="comment"># while abc == &quot;返回上一级&quot;:</span></span><br><span class="line">            result = spider_jinan()</span><br><span class="line">            weather, temp, data, month, day = spider_res_jinan(result)</span><br><span class="line">            mean__temp = mean_temp_jinan(temp)</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;目前有的功能\n\n查看最近天气\n查看未来30天的温度\n画出天气词云\n平均温度折线图\n保存数据\n查看未来天气类型\n将数据存入数据库\n\n请选择你要使用的功能&quot;</span>)</span><br><span class="line">            <span class="comment"># print(&quot;查看最近天气\n查看未来30天的温度\n画出天气词云\n画平均温度折线图\n保存数据\n画出柱状图&quot;)</span></span><br><span class="line">            pt = pyttsx3.init()</span><br><span class="line">            pt.say(<span class="string">&quot;\n\n\n\n\n\n\n目前有的功能\n\n查看最近天气\n查看未来30天的温度\n画出天气词云\n平均温度折线图\n保存数据\n查看未来天气类型\n将数据存入数据库\n\n请选择你要使用的功能&quot;</span>)</span><br><span class="line">            pt.runAndWait()</span><br><span class="line">            my_record()</span><br><span class="line">            <span class="comment"># sleep(2)</span></span><br><span class="line">            TOKEN = getToken(HOST)</span><br><span class="line">            speech = get_audio(FILEPATH)</span><br><span class="line">            func = speech2text(speech, TOKEN, <span class="built_in">int</span>(<span class="number">1536</span>))</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;识别结果:&quot;</span> + func)</span><br><span class="line">            sleep(<span class="number">2</span>)</span><br><span class="line">            <span class="comment"># func = input()</span></span><br><span class="line">            <span class="keyword">if</span> func == <span class="string">&quot;查看最近天气&quot;</span>:</span><br><span class="line">                <span class="comment"># exam = input(&quot;请输入要查看的信息，例如：今天，明天，后天，大后天&quot;)</span></span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;请输入要查看的信息，例如：今天，明天，后天，大后天&quot;</span>)</span><br><span class="line">                pt = pyttsx3.init()</span><br><span class="line">                pt.say(<span class="string">&quot;请输入要查看的信息，例如：今天，明天，后天，大后天&quot;</span>)</span><br><span class="line">                pt.runAndWait()</span><br><span class="line">                my_record()</span><br><span class="line">                TOKEN = getToken(HOST)</span><br><span class="line">                speech = get_audio(FILEPATH)</span><br><span class="line">                apple = speech2text(speech, TOKEN, <span class="built_in">int</span>(<span class="number">1536</span>))</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;识别结果：&quot;</span> + apple)</span><br><span class="line">                audio(apple, weather, temp, month, day)</span><br><span class="line">                pt1 = pyttsx3.init()</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;重新开始还是退出？&quot;</span>)</span><br><span class="line">                pt1.say(<span class="string">&quot;是否重新开始还是退出？&quot;</span>)</span><br><span class="line">                pt1.runAndWait()</span><br><span class="line">                my_record()</span><br><span class="line">                <span class="comment"># sleep(2)</span></span><br><span class="line">                TOKEN = getToken(HOST)</span><br><span class="line">                speech = get_audio(FILEPATH)</span><br><span class="line">                flag = speech2text(speech, TOKEN, <span class="built_in">int</span>(<span class="number">1536</span>))</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;识别结果：&quot;</span> + flag)</span><br><span class="line">            <span class="keyword">elif</span> func == <span class="string">&quot;查看未来三十天的温度&quot;</span>:</span><br><span class="line">                mean__temp = mean_temp_jinan(temp)</span><br><span class="line">                plt_mean_temp_jinan(data, mean__temp)</span><br><span class="line">                pt = pyttsx3.init()</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;重新开始还是退出？&quot;</span>)</span><br><span class="line">                pt.say(<span class="string">&quot;是否重新开始还是退出？&quot;</span>)</span><br><span class="line">                pt.runAndWait()</span><br><span class="line">                my_record()</span><br><span class="line">                <span class="comment"># sleep(2)</span></span><br><span class="line">                TOKEN = getToken(HOST)</span><br><span class="line">                speech = get_audio(FILEPATH)</span><br><span class="line">                flag = speech2text(speech, TOKEN, <span class="built_in">int</span>(<span class="number">1536</span>))</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;识别结果：&quot;</span> + flag)</span><br><span class="line">            <span class="keyword">elif</span> func == <span class="string">&quot;画出天气词云&quot;</span>:</span><br><span class="line">                image_jinan(weather)</span><br><span class="line">                <span class="comment"># os.system(&quot;E:\\code\\spider\\week8\\word_cloud\\bodies.png&quot;)</span></span><br><span class="line">                pt = pyttsx3.init()</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;重新开始还是退出？&quot;</span>)</span><br><span class="line">                pt.say(<span class="string">&quot;是否重新开始还是退出？&quot;</span>)</span><br><span class="line">                pt.runAndWait()</span><br><span class="line">                my_record()</span><br><span class="line">                <span class="comment"># sleep(2)</span></span><br><span class="line">                TOKEN = getToken(HOST)</span><br><span class="line">                speech = get_audio(FILEPATH)</span><br><span class="line">                flag = speech2text(speech, TOKEN, <span class="built_in">int</span>(<span class="number">1536</span>))</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;识别结果：&quot;</span> + flag)</span><br><span class="line">            <span class="keyword">elif</span> func == <span class="string">&quot;平均温度折线图&quot;</span>:</span><br><span class="line">                plt_mean_temp_jinan(data, mean__temp)</span><br><span class="line">                pt = pyttsx3.init()</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;重新开始还是退出？&quot;</span>)</span><br><span class="line">                pt.say(<span class="string">&quot;重新开始还是退出？&quot;</span>)</span><br><span class="line">                pt.runAndWait()</span><br><span class="line">                my_record()</span><br><span class="line">                <span class="comment"># sleep(2)</span></span><br><span class="line">                TOKEN = getToken(HOST)</span><br><span class="line">                speech = get_audio(FILEPATH)</span><br><span class="line">                flag = speech2text(speech, TOKEN, <span class="built_in">int</span>(<span class="number">1536</span>))</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;识别结果：&quot;</span> + flag)</span><br><span class="line">            <span class="keyword">elif</span> func == <span class="string">&quot;保存数据&quot;</span>:</span><br><span class="line">                temp_to_csv(weather, temp, data)</span><br><span class="line">                <span class="comment"># print(&quot;csv文件保存成功&quot;)</span></span><br><span class="line">                pt = pyttsx3.init()</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;重新开始还是退出？&quot;</span>)</span><br><span class="line">                pt.say(<span class="string">&quot;重新开始还是退出？&quot;</span>)</span><br><span class="line">                pt.runAndWait()</span><br><span class="line">                my_record()</span><br><span class="line">                <span class="comment"># sleep(2)</span></span><br><span class="line">                TOKEN = getToken(HOST)</span><br><span class="line">                speech = get_audio(FILEPATH)</span><br><span class="line">                flag = speech2text(speech, TOKEN, <span class="built_in">int</span>(<span class="number">1536</span>))</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;识别结果：&quot;</span> + flag)</span><br><span class="line">            <span class="keyword">elif</span> func == <span class="string">&quot;查看未来天气类型&quot;</span>:</span><br><span class="line">                plt_fer_weather(weather)</span><br><span class="line">                os.system(<span class="string">&#x27;C:\\Users\\dupeibo\\Desktop\\未来30天天气概况.html&#x27;</span>)</span><br><span class="line">                pt = pyttsx3.init()</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;重新开始还是退出？&quot;</span>)</span><br><span class="line">                pt.say(<span class="string">&quot;重新开始还是退出？&quot;</span>)</span><br><span class="line">                pt.runAndWait()</span><br><span class="line">                my_record()</span><br><span class="line">                <span class="comment"># sleep(2)</span></span><br><span class="line">                TOKEN = getToken(HOST)</span><br><span class="line">                speech = get_audio(FILEPATH)</span><br><span class="line">                flag = speech2text(speech, TOKEN, <span class="built_in">int</span>(<span class="number">1536</span>))</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;识别结果：&quot;</span> + flag)</span><br><span class="line">            <span class="keyword">elif</span> func == <span class="string">&quot;将数据存入数据库&quot;</span>:</span><br><span class="line">                jinan_to_sql(weather, temp, data)</span><br><span class="line">                pt = pyttsx3.init()</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;重新开始还是退出？&quot;</span>)</span><br><span class="line">                pt.say(<span class="string">&quot;数据库保存成功\n\n重新开始还是退出？&quot;</span>)</span><br><span class="line">                pt.runAndWait()</span><br><span class="line">                my_record()</span><br><span class="line">                <span class="comment"># sleep(2)</span></span><br><span class="line">                TOKEN = getToken(HOST)</span><br><span class="line">                speech = get_audio(FILEPATH)</span><br><span class="line">                flag = speech2text(speech, TOKEN, <span class="built_in">int</span>(<span class="number">1536</span>))</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;识别结果：&quot;</span> + flag)</span><br><span class="line">                <span class="comment"># print(&quot;数据库保存成功&quot;)</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">elif</span> result == <span class="string">&quot;山东所有城市的天气&quot;</span>:</span><br><span class="line">            result = spider_shandong()</span><br><span class="line">            city, temp, weather, max_temp, min_temp = shandong_data(result)</span><br><span class="line">            pt = pyttsx3.init()</span><br><span class="line">            sleep(<span class="number">3</span>)</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;目前有的功能\n\n\n查看各城市天气状况\n将数据存入数据库&quot;</span>)</span><br><span class="line">            pt.say(<span class="string">&quot;目前有的功能\n\n\n查看各城市天气状况\n将数据存入数据库&quot;</span>)</span><br><span class="line">            pt.runAndWait()</span><br><span class="line">            my_record()</span><br><span class="line">            sleep(<span class="number">2</span>)</span><br><span class="line">            TOKEN = getToken(HOST)</span><br><span class="line">            speech = get_audio(FILEPATH)</span><br><span class="line">            fun2 = speech2text(speech, TOKEN, <span class="built_in">int</span>(<span class="number">1536</span>))</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;识别结果：&quot;</span> + fun2)</span><br><span class="line">            <span class="keyword">if</span> fun2 == <span class="string">&quot;查看各城市天气状况&quot;</span>:</span><br><span class="line">                <span class="comment"># shandong_Parallel(city, max_temp, min_temp)</span></span><br><span class="line">                os.system(<span class="string">&quot;C:\\Users\\dupeibo\\Desktop\\山东温度分析.html&quot;</span>)</span><br><span class="line">                pt = pyttsx3.init()</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;重新开始还是退出？&quot;</span>)</span><br><span class="line">                pt.say(<span class="string">&quot;重新开始还是退出？&quot;</span>)</span><br><span class="line">                pt.runAndWait()</span><br><span class="line">                my_record()</span><br><span class="line">                <span class="comment"># sleep(2)</span></span><br><span class="line">                TOKEN = getToken(HOST)</span><br><span class="line">                speech = get_audio(FILEPATH)</span><br><span class="line">                flag = speech2text(speech, TOKEN, <span class="built_in">int</span>(<span class="number">1536</span>))</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;识别结果：&quot;</span> + flag)</span><br><span class="line">            <span class="keyword">elif</span> fun2 == <span class="string">&quot;将数据存入数据库&quot;</span>:</span><br><span class="line">                shandong_to_sql(city, weather, min_temp, max_temp)</span><br><span class="line">                pt = pyttsx3.init()</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;重新开始还是退出？&quot;</span>)</span><br><span class="line">                pt.say(<span class="string">&quot;重新开始还是退出？&quot;</span>)</span><br><span class="line">                pt.runAndWait()</span><br><span class="line">                my_record()</span><br><span class="line">                <span class="comment"># sleep(2)</span></span><br><span class="line">                TOKEN = getToken(HOST)</span><br><span class="line">                speech = get_audio(FILEPATH)</span><br><span class="line">                flag = speech2text(speech, TOKEN, <span class="built_in">int</span>(<span class="number">1536</span>))</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;识别结果：&quot;</span> + flag)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+          	
+            		<a href="/" rel="tag"><i class="fa fa-tag"></i> </a>
+          	
+            		<a href="/" rel="tag"><i class="fa fa-tag"></i> </a>
+          	
+         </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/posts/46659.html" rel="prev" title="爬虫实现百度贴吧的图片爬取">
+      <i class="fa fa-chevron-left"></i> 爬虫实现百度贴吧的图片爬取
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/posts/6532.html" rel="next" title="Kmeans算法提升">
+      Kmeans算法提升 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%80%9D%E8%B7%AF"><span class="nav-number">1.</span> <span class="nav-text">基本思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E6%95%B0%E6%8D%AE%E7%9A%84%E7%88%AC%E5%8F%96"><span class="nav-number">2.</span> <span class="nav-text">关于数据的爬取</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="nav-number">2.1.</span> <span class="nav-text">基础知识</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%88%AC%E5%8F%96%E7%9A%84%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90"><span class="nav-number">2.2.</span> <span class="nav-text">爬取的过程分析</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96"><span class="nav-number">3.</span> <span class="nav-text">数据可视化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%9A%84%E4%BF%9D%E5%AD%98"><span class="nav-number">4.</span> <span class="nav-text">数据的保存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A3%B0%E9%9F%B3%E5%A4%84%E7%90%86"><span class="nav-number">5.</span> <span class="nav-text">声音处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BD%95%E9%9F%B3%E5%8F%8A%E5%85%B6%E8%BD%AC%E6%96%87%E5%AD%97"><span class="nav-number">5.1.</span> <span class="nav-text">录音及其转文字</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E8%AF%AD%E9%9F%B3%E6%92%AD%E6%8A%A5"><span class="nav-number">5.2.</span> <span class="nav-text">关于语音播报</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81"><span class="nav-number">6.</span> <span class="nav-text">代码</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">江东</p>
+  <div class="site-description" itemprop="description">热爱生活，努力工作</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">48</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">江东</span>
+</div>
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+-->
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
