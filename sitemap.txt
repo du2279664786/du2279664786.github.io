@@ -1,5 +1,6 @@
-https://du2279664786.github.io/posts/20881.html
+https://du2279664786.github.io/posts/3652056.html
 https://du2279664786.github.io/posts/16107.html
+https://du2279664786.github.io/posts/20881.html
 https://du2279664786.github.io/posts/36882.html
 https://du2279664786.github.io/posts/35596.html
 https://du2279664786.github.io/posts/14939.html
@@ -109,6 +110,8 @@ https://du2279664786.github.io/tags/BERT/
 https://du2279664786.github.io/tags/%E9%87%91%E8%9E%8D/
 https://du2279664786.github.io/tags/%E6%96%87%E6%9C%AC%E5%88%86%E7%B1%BB/
 https://du2279664786.github.io/tags/CUDA/
+https://du2279664786.github.io/tags/%E7%97%85%E5%8F%A5%E8%AF%86%E5%88%AB/
+https://du2279664786.github.io/tags/WarmUP/
 https://du2279664786.github.io/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/
 https://du2279664786.github.io/categories/%E7%AB%9E%E8%B5%9B/
 https://du2279664786.github.io/categories/%E9%A1%B9%E7%9B%AE/

@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"du2279664786.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="预测句子是否是语义病句,语义错误和拼写错误、语法错误">
+<meta property="og:type" content="article">
+<meta property="og:title" content="中文语义病句识别挑战">
+<meta property="og:url" content="https://du2279664786.github.io/posts/3652056.html">
+<meta property="og:site_name" content="江东的笔记">
+<meta property="og:description" content="预测句子是否是语义病句,语义错误和拼写错误、语法错误">
+<meta property="og:locale">
+<meta property="article:published_time" content="2022-11-24T14:55:10.000Z">
+<meta property="article:modified_time" content="2022-11-24T13:29:30.399Z">
+<meta property="article:author" content="江东">
+<meta property="article:tag" content="NLP">
+<meta property="article:tag" content="病句识别">
+<meta property="article:tag" content="WarmUP">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://du2279664786.github.io/posts/3652056.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>中文语义病句识别挑战 | 江东的笔记</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="江东的笔记" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+<a target="_blank" rel="noopener" href="https://github.com/du2279664786" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#64CEAA; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">江东的笔记</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Be overcome difficulties is victory</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://du2279664786.github.io/posts/3652056.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://avatars.githubusercontent.com/u/76576534?v=4">
+      <meta itemprop="name" content="江东">
+      <meta itemprop="description" content="热爱生活，努力工作">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="江东的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          中文语义病句识别挑战
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-11-24 22:55:10 / 修改时间：21:29:30" itemprop="dateCreated datePublished" datetime="2022-11-24T22:55:10+08:00">2022-11-24</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/" itemprop="url" rel="index"><span itemprop="name">自然语言处理</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>预测句子是否是语义病句,语义错误和拼写错误、语法错误</p>
+<span id="more"></span>
+
+<h1 id="中文语义病句识别挑战赛"><a href="#中文语义病句识别挑战赛" class="headerlink" title="中文语义病句识别挑战赛"></a>中文语义病句识别挑战赛</h1><h1 id="一、赛事背景"><a href="#一、赛事背景" class="headerlink" title="一、赛事背景"></a>一、赛事背景</h1><p>近年来随着自媒体热潮的掀起，人人都是信息的生产者，互联网上文本错误的内容暴增，如何避免这些文本错误，成为了人们迫切关注的问题。因此，各大有关文本校对的比赛蜂拥而至。然而，过往的文本错误主要针对拼写错误和语法错误，这些错误对于人类来说相对简单，往往是由外国语言学习者和中文母语写作者的疏忽而产生的。对于出版、教育等一些对深层次的中文语义错误识别有需求的行业，中文语义病句的识别将会有更大的帮助。语义病句经常出现在初高中的语文考试题目中，用来衡量学生对语文知识的掌握程度，这类语义病句对于学生来说是比较困难的，对于研究也有重大意义。</p>
+<h1 id="二、赛事任务"><a href="#二、赛事任务" class="headerlink" title="二、赛事任务"></a>二、赛事任务</h1><p>中文语义病句识别是一个二分类的问题，预测句子是否是语义病句。语义错误和拼写错误、语法错误不同，语义错误更加关注句子语义层面的合法性，语义病句例子如下表所示。</p>
+<table>
+<thead>
+<tr>
+<th>病句</th>
+<th>解析</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>英法联军烧毁并洗劫了北京圆明园。</td>
+<td>应该先“洗劫”，再“烧毁”</td>
+</tr>
+<tr>
+<td>山上的水宝贵，我们把它留给晚上来的人喝。</td>
+<td>歧义，“晚上&#x2F;来”“晚&#x2F;上来”</td>
+</tr>
+<tr>
+<td>国内彩电市场严重滞销。</td>
+<td>“市场”不能“滞销”</td>
+</tr>
+</tbody></table>
+<h1 id="三、评审规则"><a href="#三、评审规则" class="headerlink" title="三、评审规则"></a>三、评审规则</h1><h2 id="1-数据说明"><a href="#1-数据说明" class="headerlink" title="1.数据说明"></a>1.数据说明</h2><p>本次比赛使用的数据一部分来自网络上的中小学病句题库，一部分来自人工标注。每条数据包括句子id、句子标签（0：正确句子&#x2F;1：病句）、句子，以上三个字段用制表符分隔。数据格式示例如下表所示：</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>标签</th>
+<th>句子</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>1</td>
+<td>英法联军烧毁并洗劫了北京圆明园。</td>
+</tr>
+<tr>
+<td>2</td>
+<td>1</td>
+<td>山上的水宝贵，我们把它留给晚上来的人喝。</td>
+</tr>
+<tr>
+<td>3</td>
+<td>0</td>
+<td>国内彩电严重滞销。</td>
+</tr>
+</tbody></table>
+<p>本次大赛由哈工大讯飞联合实验室提供的数据作为训练样本。训练集中病句和正确句子的比例大致7：3，要求参赛者使用且仅能使用组织方提供的训练集进行训练，不允许使用额外的人工标注的数据进行训练、更不允许将测试集的数据用于训练。此次比赛分为初赛和复赛两个阶段，两个阶段所使用的训练集相同。</p>
+<h2 id="2-评估指标"><a href="#2-评估指标" class="headerlink" title="2.评估指标"></a>2.评估指标</h2><p>本模型依据提交的结果文件，采用针对语义病句的F1-score进行评价。</p>
+<h1 id="实现代码"><a href="#实现代码" class="headerlink" title="实现代码"></a>实现代码</h1><h2 id="导入所需包"><a href="#导入所需包" class="headerlink" title="导入所需包"></a>导入所需包</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">from</span> functools <span class="keyword">import</span> partial</span><br><span class="line"><span class="keyword">from</span> sklearn.utils.class_weight <span class="keyword">import</span> compute_class_weight</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> paddle</span><br><span class="line"><span class="keyword">import</span> paddle <span class="keyword">as</span> P</span><br><span class="line"><span class="keyword">import</span> paddle.nn.functional <span class="keyword">as</span> F</span><br><span class="line"><span class="keyword">import</span> paddlenlp <span class="keyword">as</span> ppnlp</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">from</span> paddle.io <span class="keyword">import</span> Dataset</span><br><span class="line"><span class="keyword">from</span> paddlenlp.data <span class="keyword">import</span> Stack, <span class="type">Tuple</span>, Pad</span><br><span class="line"><span class="keyword">from</span> paddlenlp.datasets <span class="keyword">import</span> MapDataset</span><br><span class="line"><span class="keyword">from</span> paddlenlp.transformers <span class="keyword">import</span> LinearDecayWithWarmup</span><br><span class="line"><span class="keyword">from</span> paddlenlp.transformers <span class="keyword">import</span> ErnieGramModel</span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> StratifiedKFold</span><br><span class="line"><span class="keyword">from</span> tqdm <span class="keyword">import</span> tqdm</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> paddle.fluid <span class="keyword">as</span> fluid</span><br><span class="line"><span class="keyword">import</span> paddle.nn <span class="keyword">as</span> nn</span><br><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> f1_score</span><br></pre></td></tr></table></figure>
+
+<h2 id="初始化所有需要的用到的参数"><a href="#初始化所有需要的用到的参数" class="headerlink" title="初始化所有需要的用到的参数"></a>初始化所有需要的用到的参数</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment"># =============================== 初始化 ========================</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Config</span>:</span><br><span class="line">    text_col = <span class="string">&#x27;text&#x27;</span></span><br><span class="line">    target_col = <span class="string">&#x27;label&#x27;</span></span><br><span class="line">    <span class="comment"># 最大长度大小</span></span><br><span class="line">    max_len = <span class="number">90</span></span><br><span class="line">    <span class="comment"># 模型运行批处理大小</span></span><br><span class="line">    batch_size = <span class="number">32</span></span><br><span class="line">    target_size = <span class="number">2</span></span><br><span class="line">    seed = <span class="number">71</span></span><br><span class="line">    n_fold = <span class="number">5</span></span><br><span class="line">    <span class="comment"># 训练过程中的最大学习率</span></span><br><span class="line">    learning_rate = <span class="number">5e-5</span></span><br><span class="line">    <span class="comment"># 训练轮次</span></span><br><span class="line">    epochs = <span class="number">5</span>  <span class="comment"># 3</span></span><br><span class="line">    <span class="comment"># 学习率预热比例</span></span><br><span class="line">    warmup_proportion = <span class="number">0.1</span></span><br><span class="line">    <span class="comment"># 权重衰减系数，类似模型正则项策略，避免模型过拟合</span></span><br><span class="line">    weight_decay = <span class="number">0.01</span></span><br><span class="line">    <span class="comment"># model_name = &quot;ernie-gram-zh&quot;</span></span><br><span class="line">    <span class="comment"># model_name = &quot;ernie-doc-base-zh&quot;</span></span><br><span class="line">    model_name = <span class="string">&quot;ernie-1.0&quot;</span></span><br><span class="line">    print_freq = <span class="number">100</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="使用FGM-Fast-Gradient-Method-对抗训练过程"><a href="#使用FGM-Fast-Gradient-Method-对抗训练过程" class="headerlink" title="使用FGM(Fast Gradient Method)对抗训练过程"></a>使用FGM(Fast Gradient Method)对抗训练过程</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">FGM</span>():</span><br><span class="line">    <span class="string">&quot;&quot;&quot;针对embedding层梯度上升干扰的对抗训练方法,Fast Gradient Method（FGM）&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, model</span>):</span><br><span class="line">        self.model = model</span><br><span class="line">        self.backup = &#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">attack</span>(<span class="params">self, epsilon=<span class="number">0.15</span>, emb_name=<span class="string">&#x27;embeddings&#x27;</span></span>):</span><br><span class="line">        <span class="comment"># emb_name这个参数要换成你模型中embedding的参数名</span></span><br><span class="line">        <span class="keyword">for</span> name, param <span class="keyword">in</span> self.model.named_parameters():</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> param.stop_gradient <span class="keyword">and</span> emb_name <span class="keyword">in</span> name:  <span class="comment"># 检验参数是否可训练及范围</span></span><br><span class="line">                self.backup[name] = param.numpy()  <span class="comment"># 备份原有参数值</span></span><br><span class="line">                grad_tensor = paddle.to_tensor(param.grad)  <span class="comment"># param.grad是个numpy对象</span></span><br><span class="line">                norm = paddle.norm(grad_tensor)  <span class="comment"># norm化</span></span><br><span class="line">                <span class="keyword">if</span> norm != <span class="number">0</span>:</span><br><span class="line">                    r_at = epsilon * grad_tensor / norm</span><br><span class="line">                    param.add(r_at)  <span class="comment"># 在原有embed值上添加向上梯度干扰</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">restore</span>(<span class="params">self, emb_name=<span class="string">&#x27;embeddings&#x27;</span></span>):</span><br><span class="line">        <span class="comment"># emb_name这个参数要换成你模型中embedding的参数名</span></span><br><span class="line">        <span class="keyword">for</span> name, param <span class="keyword">in</span> self.model.named_parameters():</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> param.stop_gradient <span class="keyword">and</span> emb_name <span class="keyword">in</span> name:</span><br><span class="line">                <span class="keyword">assert</span> name <span class="keyword">in</span> self.backup</span><br><span class="line">                param.set_value(self.backup[name])  <span class="comment"># 将原有embed参数还原</span></span><br><span class="line">        self.backup = &#123;&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="设置随机种子，保证结果复现"><a href="#设置随机种子，保证结果复现" class="headerlink" title="设置随机种子，保证结果复现"></a>设置随机种子，保证结果复现</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">seed_torch</span>(<span class="params">seed=<span class="number">42</span></span>):</span><br><span class="line">    random.seed(seed)</span><br><span class="line">    os.environ[<span class="string">&#x27;PYTHONHASHSEED&#x27;</span>] = <span class="built_in">str</span>(seed)</span><br><span class="line">    np.random.seed(seed)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line">os.listdir(<span class="string">&#x27;/home/aistudio/data/data176811/&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+
+<pre><code>[&#39;data.xlsx&#39;, &#39;test1.csv&#39;, &#39;提交示例.csv&#39;]
+</code></pre>
+<h2 id="数据的读取"><a href="#数据的读取" class="headerlink" title="数据的读取"></a>数据的读取</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">CFG = Config()</span><br><span class="line">seed_torch(seed=CFG.seed)</span><br><span class="line">train = pd.read_excel(<span class="string">&#x27;data/data176811/data.xlsx&#x27;</span>)</span><br><span class="line">test = pd.read_table(<span class="string">&#x27;data/data176811/test1.csv&#x27;</span>)</span><br><span class="line"><span class="comment"># train[&#x27;text&#x27;] = train.apply(lambda row: concat_text(row), axis=1)</span></span><br><span class="line"><span class="comment"># test[&#x27;text&#x27;] = test.apply(lambda row: concat_text(row), axis=1)</span></span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">train</span><br></pre></td></tr></table></figure>
+
+
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>label</th>
+      <th>text</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>1</td>
+      <td>通过大力发展社区教育，使我省全民终身学习的教育体系已深入人心。</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>1</td>
+      <td>再次投入巨资的英超劲旅曼城队能否在2010-2011年度的英超联赛中夺得英超冠军，曼联、切尔...</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>1</td>
+      <td>广西居民纸质图书的阅读率偏低，手机阅读将成为了广西居民极倾向的阅读方式。</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>1</td>
+      <td>文字书写时代即将结束，预示着人与字之间最亲密的一种关系已经终结。与此同时，屏幕文化造就了另一...</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>1</td>
+      <td>安徽合力公司2006年叉车销售强劲，销售收入涨幅很有可能将超过40%以上。公司预计2006年...</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>45242</th>
+      <td>45244</td>
+      <td>0</td>
+      <td>进入5月以来，全国新增人感染H7N9禽流感病例呈明显下降趋势。</td>
+    </tr>
+    <tr>
+      <th>45243</th>
+      <td>45245</td>
+      <td>1</td>
+      <td>建设中国新一代天气雷达监测网，能够明显改善对热带气旋或台风登陆位置及强度预报的准确性，尤其对...</td>
+    </tr>
+    <tr>
+      <th>45244</th>
+      <td>45246</td>
+      <td>1</td>
+      <td>每当回忆起和他朝夕相处的一段生活，他那循循善诱的教导和那和蔼可亲的音容笑貌，又重新出现在我的面前。</td>
+    </tr>
+    <tr>
+      <th>45245</th>
+      <td>45247</td>
+      <td>1</td>
+      <td>8月，延安市公开拍卖35辆超编超标公务车。在拍卖过程中，多辆年份较新、行驶里程较少的公务车竞...</td>
+    </tr>
+    <tr>
+      <th>45246</th>
+      <td>45248</td>
+      <td>1</td>
+      <td>清华大学联合剑桥大学、麻省理工学院，成立低碳能源大学联盟未来交通研究中心，他们试图寻找解决北...</td>
+    </tr>
+  </tbody>
+</table>
+<p>45247 rows × 3 columns</p>
+
+<h2 id="定义5折交叉验证"><a href="#定义5折交叉验证" class="headerlink" title="定义5折交叉验证"></a>定义5折交叉验证</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># CV split</span></span><br><span class="line">folds = train.copy()</span><br><span class="line">Fold = StratifiedKFold(n_splits=CFG.n_fold, shuffle=<span class="literal">True</span>, random_state=CFG.seed)</span><br><span class="line"><span class="keyword">for</span> n, (train_index, val_index) <span class="keyword">in</span> <span class="built_in">enumerate</span>(Fold.split(folds, folds[CFG.target_col])):</span><br><span class="line">    folds.loc[val_index, <span class="string">&#x27;fold&#x27;</span>] = <span class="built_in">int</span>(n)</span><br><span class="line">folds[<span class="string">&#x27;fold&#x27;</span>] = folds[<span class="string">&#x27;fold&#x27;</span>].astype(<span class="built_in">int</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="数据预处理操作"><a href="#数据预处理操作" class="headerlink" title="数据预处理操作"></a>数据预处理操作</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ====================================== 数据集以及转换函数==============================</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">CustomDataset</span>(<span class="title class_ inherited__">Dataset</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, df</span>):</span><br><span class="line">        self.data = df.values.tolist()</span><br><span class="line">        self.texts = df[CFG.text_col]</span><br><span class="line">        self.labels = df[CFG.target_col]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__len__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">len</span>(self.texts)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__getitem__</span>(<span class="params">self, idx</span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        索引数据</span></span><br><span class="line"><span class="string">        :param idx:</span></span><br><span class="line"><span class="string">        :return:</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        text = <span class="built_in">str</span>(self.texts[idx])</span><br><span class="line">        label = self.labels[idx]</span><br><span class="line">        example = &#123;<span class="string">&#x27;text&#x27;</span>: text, <span class="string">&#x27;label&#x27;</span>: label&#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> example</span><br></pre></td></tr></table></figure>
+
+<h2 id="将data进行Embedding"><a href="#将data进行Embedding" class="headerlink" title="将data进行Embedding"></a>将data进行Embedding</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">convert_example</span>(<span class="params">example, tokenizer, max_seq_length=<span class="number">512</span>, is_test=<span class="literal">False</span></span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    创建Bert输入</span></span><br><span class="line"><span class="string">    ::</span></span><br><span class="line"><span class="string">        0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1</span></span><br><span class="line"><span class="string">        | first sequence    | second sequence |</span></span><br><span class="line"><span class="string">    Returns:</span></span><br><span class="line"><span class="string">        input_ids(obj:`list[int]`): The list of token ids.</span></span><br><span class="line"><span class="string">        token_type_ids(obj: `list[int]`): List of sequence pair mask.</span></span><br><span class="line"><span class="string">        label(obj:`numpy.array`, data type of int64, optional): The input label if not is_test.</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    encoded_inputs = tokenizer(text=example[<span class="string">&quot;text&quot;</span>], max_seq_len=max_seq_length)</span><br><span class="line">    input_ids = encoded_inputs[<span class="string">&quot;input_ids&quot;</span>]</span><br><span class="line">    <span class="comment"># print(input_ids)</span></span><br><span class="line">    token_type_ids = encoded_inputs[<span class="string">&quot;token_type_ids&quot;</span>]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> is_test:</span><br><span class="line">        label = np.array([example[<span class="string">&quot;label&quot;</span>]], dtype=<span class="string">&quot;int64&quot;</span>)</span><br><span class="line">        <span class="keyword">return</span> input_ids, token_type_ids, label</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> input_ids, token_type_ids</span><br></pre></td></tr></table></figure>
+
+<h2 id="创建DataLoader"><a href="#创建DataLoader" class="headerlink" title="创建DataLoader"></a>创建DataLoader</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">create_dataloader</span>(<span class="params">dataset,</span></span><br><span class="line"><span class="params">                      mode=<span class="string">&#x27;train&#x27;</span>,</span></span><br><span class="line"><span class="params">                      batch_size=<span class="number">1</span>,</span></span><br><span class="line"><span class="params">                      batchify_fn=<span class="literal">None</span>,</span></span><br><span class="line"><span class="params">                      trans_fn=<span class="literal">None</span></span>):</span><br><span class="line">    <span class="keyword">if</span> trans_fn:</span><br><span class="line">        dataset = dataset.<span class="built_in">map</span>(trans_fn)</span><br><span class="line"></span><br><span class="line">    shuffle = <span class="literal">True</span> <span class="keyword">if</span> mode == <span class="string">&#x27;train&#x27;</span> <span class="keyword">else</span> <span class="literal">False</span></span><br><span class="line">    <span class="keyword">if</span> mode == <span class="string">&#x27;train&#x27;</span>:</span><br><span class="line">        batch_sampler = paddle.io.DistributedBatchSampler(</span><br><span class="line">            dataset, batch_size=batch_size, shuffle=shuffle)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        batch_sampler = paddle.io.BatchSampler(</span><br><span class="line">            dataset, batch_size=batch_size, shuffle=shuffle)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> paddle.io.DataLoader(</span><br><span class="line">        dataset=dataset,</span><br><span class="line">        batch_sampler=batch_sampler,</span><br><span class="line">        collate_fn=batchify_fn,</span><br><span class="line">        return_list=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># tokenizer = ppnlp.transformers.ErnieTokenizer.from_pretrained(CFG.model_name)</span></span><br><span class="line"><span class="comment"># tokenizer = ppnlp.transformers.ErnieGramTokenizer.from_pretrained(CFG.model_name)</span></span><br><span class="line"><span class="comment"># tokenizer = ppnlp.transformers.ErnieTokenizer.from_pretrained(CFG.model_name)</span></span><br><span class="line"><span class="keyword">if</span> CFG.model_name == <span class="string">&#x27;ernie-1.0&#x27;</span>:</span><br><span class="line"></span><br><span class="line">    tokenizer = ppnlp.transformers.ErnieTokenizer.from_pretrained(<span class="string">&#x27;ernie-1.0&#x27;</span>)</span><br><span class="line"><span class="keyword">elif</span> CFG.model_name == <span class="string">&#x27;ernie-doc-base-zh&#x27;</span>:</span><br><span class="line">    tokenizer = ppnlp.transformers.ErnieDocTokenizer.from_pretrained(<span class="string">&#x27;ernie-doc-base-zh&#x27;</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    tokenizer = ppnlp.transformers.ErnieGramTokenizer.from_pretrained(CFG.model_name)</span><br><span class="line">trans_func = partial(</span><br><span class="line">    convert_example,</span><br><span class="line">    tokenizer=tokenizer,</span><br><span class="line">    max_seq_length=CFG.max_len)</span><br><span class="line">batchify_fn = <span class="keyword">lambda</span> samples, fn=<span class="type">Tuple</span>(</span><br><span class="line">    Pad(axis=<span class="number">0</span>, pad_val=tokenizer.pad_token_id),  <span class="comment"># input</span></span><br><span class="line">    Pad(axis=<span class="number">0</span>, pad_val=tokenizer.pad_token_type_id),  <span class="comment"># segment</span></span><br><span class="line">    Stack(dtype=<span class="string">&quot;int64&quot;</span>)  <span class="comment"># label</span></span><br><span class="line">): [data <span class="keyword">for</span> data <span class="keyword">in</span> fn(samples)]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="评估模型"><a href="#评估模型" class="headerlink" title="评估模型"></a>评估模型</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ====================================== 验证与预测函数 ==============================</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@paddle.no_grad()</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">evaluate</span>(<span class="params">model, criterion, metric, data_loader</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    验证函数</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    model.<span class="built_in">eval</span>()</span><br><span class="line">    metric.reset()</span><br><span class="line">    losses = []</span><br><span class="line">    preds_list = []</span><br><span class="line">    labels_list = []</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> batch <span class="keyword">in</span> data_loader:</span><br><span class="line">        input_ids, token_type_ids, labels = batch</span><br><span class="line">        logits = model(input_ids, token_type_ids)</span><br><span class="line">        preds_list.append(np.argmax(logits.numpy(), axis=<span class="number">1</span>))</span><br><span class="line">        labels_list.append(labels)</span><br><span class="line">        loss = criterion(logits, labels)</span><br><span class="line">        losses.append(loss.numpy())</span><br><span class="line">        correct = metric.compute(logits, labels)</span><br><span class="line">        metric.update(correct)</span><br><span class="line">        accu = metric.accumulate()</span><br><span class="line">    f1_macro = f1_score(np.concatenate(preds_list, axis=<span class="number">0</span>), np.concatenate(labels_list, axis=<span class="number">0</span>), average=<span class="string">&#x27;binary&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;eval loss: %.5f, accu: %.5f&quot;</span> % (np.mean(losses), accu))</span><br><span class="line">    model.train()</span><br><span class="line">    metric.reset()</span><br><span class="line">    <span class="keyword">return</span> accu, f1_macro</span><br></pre></td></tr></table></figure>
+
+<h2 id="模型进行预测"><a href="#模型进行预测" class="headerlink" title="模型进行预测"></a>模型进行预测</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">predict</span>(<span class="params">model, data, tokenizer, batch_size=<span class="number">1</span></span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    预测函数</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    examples = []</span><br><span class="line">    <span class="keyword">for</span> text <span class="keyword">in</span> data:</span><br><span class="line">        input_ids, segment_ids = convert_example(</span><br><span class="line">            text,</span><br><span class="line">            tokenizer,</span><br><span class="line">            max_seq_length=CFG.max_len,</span><br><span class="line">            is_test=<span class="literal">True</span>)</span><br><span class="line">        examples.append((input_ids, segment_ids))</span><br><span class="line"></span><br><span class="line">    batchify_fn = <span class="keyword">lambda</span> samples, fn=<span class="type">Tuple</span>(</span><br><span class="line">        Pad(axis=<span class="number">0</span>, pad_val=tokenizer.pad_token_id),  <span class="comment"># input id</span></span><br><span class="line">        Pad(axis=<span class="number">0</span>, pad_val=tokenizer.pad_token_id),  <span class="comment"># segment id</span></span><br><span class="line">    ): fn(samples)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Seperates data into some batches.</span></span><br><span class="line">    batches = []</span><br><span class="line">    one_batch = []</span><br><span class="line">    <span class="keyword">for</span> example <span class="keyword">in</span> examples:</span><br><span class="line">        one_batch.append(example)</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(one_batch) == batch_size:</span><br><span class="line">            batches.append(one_batch)</span><br><span class="line">            one_batch = []</span><br><span class="line">    <span class="keyword">if</span> one_batch:</span><br><span class="line">        <span class="comment"># The last batch whose size is less than the config batch_size setting.</span></span><br><span class="line">        batches.append(one_batch)</span><br><span class="line"></span><br><span class="line">    results = []</span><br><span class="line">    model.<span class="built_in">eval</span>()</span><br><span class="line">    <span class="keyword">for</span> batch <span class="keyword">in</span> tqdm(batches):</span><br><span class="line">        input_ids, segment_ids = batchify_fn(batch)</span><br><span class="line">        input_ids = paddle.to_tensor(input_ids)</span><br><span class="line">        segment_ids = paddle.to_tensor(segment_ids)</span><br><span class="line">        logits = model(input_ids, segment_ids)</span><br><span class="line">        probs = F.softmax(logits, axis=<span class="number">1</span>)</span><br><span class="line">        results.append(probs.numpy())</span><br><span class="line">    <span class="keyword">return</span> np.vstack(results)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="预测数据"><a href="#预测数据" class="headerlink" title="预测数据"></a>预测数据</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">inference</span>():</span><br><span class="line">    model_paths = [</span><br><span class="line">        <span class="string">f&#x27;<span class="subst">&#123;CFG.model_name&#125;</span>_fold0.bin&#x27;</span>,</span><br><span class="line">        <span class="string">f&#x27;<span class="subst">&#123;CFG.model_name&#125;</span>_fold1.bin&#x27;</span>,</span><br><span class="line">        <span class="string">f&#x27;<span class="subst">&#123;CFG.model_name&#125;</span>_fold2.bin&#x27;</span>,</span><br><span class="line">        <span class="string">f&#x27;<span class="subst">&#123;CFG.model_name&#125;</span>_fold3.bin&#x27;</span>,</span><br><span class="line">        <span class="string">f&#x27;<span class="subst">&#123;CFG.model_name&#125;</span>_fold4.bin&#x27;</span>,</span><br><span class="line">    ]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> CFG.model_name == <span class="string">&#x27;ernie-1.0&#x27;</span>:</span><br><span class="line">        model = ppnlp.transformers.ErnieForSequenceClassification.from_pretrained(CFG.model_name,</span><br><span class="line">                                                                                  num_classes=CFG.target_size)</span><br><span class="line">    <span class="keyword">elif</span> CFG.model_name == <span class="string">&#x27;ernie-doc-base-zh&#x27;</span>:</span><br><span class="line">        model = ppnlp.transformers.ErnieDocForSequenceClassification.from_pretrained(<span class="string">&#x27;ernie-doc-base-zh&#x27;</span>,</span><br><span class="line">                                                                                     num_classes=CFG.target_size)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line"></span><br><span class="line">        model = ppnlp.transformers.ErnieGramForSequenceClassification.from_pretrained(CFG.model_name,</span><br><span class="line">                                                                                      num_classes=CFG.target_size)</span><br><span class="line">    <span class="comment"># model = ppnlp.transformers.ErnieForSequenceClassification.from_pretrained(CFG.model_name,</span></span><br><span class="line">    <span class="comment">#                                                                           num_classes=25)</span></span><br><span class="line">    <span class="comment"># model = ppnlp.transformers.ErnieGramForSequenceClassification.from_pretrained(CFG.model_name,</span></span><br><span class="line">    <span class="comment">#                                                                               num_classes=25)</span></span><br><span class="line">    fold_preds = []</span><br><span class="line">    <span class="keyword">for</span> model_path <span class="keyword">in</span> model_paths:</span><br><span class="line">        model.load_dict(P.load(model_path))</span><br><span class="line">        pred = predict(model, test.to_dict(orient=<span class="string">&#x27;records&#x27;</span>), tokenizer, <span class="number">16</span>)</span><br><span class="line">        fold_preds.append(pred)</span><br><span class="line">    preds = np.mean(fold_preds, axis=<span class="number">0</span>)</span><br><span class="line">    np.save(<span class="string">&quot;preds.npy&quot;</span>, preds)</span><br><span class="line">    labels = np.argmax(preds, axis=<span class="number">1</span>)</span><br><span class="line">    test[<span class="string">&#x27;label&#x27;</span>] = labels</span><br><span class="line">    test[[<span class="string">&#x27;id&#x27;</span>, <span class="string">&#x27;label&#x27;</span>]].to_csv(<span class="string">&#x27;paddle.csv&#x27;</span>,sep=<span class="string">&#x27;\t&#x27;</span>, index=<span class="literal">None</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="训练函数"><a href="#训练函数" class="headerlink" title="训练函数"></a>训练函数</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">train</span>():</span><br><span class="line">    <span class="comment"># ====================================  交叉验证训练 ==========================</span></span><br><span class="line">    <span class="keyword">for</span> fold <span class="keyword">in</span> <span class="built_in">range</span>(CFG.n_fold):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;===============training fold_nth:<span class="subst">&#123;fold + <span class="number">1</span>&#125;</span>======================&quot;</span>)</span><br><span class="line">        trn_idx = folds[folds[<span class="string">&#x27;fold&#x27;</span>] != fold].index</span><br><span class="line">        val_idx = folds[folds[<span class="string">&#x27;fold&#x27;</span>] == fold].index</span><br><span class="line"></span><br><span class="line">        train_folds = folds.loc[trn_idx].reset_index(drop=<span class="literal">True</span>)</span><br><span class="line">        valid_folds = folds.loc[val_idx].reset_index(drop=<span class="literal">True</span>)</span><br><span class="line">        <span class="comment"># 训练集的数据格式转换</span></span><br><span class="line">        train_dataset = CustomDataset(train_folds)</span><br><span class="line">        train_ds = MapDataset(train_dataset)</span><br><span class="line">        <span class="comment"># 验证集的数据转换</span></span><br><span class="line">        dev_dataset = CustomDataset(valid_folds)</span><br><span class="line">        dev_ds = MapDataset(dev_dataset)</span><br><span class="line">        <span class="comment"># print(trans_func)</span></span><br><span class="line">        train_data_loader = create_dataloader(</span><br><span class="line">            train_ds,</span><br><span class="line">            mode=<span class="string">&#x27;train&#x27;</span>,</span><br><span class="line">            batch_size=CFG.batch_size,</span><br><span class="line">            batchify_fn=batchify_fn,</span><br><span class="line">            trans_fn=trans_func)</span><br><span class="line">        dev_data_loader = create_dataloader(</span><br><span class="line">            dev_ds,</span><br><span class="line">            mode=<span class="string">&#x27;dev&#x27;</span>,</span><br><span class="line">            batch_size=CFG.batch_size,</span><br><span class="line">            batchify_fn=batchify_fn,</span><br><span class="line">            trans_fn=trans_func)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># model = ppnlp.transformers.ErnieGramForSequenceClassification.from_pretrained(CFG.model_name,</span></span><br><span class="line">        <span class="comment">#                                                                               num_classes=25)</span></span><br><span class="line">        <span class="comment"># model = ppnlp.transformers.ErnieForSequenceClassification.from_pretrained(CFG.model_name,</span></span><br><span class="line">        <span class="comment">#                                                                               num_classes=25)</span></span><br><span class="line">        <span class="comment"># 选择模型</span></span><br><span class="line">        <span class="keyword">if</span> CFG.model_name == <span class="string">&#x27;ernie-1.0&#x27;</span>:</span><br><span class="line">            model = ppnlp.transformers.ErnieForSequenceClassification.from_pretrained(CFG.model_name,</span><br><span class="line">                                                                                      num_classes=CFG.target_size)</span><br><span class="line">        <span class="keyword">elif</span> CFG.model_name == <span class="string">&#x27;ernie-doc-base-zh&#x27;</span>:</span><br><span class="line">            model = ppnlp.transformers.ErnieDocForSequenceClassification.from_pretrained(<span class="string">&#x27;ernie-doc-base-zh&#x27;</span>,</span><br><span class="line">                                                                                         num_classes=CFG.target_size)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            model = ppnlp.transformers.ErnieGramForSequenceClassification.from_pretrained(CFG.model_name,</span><br><span class="line">                                                                                          num_classes=CFG.target_size)</span><br><span class="line">        <span class="comment"># print(model)</span></span><br><span class="line">        num_training_steps = <span class="built_in">len</span>(train_data_loader) * CFG.epochs</span><br><span class="line">        lr_scheduler = LinearDecayWithWarmup(CFG.learning_rate, num_training_steps, CFG.warmup_proportion)</span><br><span class="line">        <span class="comment"># 构建优化器</span></span><br><span class="line">        optimizer = paddle.optimizer.AdamW(</span><br><span class="line">            learning_rate=lr_scheduler,</span><br><span class="line">            parameters=model.parameters(),</span><br><span class="line">            weight_decay=CFG.weight_decay,    </span><br><span class="line">            apply_decay_param_fun=<span class="keyword">lambda</span> x: x <span class="keyword">in</span> [</span><br><span class="line">                p.name <span class="keyword">for</span> n, p <span class="keyword">in</span> model.named_parameters()</span><br><span class="line">                <span class="keyword">if</span> <span class="keyword">not</span> <span class="built_in">any</span>(nd <span class="keyword">in</span> n <span class="keyword">for</span> nd <span class="keyword">in</span> [<span class="string">&quot;bias&quot;</span>, <span class="string">&quot;norm&quot;</span>])</span><br><span class="line">            ])</span><br><span class="line">        <span class="comment"># 定义交叉熵函数</span></span><br><span class="line">        criterion = paddle.nn.loss.CrossEntropyLoss()</span><br><span class="line">        <span class="comment"># criterion = paddle.nn.loss.CrossEntropyLoss(weight=paddle.to_tensor(np.array(weight)))</span></span><br><span class="line">        <span class="comment"># criterion = FocalLoss()</span></span><br><span class="line"></span><br><span class="line">        metric = paddle.metric.Accuracy()</span><br><span class="line"></span><br><span class="line">        global_step = <span class="number">0</span></span><br><span class="line">        best_val_acc = <span class="number">0</span></span><br><span class="line">        best_val_f1 = <span class="number">0</span></span><br><span class="line">        fgm = FGM(model)</span><br><span class="line">        <span class="keyword">for</span> epoch <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, CFG.epochs + <span class="number">1</span>):</span><br><span class="line">            <span class="keyword">for</span> step, batch <span class="keyword">in</span> <span class="built_in">enumerate</span>(train_data_loader, start=<span class="number">1</span>):</span><br><span class="line">                input_ids, segment_ids, labels = batch</span><br><span class="line">                <span class="comment"># print(segment_ids.shape)</span></span><br><span class="line">                logits = model(input_ids, segment_ids)</span><br><span class="line">                <span class="comment"># probs_ = paddle.to_tensor(logits, dtype=&quot;float64&quot;)</span></span><br><span class="line">                loss = criterion(logits, labels)</span><br><span class="line">                probs = F.softmax(logits, axis=<span class="number">1</span>)</span><br><span class="line">                correct = metric.compute(probs, labels)</span><br><span class="line">                metric.update(correct)</span><br><span class="line">                acc = metric.accumulate()</span><br><span class="line">                f1_macro = f1_score(np.argmax(probs.numpy(), axis=<span class="number">1</span>), labels, average=<span class="string">&#x27;binary&#x27;</span>)</span><br><span class="line">                global_step += <span class="number">1</span></span><br><span class="line">                <span class="keyword">if</span> global_step % CFG.print_freq == <span class="number">0</span>:</span><br><span class="line">                    <span class="built_in">print</span>(<span class="string">&quot;global step %d, epoch: %d, batch: %d, loss: %.5f, acc: %.5f,f1_macro: %.5f&quot;</span> % (</span><br><span class="line">                        global_step, epoch, step, loss, acc, f1_macro))</span><br><span class="line">                loss.backward()</span><br><span class="line"></span><br><span class="line">                <span class="comment"># 对抗训练</span></span><br><span class="line">                fgm.attack()  <span class="comment"># 在embedding上添加对抗扰动</span></span><br><span class="line">                logits_adv = model(input_ids, segment_ids)</span><br><span class="line">                loss_adv = criterion(logits_adv, labels)</span><br><span class="line">                loss_adv.backward()  <span class="comment"># 反向传播，并在正常的grad基础上，累加对抗训练的梯度</span></span><br><span class="line">                fgm.restore()  <span class="comment"># 恢复embedding参数</span></span><br><span class="line"></span><br><span class="line">                optimizer.step()</span><br><span class="line">                lr_scheduler.step()</span><br><span class="line">                optimizer.clear_grad()</span><br><span class="line">            acc, f1 = evaluate(model, criterion, metric, dev_data_loader)</span><br><span class="line">            <span class="keyword">if</span> acc &gt; best_val_acc:</span><br><span class="line">                best_val_acc = acc</span><br><span class="line">            <span class="comment">#if f1 &gt; best_val_f1:</span></span><br><span class="line">                <span class="comment">#best_val_f1 = f1</span></span><br><span class="line">                P.save(model.state_dict(), <span class="string">f&#x27;<span class="subst">&#123;CFG.model_name&#125;</span>_fold<span class="subst">&#123;fold&#125;</span>.bin&#x27;</span>)</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&#x27;Best Val acc %.5f&#x27;</span> % best_val_acc)</span><br><span class="line">        <span class="keyword">del</span> model</span><br><span class="line">        <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">train()</span><br></pre></td></tr></table></figure>
+
+<pre><code>===============training fold_nth:1======================
+
+
+[2022-11-23 19:03:33,381] [    INFO] - Already cached /home/aistudio/.paddlenlp/models/ernie-1.0/ernie_v1_chn_base.pdparams
+W1123 19:03:33.386370   628 gpu_resources.cc:61] Please NOTE: device: 0, GPU Compute Capability: 7.0, Driver API Version: 11.2, Runtime API Version: 11.2
+W1123 19:03:33.390496   628 gpu_resources.cc:91] device: 0, cuDNN Version: 8.2.
+
+
+global step 100, epoch: 1, batch: 100, loss: 0.46791, acc: 0.73188,f1_macro: 0.89655
+global step 200, epoch: 1, batch: 200, loss: 0.65628, acc: 0.73625,f1_macro: 0.79245
+global step 300, epoch: 1, batch: 300, loss: 0.73637, acc: 0.74031,f1_macro: 0.79245
+global step 400, epoch: 1, batch: 400, loss: 0.57431, acc: 0.74234,f1_macro: 0.83636
+global step 500, epoch: 1, batch: 500, loss: 0.37923, acc: 0.74138,f1_macro: 0.91525
+global step 600, epoch: 1, batch: 600, loss: 0.38467, acc: 0.74344,f1_macro: 0.91228
+global step 700, epoch: 1, batch: 700, loss: 0.51419, acc: 0.74562,f1_macro: 0.78261
+global step 800, epoch: 1, batch: 800, loss: 0.38103, acc: 0.74750,f1_macro: 0.89286
+global step 900, epoch: 1, batch: 900, loss: 0.34946, acc: 0.74899,f1_macro: 0.91304
+global step 1000, epoch: 1, batch: 1000, loss: 0.53628, acc: 0.75106,f1_macro: 0.92308
+global step 1100, epoch: 1, batch: 1100, loss: 0.42920, acc: 0.75298,f1_macro: 0.91525
+eval loss: 0.44171, accu: 0.78530
+Best Val acc 0.78530
+global step 1200, epoch: 2, batch: 68, loss: 0.22114, acc: 0.83042,f1_macro: 0.91667
+global step 1300, epoch: 2, batch: 168, loss: 0.29129, acc: 0.83464,f1_macro: 0.90476
+global step 1400, epoch: 2, batch: 268, loss: 0.58879, acc: 0.83605,f1_macro: 0.80000
+global step 1500, epoch: 2, batch: 368, loss: 0.42207, acc: 0.83993,f1_macro: 0.85714
+global step 1600, epoch: 2, batch: 468, loss: 0.18622, acc: 0.83747,f1_macro: 0.95833
+global step 1700, epoch: 2, batch: 568, loss: 0.26564, acc: 0.83814,f1_macro: 0.93617
+global step 1800, epoch: 2, batch: 668, loss: 0.38719, acc: 0.84108,f1_macro: 0.86364
+global step 1900, epoch: 2, batch: 768, loss: 0.35982, acc: 0.84204,f1_macro: 0.88889
+global step 2000, epoch: 2, batch: 868, loss: 0.33469, acc: 0.84465,f1_macro: 0.89474
+global step 2100, epoch: 2, batch: 968, loss: 0.52275, acc: 0.84475,f1_macro: 0.81818
+global step 2200, epoch: 2, batch: 1068, loss: 0.23787, acc: 0.84574,f1_macro: 0.96552
+eval loss: 0.45888, accu: 0.79613
+Best Val acc 0.79613
+global step 2300, epoch: 3, batch: 36, loss: 0.04629, acc: 0.94878,f1_macro: 0.98246
+global step 2400, epoch: 3, batch: 136, loss: 0.19579, acc: 0.94003,f1_macro: 0.97778
+global step 2500, epoch: 3, batch: 236, loss: 0.03761, acc: 0.93988,f1_macro: 1.00000
+global step 2600, epoch: 3, batch: 336, loss: 0.21055, acc: 0.93899,f1_macro: 0.88235
+global step 2700, epoch: 3, batch: 436, loss: 0.07569, acc: 0.94030,f1_macro: 0.97674
+global step 2800, epoch: 3, batch: 536, loss: 0.17687, acc: 0.94076,f1_macro: 0.97674
+global step 2900, epoch: 3, batch: 636, loss: 0.19501, acc: 0.94099,f1_macro: 0.92000
+global step 3000, epoch: 3, batch: 736, loss: 0.25105, acc: 0.94153,f1_macro: 0.93617
+global step 3100, epoch: 3, batch: 836, loss: 0.09677, acc: 0.94109,f1_macro: 0.95833
+global step 3200, epoch: 3, batch: 936, loss: 0.12877, acc: 0.94071,f1_macro: 0.96000
+global step 3300, epoch: 3, batch: 1036, loss: 0.12475, acc: 0.94058,f1_macro: 0.96154
+eval loss: 0.50610, accu: 0.82055
+Best Val acc 0.82055
+global step 3400, epoch: 4, batch: 4, loss: 0.03767, acc: 0.98438,f1_macro: 1.00000
+global step 3500, epoch: 4, batch: 104, loss: 0.00521, acc: 0.98257,f1_macro: 1.00000
+global step 3600, epoch: 4, batch: 204, loss: 0.01782, acc: 0.98100,f1_macro: 1.00000
+global step 3700, epoch: 4, batch: 304, loss: 0.03877, acc: 0.97995,f1_macro: 1.00000
+global step 3800, epoch: 4, batch: 404, loss: 0.03308, acc: 0.98028,f1_macro: 1.00000
+global step 3900, epoch: 4, batch: 504, loss: 0.02905, acc: 0.98065,f1_macro: 1.00000
+global step 4000, epoch: 4, batch: 604, loss: 0.00859, acc: 0.97987,f1_macro: 1.00000
+global step 4100, epoch: 4, batch: 704, loss: 0.00564, acc: 0.97954,f1_macro: 1.00000
+global step 4200, epoch: 4, batch: 804, loss: 0.02505, acc: 0.97905,f1_macro: 1.00000
+global step 4300, epoch: 4, batch: 904, loss: 0.01213, acc: 0.97905,f1_macro: 1.00000
+global step 4400, epoch: 4, batch: 1004, loss: 0.30969, acc: 0.97883,f1_macro: 0.92683
+global step 4500, epoch: 4, batch: 1104, loss: 0.11206, acc: 0.97905,f1_macro: 0.98039
+eval loss: 0.65418, accu: 0.82221
+Best Val acc 0.82221
+global step 4600, epoch: 5, batch: 72, loss: 0.04641, acc: 0.99045,f1_macro: 0.98182
+global step 4700, epoch: 5, batch: 172, loss: 0.00841, acc: 0.99001,f1_macro: 1.00000
+global step 4800, epoch: 5, batch: 272, loss: 0.00417, acc: 0.99081,f1_macro: 1.00000
+global step 4900, epoch: 5, batch: 372, loss: 0.00382, acc: 0.98975,f1_macro: 1.00000
+global step 5000, epoch: 5, batch: 472, loss: 0.00420, acc: 0.99060,f1_macro: 1.00000
+global step 5100, epoch: 5, batch: 572, loss: 0.01085, acc: 0.99088,f1_macro: 1.00000
+global step 5200, epoch: 5, batch: 672, loss: 0.02734, acc: 0.99056,f1_macro: 0.97778
+global step 5300, epoch: 5, batch: 772, loss: 0.00837, acc: 0.99053,f1_macro: 1.00000
+global step 5400, epoch: 5, batch: 872, loss: 0.05018, acc: 0.99097,f1_macro: 0.97674
+global step 5500, epoch: 5, batch: 972, loss: 0.04738, acc: 0.99126,f1_macro: 0.97959
+global step 5600, epoch: 5, batch: 1072, loss: 0.01556, acc: 0.99128,f1_macro: 1.00000
+eval loss: 0.79161, accu: 0.82597
+Best Val acc 0.82597
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># if __name__ == &#x27;__main__&#x27;:</span></span><br><span class="line"><span class="comment">#     train()</span></span><br><span class="line"><span class="comment">#     inference()</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">inference()</span><br></pre></td></tr></table></figure>
+
+<pre><code>[2022-11-23 19:47:36,006] [    INFO] - Already cached /home/aistudio/.paddlenlp/models/ernie-1.0/ernie_v1_chn_base.pdparams
+100%|██████████| 65/65 [00:02&lt;00:00, 31.80it/s]
+100%|██████████| 65/65 [00:01&lt;00:00, 33.80it/s]
+100%|██████████| 65/65 [00:01&lt;00:00, 32.83it/s]
+100%|██████████| 65/65 [00:01&lt;00:00, 33.76it/s]
+100%|██████████| 65/65 [00:01&lt;00:00, 33.67it/s]
+</code></pre>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+          
+            <a href="/" rel="tag"><i class="fa fa-tags"></i> </a>
+          
+            <a href="/" rel="tag"><i class="fa fa-tags"></i> </a>
+          
+            <a href="/" rel="tag"><i class="fa fa-tags"></i> </a>
+          
+         </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/posts/36882.html" rel="prev" title="Pre-training">
+      <i class="fa fa-chevron-left"></i> Pre-training
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%AD%E6%96%87%E8%AF%AD%E4%B9%89%E7%97%85%E5%8F%A5%E8%AF%86%E5%88%AB%E6%8C%91%E6%88%98%E8%B5%9B"><span class="nav-number">1.</span> <span class="nav-text">中文语义病句识别挑战赛</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E8%B5%9B%E4%BA%8B%E8%83%8C%E6%99%AF"><span class="nav-number">2.</span> <span class="nav-text">一、赛事背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E8%B5%9B%E4%BA%8B%E4%BB%BB%E5%8A%A1"><span class="nav-number">3.</span> <span class="nav-text">二、赛事任务</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E8%AF%84%E5%AE%A1%E8%A7%84%E5%88%99"><span class="nav-number">4.</span> <span class="nav-text">三、评审规则</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E6%95%B0%E6%8D%AE%E8%AF%B4%E6%98%8E"><span class="nav-number">4.1.</span> <span class="nav-text">1.数据说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E8%AF%84%E4%BC%B0%E6%8C%87%E6%A0%87"><span class="nav-number">4.2.</span> <span class="nav-text">2.评估指标</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E4%BB%A3%E7%A0%81"><span class="nav-number">5.</span> <span class="nav-text">实现代码</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%BC%E5%85%A5%E6%89%80%E9%9C%80%E5%8C%85"><span class="nav-number">5.1.</span> <span class="nav-text">导入所需包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E6%89%80%E6%9C%89%E9%9C%80%E8%A6%81%E7%9A%84%E7%94%A8%E5%88%B0%E7%9A%84%E5%8F%82%E6%95%B0"><span class="nav-number">5.2.</span> <span class="nav-text">初始化所有需要的用到的参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8FGM-Fast-Gradient-Method-%E5%AF%B9%E6%8A%97%E8%AE%AD%E7%BB%83%E8%BF%87%E7%A8%8B"><span class="nav-number">5.3.</span> <span class="nav-text">使用FGM(Fast Gradient Method)对抗训练过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E9%9A%8F%E6%9C%BA%E7%A7%8D%E5%AD%90%EF%BC%8C%E4%BF%9D%E8%AF%81%E7%BB%93%E6%9E%9C%E5%A4%8D%E7%8E%B0"><span class="nav-number">5.4.</span> <span class="nav-text">设置随机种子，保证结果复现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%9A%84%E8%AF%BB%E5%8F%96"><span class="nav-number">5.5.</span> <span class="nav-text">数据的读取</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9A%E4%B9%895%E6%8A%98%E4%BA%A4%E5%8F%89%E9%AA%8C%E8%AF%81"><span class="nav-number">5.6.</span> <span class="nav-text">定义5折交叉验证</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86%E6%93%8D%E4%BD%9C"><span class="nav-number">5.7.</span> <span class="nav-text">数据预处理操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%86data%E8%BF%9B%E8%A1%8CEmbedding"><span class="nav-number">5.8.</span> <span class="nav-text">将data进行Embedding</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BADataLoader"><span class="nav-number">5.9.</span> <span class="nav-text">创建DataLoader</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%84%E4%BC%B0%E6%A8%A1%E5%9E%8B"><span class="nav-number">5.10.</span> <span class="nav-text">评估模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E8%BF%9B%E8%A1%8C%E9%A2%84%E6%B5%8B"><span class="nav-number">5.11.</span> <span class="nav-text">模型进行预测</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%84%E6%B5%8B%E6%95%B0%E6%8D%AE"><span class="nav-number">5.12.</span> <span class="nav-text">预测数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%AD%E7%BB%83%E5%87%BD%E6%95%B0"><span class="nav-number">5.13.</span> <span class="nav-text">训练函数</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="江东"
+      src="https://avatars.githubusercontent.com/u/76576534?v=4">
+  <p class="site-author-name" itemprop="name">江东</p>
+  <div class="site-description" itemprop="description">热爱生活，努力工作</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">61</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">50</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/du2279664786" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;du2279664786" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2021 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">江东</span>
+</div>
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+-->
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='199' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  <script async src="/js/cursor/fireworks.js"></script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
