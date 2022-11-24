@@ -39,9 +39,9 @@
             
             <tag> HuggingFace </tag>
             
-            <tag> BERT </tag>
-            
             <tag> Pre-training </tag>
+            
+            <tag> BERT </tag>
             
         </tags>
       
@@ -72,9 +72,9 @@
             
             <tag> HuggingFace </tag>
             
-            <tag> 文本分类 </tag>
-            
             <tag> BERT </tag>
+            
+            <tag> 文本分类 </tag>
             
         </tags>
       
