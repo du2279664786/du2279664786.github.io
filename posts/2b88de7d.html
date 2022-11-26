@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"du2279664786.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":"true#false","color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="基于 ResNet50 模型的口罩佩戴检测">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于ResNet50的口罩检测">
+<meta property="og:url" content="https://du2279664786.github.io/posts/2b88de7d.html">
+<meta property="og:site_name" content="江东的笔记">
+<meta property="og:description" content="基于 ResNet50 模型的口罩佩戴检测">
+<meta property="og:locale">
+<meta property="og:image" content="https://s2.loli.net/2022/11/26/lRUVOz5P8Bsq1ju.png">
+<meta property="og:image" content="https://s2.loli.net/2022/11/26/sRQ9rXKWDZtb6Pw.png">
+<meta property="og:image" content="https://s2.loli.net/2022/11/26/wtR2LZzsPX15C7a.png">
+<meta property="og:image" content="https://s2.loli.net/2022/11/26/r8Ey3vgQxTScp9w.png">
+<meta property="og:image" content="https://s2.loli.net/2022/11/26/hcVTUzAbpwQd98s.png">
+<meta property="og:image" content="https://s2.loli.net/2022/11/26/UYL4PohJz3rWF1A.png">
+<meta property="og:image" content="https://s2.loli.net/2022/11/26/31WTuCJe7jvHP68.png">
+<meta property="article:published_time" content="2022-11-26T14:55:10.000Z">
+<meta property="article:modified_time" content="2022-11-26T12:40:26.382Z">
+<meta property="article:author" content="江东">
+<meta property="article:tag" content="深度学习">
+<meta property="article:tag" content="CV">
+<meta property="article:tag" content="Resnet">
+<meta property="article:tag" content="微调">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s2.loli.net/2022/11/26/lRUVOz5P8Bsq1ju.png">
+
+<link rel="canonical" href="https://du2279664786.github.io/posts/2b88de7d.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>基于ResNet50的口罩检测 | 江东的笔记</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="江东的笔记" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+<a target="_blank" rel="noopener" href="https://github.com/du2279664786" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#64CEAA; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">江东的笔记</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Be overcome difficulties is victory</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://du2279664786.github.io/posts/2b88de7d.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://avatars.githubusercontent.com/u/76576534?v=4">
+      <meta itemprop="name" content="江东">
+      <meta itemprop="description" content="热爱生活，努力工作">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="江东的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          基于ResNet50的口罩检测
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-11-26 22:55:10 / 修改时间：20:40:26" itemprop="dateCreated datePublished" datetime="2022-11-26T22:55:10+08:00">2022-11-26</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89/" itemprop="url" rel="index"><span itemprop="name">机器视觉</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>基于 ResNet50 模型的口罩佩戴检测</p>
+<span id="more"></span>
+
+<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>​		在公共场所佩戴口罩，是防止新型冠状病毒传染的最主要手段，在必要的场所，每个人都必须佩戴口罩以进行自我保护。在人群相对集中的公共场所，相互之间不可避免地存在遮挡干扰，从而产生了小范围内的复杂干扰识别问题。</p>
+<p>​		如果使用单一的卷积神经网络对口罩佩戴进行识别，有可能造成提取关键特征信息时聚焦度欠缺，出现特征提取不足等问题。因此本文提出一种两渠道卷积神经网络的佩戴口罩识别方法。在卷积神经网络的基础上，通过 2 个输入渠道，分别对眼睛区域和眼睛以下的区域，进行特征提取; 最后通过基于决策层的信息融合方法，将 2 个渠道的识别结果加以融合，从而得到最终的识别结果，其平均识别准确率达到了 98.8%。经过实验验证，该方法在佩戴口罩的识别上，取得了较好的识别准确率。</p>
+<p>​    	在过去的十年间，人工智能（ArtificialIntelligence，AI）相关技术日新月异，几乎颠覆了传统的计算机视觉领域，随着机器学习、大数据处理、深度学习等重要理论的日益完善，很多十年前听起来像是天方夜谭的任务，例如智能机器人、图像识别、语音识别和个性化推荐系统等，如今已经变得触手可及，密切融入了我们的日常社会生活之中。卷积神经网络（Convolutional NeuralNetworks，CNN）是一类具有层级构造并以卷积运算为主的神经网络，是过去十年里计算机视觉领域的绝对主角。1998年，Le Cun 等人首次提出了用于手写数字图像识别的卷积神经网络 LeNet，通过梯度下降（GradientDescent）算法训练的 LeNet 模型取得了当时世界最先进的准确率，这一奠基性的尝试首次让卷积神经网络走向了全世界，并对后来人工智能技术的发展产生了深远的影响。随着2006年深度学习理论的提出，卷积神经网络对图像数据的学习能力和表达能力得到了非常广泛的关注，并且计算机硬件性能的高速更新迭代也为卷积神经网络的应用推广提供了相当有利的条件[2]。自从 2012 年 AlexNet 的横空出世以来，在现代 GPU 计算集群的支持下，VGGNet、GoogLeNet 和 ResNet 等结构更为复杂的卷积神经网络不停地在 ImageNet 等著名的大型视觉比赛中刷新记录，卷积神经网络在传统的计算机视觉领域掀起了重要的变革。得益于深度学习理论的快速发展，除了较为成熟的图像分类领域之外，图像分割、目标检测和目标追踪等关联领域同样涌现出了很多颠覆性的算法。新冠疫情防控工作中，需要在机场、车站等公共场所对人流的口罩佩戴情况实施监测，这可以被抽象为一种目标检测任务，该任务中需要检测的目标包含了口罩目标<br>（佩戴口罩）和人脸目标（未佩戴口罩），共 2 个类别，如下图所示。</p>
+<p><img src="https://s2.loli.net/2022/11/26/lRUVOz5P8Bsq1ju.png" alt="Snipaste_2022-11-26_20-20-08.png"></p>
+<h1 id="ResNet50-模型的介绍"><a href="#ResNet50-模型的介绍" class="headerlink" title="ResNet50 模型的介绍"></a>ResNet50 模型的介绍</h1><p>神经网络微调是一种深度迁移学习，是将具有通用的特征提取能力的预训练模型迁入到目标网络，根据不同的训练任务对预训练模型网络结构进行调整，在目标数据集上训练微调模型参数，将其转化为目标领域神经网络的一部分。文献中残差网络有效地解决了深度卷积神经网络出现的退化问题。下图为一个 bottleneck 残差单元输入与输出关系。</p>
+<p><img src="https://s2.loli.net/2022/11/26/sRQ9rXKWDZtb6Pw.png" alt="Snipaste_2022-11-26_20-30-35.png"></p>
+<p>​                                                               图 3-1 Ｒesidual network unit</p>
+<p>图 3-1 中:x 表示该残差单元的输入;F(x)表示输入在经过卷积层后的残差值;H(x)表示当前残差单元的输出，其的表达式如下:<br>                        H(x)&#x3D;F(x)+x<br>设卷积神经网络的期望输出为 H’(x)，在网络训练达到较饱和准确率的情况下，接下来的学习相当于一个恒等映射学习，也就是 H(x)&#x3D;x，之后的训练目标就变成使残差 F(x)趋近于 0，随着网络加深，准确率不再下降。Bottleneck 是构成ＲesNet50 的基本单元，每个 Bottleneck 残差块由 3 个卷积层构成，图 3-1 中采用 1×1 卷积降低输入通道，最后再用 1×1 卷积恢复，从而减少计算量。输入数据在经过 3 次卷积后得出的输出数据再与输入相加得到该残差块最终输出。<br>图 3-2 为 ResNet50 预训练模型参数迁移，从 ImageNet 中迁移预训练模型，根据是否佩戴口罩修改全链接(fc)层结构、冻结不同卷积层参数，通过训练，进一步调整模型参数以适应口罩数据集。</p>
+<p>​		因为卷积神经网络在训练时参与训练的参数量对训练效率，最终准确率有很大影响。在不迁移参数的情况下，模型的性能是随着冻结参数的增多而下降的，但是训练效率会提升。因此本文将ＲesNet50 网络的部分卷积层参数替换为预训练模型参数并锁定，其余卷积层参与对口罩数据集的训练。因此在实验部分重点探究ＲesNet50 网络不同参数迁移量对识别准确率，训练耗时的影响。</p>
+<p><img src="https://s2.loli.net/2022/11/26/wtR2LZzsPX15C7a.png" alt="Snipaste_2022-11-26_20-32-15.png"></p>
+<h2 id="模型的建立"><a href="#模型的建立" class="headerlink" title="模型的建立"></a>模型的建立</h2><p>​		模型构建采用的是 TensorFlow 的序列模型框架，首先转换图片数据作为模型的输入，之后再加载 Resnet50 网络去做微调。之后再添加两个 dense 层，两个 dence 层的 activation 分别使用的 relu 和 sigmoid。另外，在模型训练过程中，采用 dropout 以防止过拟合。编译过程采用梯度下降算法进行权重的更新迭代。</p>
+<h2 id="模型的评估"><a href="#模型的评估" class="headerlink" title="模型的评估"></a>模型的评估</h2><p>损失函数 LOSS 如下图所示：</p>
+<p><img src="https://s2.loli.net/2022/11/26/r8Ey3vgQxTScp9w.png" alt="Snipaste_2022-11-26_20-34-24.png"></p>
+<p>准确率 Accuracy 如下图所示：</p>
+<p><img src="https://s2.loli.net/2022/11/26/hcVTUzAbpwQd98s.png" alt="Snipaste_2022-11-26_20-35-20.png"></p>
+<h1 id="最终实现的效果"><a href="#最终实现的效果" class="headerlink" title="最终实现的效果"></a>最终实现的效果</h1><p><img src="https://s2.loli.net/2022/11/26/UYL4PohJz3rWF1A.png" alt="Snipaste_2022-11-26_20-37-28.png"></p>
+<p><img src="https://s2.loli.net/2022/11/26/31WTuCJe7jvHP68.png" alt="Snipaste_2022-11-26_20-38-04.png"></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+          
+            <a href="/" rel="tag"><i class="fa fa-tags"></i> </a>
+          
+            <a href="/" rel="tag"><i class="fa fa-tags"></i> </a>
+          
+            <a href="/" rel="tag"><i class="fa fa-tags"></i> </a>
+          
+            <a href="/" rel="tag"><i class="fa fa-tags"></i> </a>
+          
+         </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/posts/3652056.html" rel="prev" title="中文语义病句识别挑战">
+      <i class="fa fa-chevron-left"></i> 中文语义病句识别挑战
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ResNet50-%E6%A8%A1%E5%9E%8B%E7%9A%84%E4%BB%8B%E7%BB%8D"><span class="nav-number">2.</span> <span class="nav-text">ResNet50 模型的介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E7%9A%84%E5%BB%BA%E7%AB%8B"><span class="nav-number">2.1.</span> <span class="nav-text">模型的建立</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%84%E4%BC%B0"><span class="nav-number">2.2.</span> <span class="nav-text">模型的评估</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%80%E7%BB%88%E5%AE%9E%E7%8E%B0%E7%9A%84%E6%95%88%E6%9E%9C"><span class="nav-number">3.</span> <span class="nav-text">最终实现的效果</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="江东"
+      src="https://avatars.githubusercontent.com/u/76576534?v=4">
+  <p class="site-author-name" itemprop="name">江东</p>
+  <div class="site-description" itemprop="description">热爱生活，努力工作</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">62</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">53</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/du2279664786" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;du2279664786" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2021 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">江东</span>
+</div>
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+-->
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.7' zIndex='-1' count='299' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  <script async src="/js/cursor/fireworks.js"></script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

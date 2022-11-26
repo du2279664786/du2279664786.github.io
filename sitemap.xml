@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://du2279664786.github.io/posts/2b88de7d.html</loc>
+    
+    <lastmod>2022-11-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://du2279664786.github.io/posts/3652056.html</loc>
     
     <lastmod>2022-11-24</lastmod>
@@ -927,6 +936,27 @@
     <priority>0.2</priority>
   </url>
   
+  <url>
+    <loc>https://du2279664786.github.io/tags/CV/</loc>
+    <lastmod>2022-11-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://du2279664786.github.io/tags/Resnet/</loc>
+    <lastmod>2022-11-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://du2279664786.github.io/tags/%E5%BE%AE%E8%B0%83/</loc>
+    <lastmod>2022-11-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
 
   
   <url>
@@ -973,6 +1003,13 @@
   
   <url>
     <loc>https://du2279664786.github.io/categories/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/</loc>
+    <lastmod>2022-11-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://du2279664786.github.io/categories/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89/</loc>
     <lastmod>2022-11-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
