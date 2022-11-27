@@ -624,13 +624,6 @@
   </url>
   
   <url>
-    <loc>https://du2279664786.github.io/tags/Kmeans/</loc>
-    <lastmod>2022-11-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://du2279664786.github.io/tags/KNN%E5%8F%AF%E8%A7%86%E5%8C%96/</loc>
     <lastmod>2022-11-27</lastmod>
     <changefreq>weekly</changefreq>
@@ -646,6 +639,13 @@
   
   <url>
     <loc>https://du2279664786.github.io/tags/%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%E7%AE%97%E6%B3%95/</loc>
+    <lastmod>2022-11-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://du2279664786.github.io/tags/Kmeans/</loc>
     <lastmod>2022-11-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -694,6 +694,13 @@
   </url>
   
   <url>
+    <loc>https://du2279664786.github.io/tags/MySQL/</loc>
+    <lastmod>2022-11-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://du2279664786.github.io/tags/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/</loc>
     <lastmod>2022-11-27</lastmod>
     <changefreq>weekly</changefreq>
@@ -701,7 +708,7 @@
   </url>
   
   <url>
-    <loc>https://du2279664786.github.io/tags/MySQL/</loc>
+    <loc>https://du2279664786.github.io/tags/%E7%88%AC%E8%99%AB%EF%BC%8Cselenium/</loc>
     <lastmod>2022-11-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -722,14 +729,14 @@
   </url>
   
   <url>
-    <loc>https://du2279664786.github.io/tags/%E7%88%AC%E8%99%AB%EF%BC%8Cselenium/</loc>
+    <loc>https://du2279664786.github.io/tags/%E5%AF%B9%E8%AF%9D%E6%9C%BA%E5%99%A8%E4%BA%BA/</loc>
     <lastmod>2022-11-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://du2279664786.github.io/tags/%E5%AF%B9%E8%AF%9D%E6%9C%BA%E5%99%A8%E4%BA%BA/</loc>
+    <loc>https://du2279664786.github.io/tags/DBSCAN%E7%AE%97%E6%B3%95/</loc>
     <lastmod>2022-11-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -764,14 +771,7 @@
   </url>
   
   <url>
-    <loc>https://du2279664786.github.io/tags/DBSCAN%E7%AE%97%E6%B3%95/</loc>
-    <lastmod>2022-11-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://du2279664786.github.io/tags/pytorch/</loc>
+    <loc>https://du2279664786.github.io/tags/Python%E5%8A%9E%E5%85%AC%E8%87%AA%E5%8A%A8%E5%8C%96/</loc>
     <lastmod>2022-11-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -785,7 +785,7 @@
   </url>
   
   <url>
-    <loc>https://du2279664786.github.io/tags/Python%E5%8A%9E%E5%85%AC%E8%87%AA%E5%8A%A8%E5%8C%96/</loc>
+    <loc>https://du2279664786.github.io/tags/pytorch/</loc>
     <lastmod>2022-11-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -799,14 +799,14 @@
   </url>
   
   <url>
-    <loc>https://du2279664786.github.io/tags/SOFTMAX/</loc>
+    <loc>https://du2279664786.github.io/tags/d2lzh-pytorch%E5%8C%85%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85/</loc>
     <lastmod>2022-11-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://du2279664786.github.io/tags/d2lzh-pytorch%E5%8C%85%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85/</loc>
+    <loc>https://du2279664786.github.io/tags/CUDA/</loc>
     <lastmod>2022-11-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -820,21 +820,14 @@
   </url>
   
   <url>
+    <loc>https://du2279664786.github.io/tags/SOFTMAX/</loc>
+    <lastmod>2022-11-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://du2279664786.github.io/tags/NLP/</loc>
-    <lastmod>2022-11-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://du2279664786.github.io/tags/HuggingFace/</loc>
-    <lastmod>2022-11-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://du2279664786.github.io/tags/%E9%A2%84%E8%AE%AD%E7%BB%83/</loc>
     <lastmod>2022-11-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -855,7 +848,14 @@
   </url>
   
   <url>
-    <loc>https://du2279664786.github.io/tags/Add-Norm/</loc>
+    <loc>https://du2279664786.github.io/tags/HuggingFace/</loc>
+    <lastmod>2022-11-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://du2279664786.github.io/tags/%E9%A2%84%E8%AE%AD%E7%BB%83/</loc>
     <lastmod>2022-11-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -869,6 +869,13 @@
   </url>
   
   <url>
+    <loc>https://du2279664786.github.io/tags/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89/</loc>
+    <lastmod>2022-11-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://du2279664786.github.io/tags/%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1/</loc>
     <lastmod>2022-11-27</lastmod>
     <changefreq>weekly</changefreq>
@@ -876,7 +883,14 @@
   </url>
   
   <url>
-    <loc>https://du2279664786.github.io/tags/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89/</loc>
+    <loc>https://du2279664786.github.io/tags/Add-Norm/</loc>
+    <lastmod>2022-11-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://du2279664786.github.io/tags/%E9%87%91%E8%9E%8D/</loc>
     <lastmod>2022-11-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -911,21 +925,7 @@
   </url>
   
   <url>
-    <loc>https://du2279664786.github.io/tags/%E9%87%91%E8%9E%8D/</loc>
-    <lastmod>2022-11-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://du2279664786.github.io/tags/%E6%96%87%E6%9C%AC%E5%88%86%E7%B1%BB/</loc>
-    <lastmod>2022-11-27</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://du2279664786.github.io/tags/CUDA/</loc>
     <lastmod>2022-11-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
