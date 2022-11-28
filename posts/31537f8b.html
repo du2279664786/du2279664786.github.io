@@ -22,29 +22,31 @@
     var CONFIG = {"hostname":"du2279664786.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":"true#false","color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="Transformer中的MASK主要分为两部分：Padding Mask和Sequence Mask两部分">
+  <meta name="description" content="BERT的总结与梳理">
 <meta property="og:type" content="article">
-<meta property="og:title" content="对Transformer中的MASK理解">
-<meta property="og:url" content="https://du2279664786.github.io/posts/35596.html">
+<meta property="og:title" content="BERT梳理">
+<meta property="og:url" content="https://du2279664786.github.io/posts/31537f8b.html">
 <meta property="og:site_name" content="江东的笔记">
-<meta property="og:description" content="Transformer中的MASK主要分为两部分：Padding Mask和Sequence Mask两部分">
+<meta property="og:description" content="BERT的总结与梳理">
 <meta property="og:locale">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/de74182b27f24a84a28fdd5f7204f0cd.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/8df2f100c0a447909a8f9d99cbf86a1d.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/90d840807bf04b89bf8e32dd6bf19e85.png">
-<meta property="article:published_time" content="2022-11-15T14:55:10.000Z">
-<meta property="article:modified_time" content="2022-11-24T06:54:45.771Z">
+<meta property="og:image" content="https://s2.loli.net/2022/11/27/se3KlBPxuyZzhMJ.png">
+<meta property="og:image" content="https://s2.loli.net/2022/11/27/boAzwiyY7S14DOB.png">
+<meta property="og:image" content="https://s2.loli.net/2022/11/27/MCDvQJ7wetBnl8d.jpg">
+<meta property="og:image" content="https://s2.loli.net/2022/11/27/mfy98lKF7jYNhGu.png">
+<meta property="og:image" content="https://s2.loli.net/2022/11/27/QvYcZlz8H29AmxV.png">
+<meta property="og:image" content="https://s2.loli.net/2022/11/27/x4KVYBuPs8CaQUf.png">
+<meta property="og:image" content="https://s2.loli.net/2022/11/27/BgoDL1sen7GU6Fx.png">
+<meta property="og:image" content="https://s2.loli.net/2022/11/27/dx6AvlVQ7PD1jJK.png">
+<meta property="article:published_time" content="2022-11-28T14:55:10.000Z">
+<meta property="article:modified_time" content="2022-11-28T02:42:11.697Z">
 <meta property="article:author" content="江东">
-<meta property="article:tag" content="深度学习">
-<meta property="article:tag" content="pytorch">
 <meta property="article:tag" content="NLP">
-<meta property="article:tag" content="HuggingFace">
 <meta property="article:tag" content="Transformer">
-<meta property="article:tag" content="Mask">
+<meta property="article:tag" content="BERT">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://img-blog.csdnimg.cn/de74182b27f24a84a28fdd5f7204f0cd.png">
+<meta name="twitter:image" content="https://s2.loli.net/2022/11/27/se3KlBPxuyZzhMJ.png">
 
-<link rel="canonical" href="https://du2279664786.github.io/posts/35596.html">
+<link rel="canonical" href="https://du2279664786.github.io/posts/31537f8b.html">
 
 
 <script id="page-configurations">
@@ -57,7 +59,7 @@
   };
 </script>
 
-  <title>对Transformer中的MASK理解 | 江东的笔记</title>
+  <title>BERT梳理 | 江东的笔记</title>
   
 
 
@@ -203,7 +205,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="https://du2279664786.github.io/posts/35596.html">
+    <link itemprop="mainEntityOfPage" href="https://du2279664786.github.io/posts/31537f8b.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://avatars.githubusercontent.com/u/76576534?v=4">
@@ -216,7 +218,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          对Transformer中的MASK理解
+          BERT梳理
         </h1>
 
         <div class="post-meta">
@@ -225,16 +227,10 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2022-11-15 22:55:10" itemprop="dateCreated datePublished" datetime="2022-11-15T22:55:10+08:00">2022-11-15</time>
+              <time title="创建时间：2022-11-28 22:55:10 / 修改时间：10:42:11" itemprop="dateCreated datePublished" datetime="2022-11-28T22:55:10+08:00">2022-11-28</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-11-24 14:54:45" itemprop="dateModified" datetime="2022-11-24T14:54:45+08:00">2022-11-24</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -256,15 +252,61 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>Transformer中的MASK主要分为两部分：Padding Mask和Sequence Mask两部分</p>
+        <p>BERT的总结与梳理</p>
 <span id="more"></span>
 
-<p>上一篇文章我们介绍了<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_51756104/article/details/127250190?spm=1001.2014.3001.5501">对Transformer中FeedForward层的理解</a>，今天我们来介绍一下对MASK的理解<br>老规矩，还是先放一张Transformer的图片<br><img src="https://img-blog.csdnimg.cn/de74182b27f24a84a28fdd5f7204f0cd.png" alt="在这里插入图片描述"><br>Transformer结构主要分为两大部分，一是Encoder层结构，另一个则是Decoder层结构，而所谓的MASK在Encoder和Decoder两个结构中都有使用。</p>
-<p>Transformer中的MASK主要分为两部分：Padding Mask和Sequence Mask两部分</p>
-<h1 id="Padding-Masked"><a href="#Padding-Masked" class="headerlink" title="Padding Masked"></a>Padding Masked</h1><p>对于Transformer而言，每次的输入为：[batch_size,seq_length,d_module]结构，由于句子一般是长短不一的，而输入的数据需要是固定的格式，所以要对句子进行处理。<br>通常会把每个句子按照最大长度进行补齐，所以当句子不够长时，需要进行补0操作，以保证输入数据结构的完整性<br>但是在计算注意力机制时的Softmax函数时，就会出现问题，Padding数值为0的话，仍然会影响到Softmax的计算结果，即无效数据参加了运算。<br>为了不让Padding数据产生影响，通常会将Padding数据变为负无穷，这样的话就不会影响Softmax函数了</p>
-<h1 id="Sequence-Masked"><a href="#Sequence-Masked" class="headerlink" title="Sequence Masked"></a>Sequence Masked</h1><p>Sequence Masked只发生在Decoder操作中，在Decoder中，我们的预测是一个一个进行的，即输入一个token，输出下一个token，在网上看到一个很好的解释如下：<br>假设我们当前在进行机器翻译<br>    输入：我很好<br>    输出：I am fine<br>接下来是Decoder执行步骤<br>第一步：<br>    ·初始输入： 起始符</s> + Positional Encoding（位置编码）<br>    ·中间输入：（我很好）Encoder Embedding<br>    ·最终输出：产生预测“I”<br>第二步：<br>    ·初始输入：起始符</s> + “I”+ Positonal Encoding<br>    ·中间输入：（我很好）Encoder Embedding<br>    ·最终输出：产生预测“am”<br>第三步：<br>    ·初始输入：起始符</s> + “I”+ “am”+ Positonal Encoding<br>    ·中间输入：（我很好）Encoder Embedding<br>    ·最终输出：产生预测“fine”<br>上面就是Decoder的执行过程，在预测出“I”之前，我们是不可能知道‘am’的，所以要将数进行Mask，防止看到当前值后面的值，如下图所示：当我们仅知道start的时候，后面的关系是不知道的，所以start和“I”以及其它单词的Score都为负无穷，当预测出“I”之后，再去预测“am”，最终得到下面第三个得分矩阵。<br><img src="https://img-blog.csdnimg.cn/8df2f100c0a447909a8f9d99cbf86a1d.png"></p>
-<p>最后经过Softmax处理之后，得到最终的得分矩阵<br><img src="https://img-blog.csdnimg.cn/90d840807bf04b89bf8e32dd6bf19e85.png"></p>
-<p>最后不要忘了Decoder中依然采用的是Masked Multi-Head Attention，即多次进行Mask机制</p>
+<p>在学习BERT之前，我们需要回顾一下Transformer，看一下这篇文章：<a href="https://du2279664786.github.io/posts/55106.html">Transformer总结和梳理</a></p>
+<p>而BERT只包括Transformer中的Encoder结构</p>
+<h1 id="总体概览"><a href="#总体概览" class="headerlink" title="总体概览"></a>总体概览</h1><p>本文通过以下几部分来梳理BERT</p>
+<ul>
+<li><p>BERT的输入</p>
+</li>
+<li><p>BERT的结构</p>
+</li>
+<li><p>BERT所做的任务</p>
+</li>
+</ul>
+<h1 id="BERT的输入"><a href="#BERT的输入" class="headerlink" title="BERT的输入"></a>BERT的输入</h1><p>先放一张图片来看一下BERT的输入结构:</p>
+<p><img src="https://s2.loli.net/2022/11/27/se3KlBPxuyZzhMJ.png" alt="Snipaste_2022-11-27_17-11-50.png"></p>
+<p>可以看出BERT的输入包括三部分:Token Embedding+Segment Embedding+Position Embedding组成</p>
+<h2 id="Token-Embedding"><a href="#Token-Embedding" class="headerlink" title="Token Embedding"></a>Token Embedding</h2><p>Token Embedding为将原始文本转化为embedding后的结果，其shape为[N,d_model]，N为seq_lenght，d_model词向量的维度</p>
+<h2 id="Segment-Embedding"><a href="#Segment-Embedding" class="headerlink" title="Segment Embedding"></a>Segment Embedding</h2><p>Segment Embedding为句子分割嵌入，主要用来区分前后两句话，其shape为[N,d_model]，N为seq_lenght，d_model句子嵌入的维度</p>
+<h2 id="Position-Embedding"><a href="#Position-Embedding" class="headerlink" title="Position Embedding"></a>Position Embedding</h2><p>Position Embedding为位置嵌入，用来区分token的位置，其shape为[N,d_model],N为seq_length，d_model为位置嵌入的维度,详细的Position Embedding<a href="https://du2279664786.github.io/posts/7459.html">请点击此处查看</a></p>
+<p>可以看出，三种Embedding之后shape是一样的，由上图可以看出，input是将三个Embedding进行相加求和，即为输入的向量</p>
+<p><img src="https://s2.loli.net/2022/11/27/boAzwiyY7S14DOB.png" alt="Snipaste_2022-11-27_19-15-47.png"></p>
+<p>在输入BERT前还需进行修改，添加特殊token，[CLS]表示一句话的开头，s_m和p_n分别为两句话，输⼊序列⾸标记[SEP]⽤作分类任务表示；特殊标记[SEP]⽤作区分句⼦对各⼦句。</p>
+<h1 id="BERT的结构"><a href="#BERT的结构" class="headerlink" title="BERT的结构"></a>BERT的结构</h1><h2 id="整体结构"><a href="#整体结构" class="headerlink" title="整体结构"></a>整体结构</h2><p><img src="https://s2.loli.net/2022/11/27/MCDvQJ7wetBnl8d.jpg" alt="bert-模型结构.jpg"></p>
+<p>由上图可以看出：BERT是由多个Trm组成，Trm为Transformer的Encoder结构，即BERT是由多个Transformer的Encoder堆叠而成</p>
+<p>根据堆叠的层数不同，将BERT分为两类</p>
+<pre><code>+ BERT-base：12层，768维度，12头，110百万参数
++ BERT-large：24层，1024维度，16头，340百万参数
+</code></pre>
+<h2 id="单个Block"><a href="#单个Block" class="headerlink" title="单个Block"></a>单个Block</h2><p>单个Block就是Transformer的Encoder,结构如下:</p>
+<p><img src="https://s2.loli.net/2022/11/27/mfy98lKF7jYNhGu.png" alt="Snipaste_2022-11-27_20-40-47.png"></p>
+<p>关于input输入,篇幅刚开始已经做详细介绍</p>
+<h3 id="多头注意力与缩放点积"><a href="#多头注意力与缩放点积" class="headerlink" title="多头注意力与缩放点积"></a>多头注意力与缩放点积</h3><p><img src="https://s2.loli.net/2022/11/27/QvYcZlz8H29AmxV.png" alt="Snipaste_2022-11-27_20-44-36.png"></p>
+<p>这里的多头注意力和缩放点积均和Transformer中的相同,缩放点积打分函数如下:</p>
+<p><img src="https://s2.loli.net/2022/11/27/x4KVYBuPs8CaQUf.png" alt="Snipaste_2022-11-27_20-53-16.png"></p>
+<p>具体详细解析可以<a href="https://du2279664786.github.io/posts/17366.html">点击此处查看</a></p>
+<h3 id="ADD-amp-Norm"><a href="#ADD-amp-Norm" class="headerlink" title="ADD &amp; Norm"></a>ADD &amp; Norm</h3><p>关于ADD &amp; Norm可以<a href="https://du2279664786.github.io/posts/34541.html">点击此处</a>查看解释</p>
+<h3 id="前馈神经网络"><a href="#前馈神经网络" class="headerlink" title="前馈神经网络"></a>前馈神经网络</h3><p>FeedForward是Multi-Head Attention的输出做了残差连接和Norm之后得数据，然后FeedForward做了两次线性线性变换，为的是更加深入的提取特征。<br>在每次线性变换都引入了非线性激活函数Relu，在Multi-Head Attention中，主要是进行矩阵乘法，即都是线性变换，而线性变换的学习能力不如非线性变换的学习能力强，FeedForward的计算公式如下：max相当于Relu<br><img src="https://s2.loli.net/2022/11/27/BgoDL1sen7GU6Fx.png" alt="Snipaste_2022-11-27_20-57-27.png"></p>
+<p>所以FeedForward的作用是：通过线性变换，先将数据映射到高纬度的空间再映射到低纬度的空间，提取了更深层次的特征</p>
+<h3 id="PAD掩码"><a href="#PAD掩码" class="headerlink" title="PAD掩码"></a>PAD掩码</h3><p>对于Transformer而言，每次的输入为：[batch_size,seq_length,d_module]结构，由于句子一般是长短不一的，而输入的数据需要是固定的格式，所以要对句子进行处理。<br>通常会把每个句子按照最大长度进行补齐，所以当句子不够长时，需要进行补0操作，以保证输入数据结构的完整性<br>但是在计算注意力机制时的Softmax函数时，就会出现问题，Padding数值为0的话，仍然会影响到Softmax的计算结果，即无效数据参加了运算。<br>为了不让Padding数据产生影响，通常会将Padding数据变为负无穷，这样的话就不会影响Softmax函数了</p>
+<h1 id="BERT的两个任务"><a href="#BERT的两个任务" class="headerlink" title="BERT的两个任务"></a>BERT的两个任务</h1><h2 id="遮蔽语言模型-MLM-训练任务"><a href="#遮蔽语言模型-MLM-训练任务" class="headerlink" title="遮蔽语言模型(MLM)训练任务"></a>遮蔽语言模型(MLM)训练任务</h2><p>遮蔽语⾔模型可描述为给定单词上下⽂序列后，当前单词出现的条件概率的乘积：</p>
+<p><img src="https://s2.loli.net/2022/11/27/dx6AvlVQ7PD1jJK.png" alt="Snipaste_2022-11-27_21-23-41.png"></p>
+<p>其中, $W_t$是第t个单词，$W_i^j$&#x3D;（$W_i$,$W_{i+1}$,………..$W_{j+1}$,$W_{j}$）是从第i个单词到第j个单词的子序列。</p>
+<p>具体的表现形式如下：</p>
+<p>在输入Embedding中会选择15%的单词进行MASK，再将其预测出来，MASK操作只会发生在Pre-training中，而在Fine-turning中不会出现，为了减少MASK对微调的影响，采用以下策略：</p>
+<pre><code>+ 80%的词会被真正[MASK]
++ 10%的次会被随机替换成其它Token
++ 10%的词保持不变
+</code></pre>
+<h2 id="预测下个句子-NSP-任务"><a href="#预测下个句子-NSP-任务" class="headerlink" title="预测下个句子(NSP)任务"></a>预测下个句子(NSP)任务</h2><p>从语料库中⽣成⼆值化的下⼀句句⼦预测任务。</p>
+<p>具体的，当为每个预训练选择句⼦A和B时，B的50％的时间是跟随A的实际下⼀个句⼦，⽽50％的时间是来⾃语料库的<br>随机句⼦。</p>
+<ul>
+<li>input &#x3D; [CLS] the man went to [MASK] store [SEP] he bought a gallon [MASK] milk [SEP] label &#x3D; IsNext</li>
+<li>input &#x3D; [CLS] the man [MASK] to the store [SEP] penguin [MASK] are filght ##less birds [SEP] label &#x3D; NotNext</li>
+</ul>
 
     </div>
 
@@ -281,12 +323,6 @@
           
             <a href="/" rel="tag"><i class="fa fa-tags"></i> </a>
           
-            <a href="/" rel="tag"><i class="fa fa-tags"></i> </a>
-          
-            <a href="/" rel="tag"><i class="fa fa-tags"></i> </a>
-          
-            <a href="/" rel="tag"><i class="fa fa-tags"></i> </a>
-          
          </div>
 
         
@@ -295,13 +331,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/posts/14939.html" rel="prev" title="第五届“泰迪杯”数据分析技能赛">
-      <i class="fa fa-chevron-left"></i> 第五届“泰迪杯”数据分析技能赛
+    <a href="/posts/2b88de7d.html" rel="prev" title="基于ResNet50的口罩检测">
+      <i class="fa fa-chevron-left"></i> 基于ResNet50的口罩检测
     </a></div>
-      <div class="post-nav-item">
-    <a href="/posts/1669.html" rel="next" title="什么是Warmup">
-      什么是Warmup <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -364,7 +397,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Padding-Masked"><span class="nav-number">1.</span> <span class="nav-text">Padding Masked</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Sequence-Masked"><span class="nav-number">2.</span> <span class="nav-text">Sequence Masked</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%BB%E4%BD%93%E6%A6%82%E8%A7%88"><span class="nav-number">1.</span> <span class="nav-text">总体概览</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#BERT%E7%9A%84%E8%BE%93%E5%85%A5"><span class="nav-number">2.</span> <span class="nav-text">BERT的输入</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Token-Embedding"><span class="nav-number">2.1.</span> <span class="nav-text">Token Embedding</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Segment-Embedding"><span class="nav-number">2.2.</span> <span class="nav-text">Segment Embedding</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Position-Embedding"><span class="nav-number">2.3.</span> <span class="nav-text">Position Embedding</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#BERT%E7%9A%84%E7%BB%93%E6%9E%84"><span class="nav-number">3.</span> <span class="nav-text">BERT的结构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B4%E4%BD%93%E7%BB%93%E6%9E%84"><span class="nav-number">3.1.</span> <span class="nav-text">整体结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%95%E4%B8%AABlock"><span class="nav-number">3.2.</span> <span class="nav-text">单个Block</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E5%A4%B4%E6%B3%A8%E6%84%8F%E5%8A%9B%E4%B8%8E%E7%BC%A9%E6%94%BE%E7%82%B9%E7%A7%AF"><span class="nav-number">3.2.1.</span> <span class="nav-text">多头注意力与缩放点积</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ADD-amp-Norm"><span class="nav-number">3.2.2.</span> <span class="nav-text">ADD &amp; Norm</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E9%A6%88%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C"><span class="nav-number">3.2.3.</span> <span class="nav-text">前馈神经网络</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PAD%E6%8E%A9%E7%A0%81"><span class="nav-number">3.2.4.</span> <span class="nav-text">PAD掩码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#BERT%E7%9A%84%E4%B8%A4%E4%B8%AA%E4%BB%BB%E5%8A%A1"><span class="nav-number">4.</span> <span class="nav-text">BERT的两个任务</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%81%AE%E8%94%BD%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B-MLM-%E8%AE%AD%E7%BB%83%E4%BB%BB%E5%8A%A1"><span class="nav-number">4.1.</span> <span class="nav-text">遮蔽语言模型(MLM)训练任务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%84%E6%B5%8B%E4%B8%8B%E4%B8%AA%E5%8F%A5%E5%AD%90-NSP-%E4%BB%BB%E5%8A%A1"><span class="nav-number">4.2.</span> <span class="nav-text">预测下个句子(NSP)任务</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
