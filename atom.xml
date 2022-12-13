@@ -160,9 +160,9 @@
     
     <category term="HuggingFace" scheme="https://du2279664786.github.io/tags/HuggingFace/"/>
     
-    <category term="Pre-training" scheme="https://du2279664786.github.io/tags/Pre-training/"/>
-    
     <category term="BERT" scheme="https://du2279664786.github.io/tags/BERT/"/>
+    
+    <category term="Pre-training" scheme="https://du2279664786.github.io/tags/Pre-training/"/>
     
   </entry>
   
@@ -189,9 +189,9 @@
     
     <category term="HuggingFace" scheme="https://du2279664786.github.io/tags/HuggingFace/"/>
     
-    <category term="BERT" scheme="https://du2279664786.github.io/tags/BERT/"/>
-    
     <category term="文本分类" scheme="https://du2279664786.github.io/tags/%E6%96%87%E6%9C%AC%E5%88%86%E7%B1%BB/"/>
+    
+    <category term="BERT" scheme="https://du2279664786.github.io/tags/BERT/"/>
     
   </entry>
   
