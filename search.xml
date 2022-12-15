@@ -31,6 +31,60 @@
     
     
     <entry>
+      <title>第3章 图像处理</title>
+      <link href="/posts/1f485563.html"/>
+      <url>/posts/1f485563.html</url>
+      
+        <content type="html"><![CDATA[<p>机器视觉期末复习的整理 第3章 图像处理</p><span id="more"></span><h1 id="第三章-图像处理"><a href="#第三章-图像处理" class="headerlink" title="第三章 图像处理"></a>第三章 图像处理</h1><h2 id="1-数字图像的计算机表述"><a href="#1-数字图像的计算机表述" class="headerlink" title="1. 数字图像的计算机表述"></a>1. 数字图像的计算机表述</h2><p> 图中显示了局部放大后的图像，放大后可以看见图中的各个小方块即为像素。<br><img src="https://img-blog.csdnimg.cn/15fd17fdd10341bf828be22c6a947deb.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/17a52477ccf14d648f1b15677c39e9a3.png" alt="在这里插入图片描述"></p><h2 id="2-常用图像处理算法及其通用性问题"><a href="#2-常用图像处理算法及其通用性问题" class="headerlink" title="2.常用图像处理算法及其通用性问题"></a>2.常用图像处理算法及其通用性问题</h2><p>图像处理的基本算法包括：图像增强、去噪声处理、图像分割、边缘检测、特征提取、几何变换等；经典算法有：Hough（哈夫）变换、傅里叶变换（FFT）、小波（wavelet）变换、模式识别、神经网络、遗传算法等。<br>图像处理最大的难点在于，没有任何一种算法能够独立完成千差万别的图像处理，针对不同的处理对象，需要对多种图像处理算法进行组合和修改。不同的处理对象和环境，图像处理的难点不同。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 机器视觉 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 机器视觉 </tag>
+            
+            <tag> 期末考试 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>第5章 图像平滑处理</title>
+      <link href="/posts/ed305aa6.html"/>
+      <url>/posts/ed305aa6.html</url>
+      
+        <content type="html"><![CDATA[<p>机器视觉期末复习的整理 第5章 图像平滑处理</p><span id="more"></span><h1 id="机器视觉期末复习的整理"><a href="#机器视觉期末复习的整理" class="headerlink" title="机器视觉期末复习的整理"></a>机器视觉期末复习的整理</h1><h2 id="图像平滑"><a href="#图像平滑" class="headerlink" title="图像平滑"></a>图像平滑</h2><h3 id="1-图像增强"><a href="#1-图像增强" class="headerlink" title="1.图像增强"></a>1.图像增强</h3><p>图像增强是对图像进行处理，使其比原始图像更适合于特定的应用，它需要与实际应用相结合.对于图像的某些特征如边缘、轮廓、对比度等，图像增强是进行强调或锐化，以便于显示、观察或进一步分析与处理。图像增强的方法是因应用不同而不同的，研究内容包括: (参考课件和左飞的《数字图像处理》)<br><img src="https://img-blog.csdnimg.cn/4e95f876b62c4a209f127fc61d0bc736.png" alt="在这里插入图片描述"></p><h3 id="2-图像平滑"><a href="#2-图像平滑" class="headerlink" title="2.图像平滑"></a>2.图像平滑</h3><p>图像平滑是一种区域增强的算法，平滑算法有邻域平均法、中指滤波、边界保持类滤波等.在<br>图像产生、传输和复制过程中，常常会因为多方面原因而被噪声干扰或出现数据丢失，降低了<br>像的质量(某- -像素，如果它与周围像素点相比有明显的不同，则该点被噪声所感染)。这就需要对图像进行一定的增强处理以减小这 些缺陷带来的影响。</p><p>简单平滑-邻域平均法</p><h3 id="3-邻域平均法"><a href="#3-邻域平均法" class="headerlink" title="3.邻域平均法"></a>3.邻域平均法</h3><p>图像简单平滑是指通过邻域简单平均对图像进行平滑处理的方法，用这种方法在一定程度上消除原始图像中的噪声、降低原始图像对比度的作用.它利用卷积运算对图像邻域的像素灰度进行平均，从而达到减小图像中噪声影响、降低图像对比度的目的.但邻域平均值主要缺点是在降低噪声的同时使图像变得模糊，特别在边缘和细节处，而且邻域越大，在去噪能力增强的同时模糊程度越严重.</p><p><img src="https://img-blog.csdnimg.cn/bac3f71c3dfc4d9a87a883daa41d7f7c.png" alt="[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-qGJOFKDV-1671088442726)(C:\Users\xiaopi\AppData\Roaming\Typora\typora-user-images\1671083701723.png)]"><br><img src="https://img-blog.csdnimg.cn/b73e4dbcabaa44d1a2e74b6b7000c5f2.png" alt="在这里插入图片描述"></p><h2 id="均值滤波"><a href="#均值滤波" class="headerlink" title="均值滤波"></a>均值滤波</h2><h3 id="1-原理"><a href="#1-原理" class="headerlink" title="1.原理"></a>1.原理</h3><p>均值滤波是指任意一点的像素值，都是周围N<em>M个像素值的均值.例如下图中，红色点的像素<br>值为蓝色背景区域像素值之和除25.<br><img src="https://img-blog.csdnimg.cn/a1d85a49aa6f4e33804814c13a676f12.png" alt="在这里插入图片描述"><br>其中红色区域的像素值均值滤波处理过程为：(197+25+106+156+159)+(149+40+107+5+71)+(163+198+<em>226</em></em>+223+156)+(222+37+68+193+157)+(42+72+250+41+75)&#x2F;25<br>其中5*5的矩阵称为核，针对原始图像内的像素点，采用核进行处理，得到结果图像.<br><img src="https://img-blog.csdnimg.cn/07a7e7c6fe1843e3a1aef811235c0170.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/3c22d5ffa8394f7d8e02026885545051.png" alt="在这里插入图片描述"></p><h3 id="2-代码"><a href="#2-代码" class="headerlink" title="2.代码"></a>2.代码</h3><p>PythonOpenCV调用实现均值滤波的核心函数如下：<br>result&#x3D;cv2.blur(原始图像，和大小)<br>其中，核大小是以(宽度，高度)表示的元祖形式.常见的形式包括:核大小(3，3)和(5，5)。<br><img src="https://img-blog.csdnimg.cn/55b93a313b5d4ec3adeb8f61fc98c7f8.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/e0b133bcaa23484f99916efedf324f07.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/edcf0b84e0d2478599d801f2e6c0e537.png" alt="在这里插入图片描述"></p><h2 id="中值滤波"><a href="#中值滤波" class="headerlink" title="中值滤波"></a>中值滤波</h2><h3 id="1-概念"><a href="#1-概念" class="headerlink" title="1.概念"></a>1.概念</h3><p>在使用邻域平均法去噪的同时也使得边界变得模糊.而中值滤波是非线性的图像处理方法，在去噪的时可以兼顾到边界信息的保留.选一个含有奇数点的窗口W，将这个窗口在图像上扫描，把窗口中所含的像素点按灰度级的升或降序排列，取位于中间的灰度值来代替该点的灰度值.例如选择滤波的窗口如下图，是一个–维的窗口，待处理像素的灰度取这个模板中灰度的中值，滤波过程如下：<img src="https://img-blog.csdnimg.cn/8f5d39376eb842559ba823c12eeba636.png"><br>如下图所示，将临近像素按照大小排列，取排序像素中位于中间位置的值作为中值滤波的像素值.</p><h3 id="2-代码-1"><a href="#2-代码-1" class="headerlink" title="2.代码"></a>2.代码</h3><p>主要调用medianBlur()函数实现中值滤波。图像平滑里中值滤波的效果好.dst&#x3D;cv2.medianBlur(src，ksize)其中，src表示源文件，ksize表示核大小.核必须是大于1的奇数，如3、5、7等.<br><img src="https://img-blog.csdnimg.cn/f9452d58ac86435a9840ab2c35ec0319.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/ad97f271a27e4ad980b301f933333cf4.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/d3dfb9290b3945349c21c670a1be07de.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/c7122fc401ec4b69b02917895ab5f7bb.png" alt="在这里插入图片描述"></p><h2 id="高斯滤波"><a href="#高斯滤波" class="headerlink" title="高斯滤波"></a>高斯滤波</h2><p>1.概念</p><p>为了克服简单局部平均法的弊端(图像模糊)，目前已提出许多保持边缘、细节的局部平滑算法.它们的出发点都集中在如何选择邻域的大小、形状和方向、参数加平均及邻域各店的权重系数等.<br>图像高斯平滑也是邻域平均的思想对图像进行平滑的-种方法，在图像高斯平滑中，对图像进行平均时，不同位置的像素被赋予了不同的权重.高斯平滑与简单平滑不同，它在对邻域内像素进行平均时，给予不同位置的像素不同的权值，下图的所示的3<em>3和5</em>5领域的高斯模板.<br><img src="https://img-blog.csdnimg.cn/6a04890378f64300a071213fc94c74aa.png" alt="在这里插入图片描述"></p><p>高斯滤波让临近的像素具有更高的重要度，对周围像素计算加权平均值，较近的像素具有较大的权重值.如下图所示，中心位置权重最高为0.4.<br><img src="https://img-blog.csdnimg.cn/72851d23233a441fb91a09f5c96e1b95.png" alt="在这里插入图片描述"></p><h3 id="2-代码-2"><a href="#2-代码-2" class="headerlink" title="2.代码"></a>2.代码</h3><p>Python中OpenCV主要调用GaussianBlur函数，如下：<br>dst&#x3D;cv2.GaussianBlur(src，ksize，sigmaX)<br>其中，src表示原始图像，ksize表示核大小，sigmaX表示X方向方差.注意，核大小(N，N)必须是奇数，X方向方差主要控制权重.<br><img src="https://img-blog.csdnimg.cn/c5bd030fc02a4175b117788eca2f857f.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/554fbfa3c58c45f38611696a95b7fd7a.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/0a63d9116ce84638b873e9d7c8806b31.png" alt="在这里插入图片描述"></p><h2 id="直方图均衡化"><a href="#直方图均衡化" class="headerlink" title="直方图均衡化"></a>直方图均衡化</h2><p>1&gt;.希望一幅图像的像素占有全部可能的灰度级且分布均匀，能够具有高对比度；<br>2&gt;.基本思想是把原始图的直方图变换为均匀分布的形式，这样就增加了像素灰度值的动态范围，从而达到增强图像整体对比度的效果<br>3&gt;.直方图均衡化的前提条件是图像是灰度图<br>4&gt;.全局直方图均衡化<br><img src="https://img-blog.csdnimg.cn/8cbdc88f26c54b4a8944f888f6688e41.png" alt="在这里插入图片描述"></p><h2 id="二值图像的平滑处理–消除噪声的腐蚀处理"><a href="#二值图像的平滑处理–消除噪声的腐蚀处理" class="headerlink" title="二值图像的平滑处理–消除噪声的腐蚀处理"></a>二值图像的平滑处理–消除噪声的腐蚀处理</h2><p>假设有一个模板B(就是一个红色的3x3的框，没有任何值，出于简化的考虑)这个模板在一个图像P.中进行移动.那么模板和图像的运算规则就决定了输出图像是被腐蚀还是被膨胀了.<br>考虑下面的图像，1表示白色区域，0表示黑色区域，现在对图像P和模板B的计算制定一条规则：<br>选取红色方框内的最小值作为新图像的中心值.那么红色方框中最小值是0，也就是新图像对应方框中心位置的像素值是0.<br><img src="https://img-blog.csdnimg.cn/b9e8c97e94b44add9ed4170db231bc71.png" alt="在这里插入图片描述"><br>想象一下就会发现红色框在移动中，框里面的最小值大多数都是0，也就是说新图片大多数都是0的像素值(即黑色)。那么什么情况下能得到1呢(白色)？仅仅当模板在下面这张图的位置能得到1，也就是只有在框内数值均为1时才能使得最小值是1.<br><img src="https://img-blog.csdnimg.cn/520bb51f26b7448197baf125f59fcc40.png" alt="在这里插入图片描述"></p><p>综上，新的图像只有一处像素值为1(白色)，其它位置都是0(黑色)，即这张图像被“腐蚀了.<br><img src="https://img-blog.csdnimg.cn/9e583c8fd57e4c00b843d06013cf6462.png" alt="在这里插入图片描述"></p><p>上述代码实现的就是卷积操作，其中第一个if语句用来判断卷积核尺寸是不是奇数并且正整数，第二个if用来判断输入图像是不是灰度图像，如果不满足这两者就会抛出错误。接下来的双层循环是模板在图像以步长为1进行移动，并选取最小值过程.用来调用函数并绘图的代码如下：<br><img src="https://img-blog.csdnimg.cn/07312b881b24438d87282acbe2d5e074.png" alt="在这里插入图片描述"></p><h2 id="二值图像的平滑处理–消除噪声的膨胀处理"><a href="#二值图像的平滑处理–消除噪声的膨胀处理" class="headerlink" title="二值图像的平滑处理–消除噪声的膨胀处理"></a>二值图像的平滑处理–消除噪声的膨胀处理</h2><p>膨胀和腐蚀是两个相反的过程，上一节讲“选取红色方框内最小值”改为“选取红色方框内最大值“即可.选取框内最小值造成了1大量减少，那么选取框内最大值就会造成1大量增加，这里不再累述.代码如下：<br><img src="https://img-blog.csdnimg.cn/074c28936bbd4c8da66f16bf83786071.png" alt="在这里插入图片描述"></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 机器视觉 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 机器视觉 </tag>
+            
+            <tag> 期末考试 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Web攻击检测与分类识别思路</title>
       <link href="/posts/d0147289.html"/>
       <url>/posts/d0147289.html</url>
