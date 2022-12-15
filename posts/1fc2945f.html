@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"du2279664786.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":"true#false","color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="第三章 目标提取">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第三章 目标提取">
+<meta property="og:url" content="https://du2279664786.github.io/posts/1fc2945f.html">
+<meta property="og:site_name" content="江东的笔记">
+<meta property="og:description" content="第三章 目标提取">
+<meta property="og:locale">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/ae15789517f34a4ea5e126a45fd1e85a.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/a4f04091487d45709e6071527e483bd7.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/ab5c6d063f0141ffbd5bcb9c6ff8ab45.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/9d7d45f466ed4c529f9ef487068b280b.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/e757a6414db24f7ca23fbb2d0d8ac8fc.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/aa1a0358bffd4f428ea96981ca679a7c.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/96e5e47d2b814e5c9ad073219d37a837.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/105898d3592c47a3a6d95e159028a5e1.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/bfabf17d7c3644f0aa077c66198fdfaa.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/cfbc2a9d491b49d8a02b8116cb3526ac.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/768a81d298db4ba8885ecf15e64eee1f.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/a5894247d0164002a6dc0dea9165ab77.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/6f276031efb6436da0c47b86833e0d55.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/8e3f4fb406a64bf3bb5292b7ba48bf17.png">
+<meta property="article:published_time" content="2022-12-15T14:55:10.000Z">
+<meta property="article:modified_time" content="2022-12-15T11:24:33.525Z">
+<meta property="article:author" content="江东">
+<meta property="article:tag" content="机器视觉">
+<meta property="article:tag" content="期末考试">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/ae15789517f34a4ea5e126a45fd1e85a.png">
+
+<link rel="canonical" href="https://du2279664786.github.io/posts/1fc2945f.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>第三章 目标提取 | 江东的笔记</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="江东的笔记" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+<a target="_blank" rel="noopener" href="https://github.com/du2279664786" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#64CEAA; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">江东的笔记</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Be overcome difficulties is victory</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://du2279664786.github.io/posts/1fc2945f.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://avatars.githubusercontent.com/u/76576534?v=4">
+      <meta itemprop="name" content="江东">
+      <meta itemprop="description" content="热爱生活，努力工作">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="江东的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          第三章 目标提取
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-12-15 22:55:10 / 修改时间：19:24:33" itemprop="dateCreated datePublished" datetime="2022-12-15T22:55:10+08:00">2022-12-15</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89/" itemprop="url" rel="index"><span itemprop="name">机器视觉</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>第三章 目标提取</p>
+<span id="more"></span>
+<h1 id="第三章-目标提取"><a href="#第三章-目标提取" class="headerlink" title="第三章 目标提取"></a>第三章 目标提取</h1><h2 id="1-如何提取目标物体"><a href="#1-如何提取目标物体" class="headerlink" title="1.如何提取目标物体"></a>1.如何提取目标物体</h2><pre><code>     判断目标为何物或者测量其尺寸大小的第一步是将目标从复杂的图像中提取出来。
+</code></pre>
+<p>•在街景中只提取人；<br>• 在智能交通系统中识别车辆牌照和交通标志；<br>• 从邮件中查找邮政编码来进行分类；<br>• 使用监控摄像机，当发现有贸然进入的人时，发送警报；<br>• 在流动的生产线上提取零件；<br>• 判别农作物果实的大小，依据其大小进行分类等。<br>        人眼在杂乱的图像中搜寻目标物体时，主要依靠颜色和形状差别，具体过程人们在无意识中完成，其实利用了人们常年生活积累的常识。<br>        同样道理，机器视觉在提取物体时，也是依靠颜色和形状差别，只不过电脑里没有这些知识积累，需要人们利用计算机语言（程序）通过某种方法将目标物体知识输入或计算出来，形成判断依据。<br>         以下分别介绍利用形状和颜色进行目标物提取的方法。</p>
+<h2 id="2-基于阈值的目标提取"><a href="#2-基于阈值的目标提取" class="headerlink" title="2.基于阈值的目标提取"></a>2.基于阈值的目标提取</h2><h3 id="2-1二值化处理"><a href="#2-1二值化处理" class="headerlink" title="2.1二值化处理"></a>2.1二值化处理</h3><pre><code>     二值化处理（binarization）是把目标物从图像中提取出来的一种方法。二值化处理的方法有很多，最简单的一种叫做阈值处理（thresholding），就是对于输入图像的各像素，当其灰度值在某设定值（称为阈值，threshold）以上或以下，赋予对应的输出图像的像素为白色（255）或黑色（0）。
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/ae15789517f34a4ea5e126a45fd1e85a.png" alt="在这里插入图片描述"><br>其中f（x，y）、g（x，y）分别是处理前和处理后的图像在（x，y）处像素的灰度值，t是阈值。<br>根据图像情况，有时需要提取两个阈值之间的部分，如式（3.3）所示。这种方法称为双阈值二值化处理。<br><img src="https://img-blog.csdnimg.cn/a4f04091487d45709e6071527e483bd7.png" alt="在这里插入图片描述"></p>
+<h3 id="2-2阈值的确定"><a href="#2-2阈值的确定" class="headerlink" title="2.2阈值的确定"></a>2.2阈值的确定</h3><pre><code>    灰度图像像素的最大值是255（白色），最小值是0（黑色），从0～255，共有256级，一幅图像上每级有几个像素，把它数出来（计算机程序可以瞬间完成），做个图表，就是直方图。
+     计算出直方图，是灰度图像目标提取的重要步骤之一。
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/ab5c6d063f0141ffbd5bcb9c6ff8ab45.png" alt="在这里插入图片描述"><br>对于背景单一的图像，一般在直方图上有两个峰值，一个是背景的峰值，一个是目标物的峰值。<br><img src="https://img-blog.csdnimg.cn/9d7d45f466ed4c529f9ef487068b280b.png" alt="在这里插入图片描述"><br>        对这种在直方图上具有明显双峰的图像，把阈值设在双峰之间的凹点，即可较好地提取出目标物。<br>        如果原始图像的直方图凹凸激烈，计算机程序处理时就不好确定波谷的位置。为了比较容易地发现波谷，经常采取在直方图上对邻域点进行平均化处理，以减少直方图的凹凸不平。<br>       直方图就比较容易通过算法编写来找到其波谷位置。像这样取直方图的波谷作为阈值的方法称为模态法。<br><img src="https://img-blog.csdnimg.cn/e757a6414db24f7ca23fbb2d0d8ac8fc.png" alt="在这里插入图片描述"><br>在阈值确定方法中除了模态法以外，还有p参数法（p-tile method）、判别分析法（discriminant analysis method）、可变阈值法（variable thresholding）、大津法（OTSU method）等。<br>        p参数法是当物体占整个图像的比例已知时（如p%），在直方图上，暗灰度（或者亮灰度）一侧起的累计像素数占总像素数p%的地方作为阈值的方法。<br>        判别分析法是当直方图分成物体和背景两部分时，通过分析两部分的统计量来确定阈值的方法。<br>        可变阈值法在背景灰度多变的情况下使用，对图像的不同部位设置不同的阈值。<br>        大津法在各种图像处理中得到了广泛的应用，下面具体介绍一下大津法。<br>大津法也叫最大类间方差法，是由日本学者大津（OTSU）于1979年提出的。它是按图像的灰度特性，将图像分成背景和目标两部分。背景和目标之间的类间方差越大，说明构成图像的两部分的差别越大。因此，使类间方差最大的分割意味着错分概率最小。</p>
+<h2 id="3-基于颜色的目标提取"><a href="#3-基于颜色的目标提取" class="headerlink" title="3.基于颜色的目标提取"></a>3.基于颜色的目标提取</h2><h3 id="3-1-色相、亮度、饱和度及其他"><a href="#3-1-色相、亮度、饱和度及其他" class="headerlink" title="3.1　色相、亮度、饱和度及其他"></a>3.1　色相、亮度、饱和度及其他</h3><pre><code>    彩色图像是由红（R）、绿（G）、蓝（B）三个分量的灰度图像组成。
+    当拍摄绿草地时，与R、B分量相比，G分量较强；
+    对于蓝天来说，与R、G分量相比，B分量较强。
+    根据R、G、B分量值的不同，人们可以见到各种各样的颜色。在进行彩色图像处理时，不仅要考虑位置和灰度信息，还要考虑彩色信息。
+    对于同一种颜色，不同的人，脑子里所想的颜色可能不相同。为了定量地表现颜色，可以把颜色分成三个特性来表现，第一个特性是色调或者色相H（hue），用来表示颜色的种类。第二个特性是明度V（value）或者亮度Y（brightness）或I（intensity），用来表示图像的明暗程度。第三个特性是饱和度或彩度S（saturation），用来表示颜色的鲜明程度。
+    这三个特性被称为颜色的三个基本属性。颜色的这三个基本属性可以用一个理想化的双锥体HSI模型来表示。
+</code></pre>
+<p>双锥体轴线代表亮度值。垂直于轴线的平面表示色调与饱和度，用极坐标形式表示，即夹角表示色调，径向距离表示在一定色调下的饱和度。<br><img src="https://img-blog.csdnimg.cn/aa1a0358bffd4f428ea96981ca679a7c.png" alt="在这里插入图片描述"><br>         色调的表示是从某基准的颜色开始计算在0°～180°之间旋转多少角度，当与基准颜色相同（色调的旋转角为0°）时为255，相对方向的补色（色调的旋转角为180°）时为0。<br>        中间用254级的灰度表示。在色调的表示中，当饱和度为0（即无颜色信号）时不计算色调，常常给予0灰度级。饱和度的图像是将饱和度的最小值作为像素的最小值0，将饱和度的最大值作为像素的最大值255，依次按比例将饱和度的数据转换为图像数据。<br><img src="https://img-blog.csdnimg.cn/96e5e47d2b814e5c9ad073219d37a837.png" alt="在这里插入图片描述"><br>        对实际图像进行上述变换的结果如图3.7所示，其中图（a）是原始图像，图（b）是其亮度信号的图像。原始图像中宠物兔的红色成分较多，由于色调信号以红色为基准，因此图（c）所示的色调信号图像整体偏亮。由于整个图像的颜色不是很深，所以图（d）的饱和度信号偏暗，特别是背景地板砖的饱和度最低。<br>       可以看出，对于该图像，利用H或者S信号图像，对目标物兔子进行二值化提取，应该更容易一些。因此将RGB转换成HSI有时更有利于目标物的提取，但是与利用RGB信号相比，将会付出多倍的处理时间。<br><img src="https://img-blog.csdnimg.cn/105898d3592c47a3a6d95e159028a5e1.png" alt="在这里插入图片描述"></p>
+<h3 id="3-2颜色分量及其组合处理"><a href="#3-2颜色分量及其组合处理" class="headerlink" title="3.2颜色分量及其组合处理"></a>3.2颜色分量及其组合处理</h3><pre><code>    对于自然界的目标提取，可以根据目标的颜色特征，尽量使用R、G、B分量及它们之间的差分组合，这样可以有效避免自然光变化的影响，快速有效地提取目标。
+    以下举例说明基于颜色差分的目标提取。
+  （1）果树上红色桃子的提取
+    ①原图像。
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/bfabf17d7c3644f0aa077c66198fdfaa.png" alt="在这里插入图片描述"><br>        ②桃子的红色区域提取<br>        由于成熟桃子一般带红色，因此对彩色原图像首先利用红、绿色差信息提取图像中桃子的红色区域，然后再采用与原图进行匹配膨胀的方法来获得桃子的完整区域。<br><img src="https://img-blog.csdnimg.cn/cfbc2a9d491b49d8a02b8116cb3526ac.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/768a81d298db4ba8885ecf15e64eee1f.png" alt="在这里插入图片描述"><br>    （2）绿色麦苗的提取<br>        在不同季节小麦苗的颜色有所不同，但是都是呈绿色。如图所示，（a）为11月（秋季）小麦生长初期阴天的图像，土壤比较湿润；（b）为2月（冬季）晴天的图像，土壤干旱，发生干裂；（c）为3月（春季）小麦返青时节阴天的图像，土壤比较松软；（d）～（f）分别为以后不同生长阶段不同天气状况的图像。这6幅图分别代表了小麦的不同生长阶段和不同的天气状况。<br><img src="https://img-blog.csdnimg.cn/a5894247d0164002a6dc0dea9165ab77.png" alt="在这里插入图片描述"><br>由于麦苗的绿色成分大于其他两个颜色成分，为了提取绿色的麦苗，可以通过强调绿色成分、抑制其他成分的方法把麦田彩色图像变化为灰度图像。<br><img src="https://img-blog.csdnimg.cn/6f276031efb6436da0c47b86833e0d55.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/8e3f4fb406a64bf3bb5292b7ba48bf17.png" alt="在这里插入图片描述"></p>
+<h3 id="3-3基于差分的目标提取"><a href="#3-3基于差分的目标提取" class="headerlink" title="3.3基于差分的目标提取"></a>3.3基于差分的目标提取</h3><pre><code>    基于差分的目标提取，一般用于运动图像的目标提取，有帧间差分和背景差分两种方式，以下分别利用工程实践项目来说明两种差分目标提取方式。
+</code></pre>
+<h3 id="3-1帧间差分"><a href="#3-1帧间差分" class="headerlink" title="3.1帧间差分"></a>3.1帧间差分</h3><pre><code>    所谓帧间差分，就是将前帧图像的每个像素值减去后帧图像上对应点的像素值（或者反之），获得的结果如果大于设定阈值，在输出图像上设为白色像素，否则设为黑色像素。
+</code></pre>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+          
+            <a href="/" rel="tag"><i class="fa fa-tags"></i> </a>
+          
+            <a href="/" rel="tag"><i class="fa fa-tags"></i> </a>
+          
+         </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/posts/f76709d8.html" rel="prev" title="第十一章 运动图像处理">
+      <i class="fa fa-chevron-left"></i> 第十一章 运动图像处理
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/posts/8f02966d.html" rel="next" title="第八章 几何变换">
+      第八章 几何变换 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E7%AB%A0-%E7%9B%AE%E6%A0%87%E6%8F%90%E5%8F%96"><span class="nav-number">1.</span> <span class="nav-text">第三章 目标提取</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%A6%82%E4%BD%95%E6%8F%90%E5%8F%96%E7%9B%AE%E6%A0%87%E7%89%A9%E4%BD%93"><span class="nav-number">1.1.</span> <span class="nav-text">1.如何提取目标物体</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%9F%BA%E4%BA%8E%E9%98%88%E5%80%BC%E7%9A%84%E7%9B%AE%E6%A0%87%E6%8F%90%E5%8F%96"><span class="nav-number">1.2.</span> <span class="nav-text">2.基于阈值的目标提取</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1%E4%BA%8C%E5%80%BC%E5%8C%96%E5%A4%84%E7%90%86"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1二值化处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2%E9%98%88%E5%80%BC%E7%9A%84%E7%A1%AE%E5%AE%9A"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2阈值的确定</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E5%9F%BA%E4%BA%8E%E9%A2%9C%E8%89%B2%E7%9A%84%E7%9B%AE%E6%A0%87%E6%8F%90%E5%8F%96"><span class="nav-number">1.3.</span> <span class="nav-text">3.基于颜色的目标提取</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E8%89%B2%E7%9B%B8%E3%80%81%E4%BA%AE%E5%BA%A6%E3%80%81%E9%A5%B1%E5%92%8C%E5%BA%A6%E5%8F%8A%E5%85%B6%E4%BB%96"><span class="nav-number">1.3.1.</span> <span class="nav-text">3.1　色相、亮度、饱和度及其他</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2%E9%A2%9C%E8%89%B2%E5%88%86%E9%87%8F%E5%8F%8A%E5%85%B6%E7%BB%84%E5%90%88%E5%A4%84%E7%90%86"><span class="nav-number">1.3.2.</span> <span class="nav-text">3.2颜色分量及其组合处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3%E5%9F%BA%E4%BA%8E%E5%B7%AE%E5%88%86%E7%9A%84%E7%9B%AE%E6%A0%87%E6%8F%90%E5%8F%96"><span class="nav-number">1.3.3.</span> <span class="nav-text">3.3基于差分的目标提取</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1%E5%B8%A7%E9%97%B4%E5%B7%AE%E5%88%86"><span class="nav-number">1.3.4.</span> <span class="nav-text">3.1帧间差分</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="江东"
+      src="https://avatars.githubusercontent.com/u/76576534?v=4">
+  <p class="site-author-name" itemprop="name">江东</p>
+  <div class="site-description" itemprop="description">热爱生活，努力工作</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">75</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">55</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/du2279664786" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;du2279664786" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2021 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">江东</span>
+</div>
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+-->
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.7' zIndex='-1' count='199' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  <script async src="/js/cursor/fireworks.js"></script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

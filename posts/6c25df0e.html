@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"du2279664786.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":"true#false","color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="第九章 单目视觉测量">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第九章 单目视觉测量">
+<meta property="og:url" content="https://du2279664786.github.io/posts/6c25df0e.html">
+<meta property="og:site_name" content="江东的笔记">
+<meta property="og:description" content="第九章 单目视觉测量">
+<meta property="og:locale">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/e79e180702324210bb2d33e47baafeef.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/5b9c41e4301b4e7bb8745e378bca4d26.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/d425f42681d342fdb4109e8497db7d9b.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/342e83a04df94510b1ca0e88c0bb7c63.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/3c68433467424c2bab39f0cfa1fbc745.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/29ea2b4ac2794548a4f6cbe1de50acbc.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/1722ac6e7f1e4aa0aeb5f66692885f6a.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/8b58947275324b0080e99103ccc8b30d.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/890c20edbdcd48eca14f0e95901917df.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/ccfa51dfaf504312ba67992ef1364b60.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/aa11e7405f7647c38f3ddee79ca2dc0a.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/bdac3d341b254342911ff502d0269251.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/70739ef6303a4e298a9631d26ead72d0.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/865f2c873a3a4b62a40a00dd871c4858.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/5758e6609d824243a4c5a8d08ae04d0a.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/5fa0d97c2de54da684a59413ce75772a.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/aa29ce9d509a48008e21f4cc4ed48535.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/01d8a81046be4c139358aaeed4bda406.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/56c7a455724b4fa2810796e85b1814db.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/976f586bdaa042f5bc48db10d6b9514b.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/67536947b610403d88b3cd74370d1cce.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/da0598e61a7349ae9da777367872bcae.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2c5da00d1f4d4f33acc28e96ff388b91.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/0c75f3a82ac7496bac907b8ecdab6feb.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/e98a7df6f7ce4901b8100740ed931a13.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2f0eb5c031df4c6bb22db0076440facd.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/e8f743b5a61e4beb820e090048f19abd.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/82f96d50262d4b6987906e954b238741.png">
+<meta property="article:published_time" content="2022-12-15T14:55:10.000Z">
+<meta property="article:modified_time" content="2022-12-15T12:09:47.423Z">
+<meta property="article:author" content="江东">
+<meta property="article:tag" content="机器视觉">
+<meta property="article:tag" content="期末考试">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/e79e180702324210bb2d33e47baafeef.png">
+
+<link rel="canonical" href="https://du2279664786.github.io/posts/6c25df0e.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>第九章 单目视觉测量 | 江东的笔记</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="江东的笔记" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+<a target="_blank" rel="noopener" href="https://github.com/du2279664786" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#64CEAA; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">江东的笔记</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Be overcome difficulties is victory</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://du2279664786.github.io/posts/6c25df0e.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://avatars.githubusercontent.com/u/76576534?v=4">
+      <meta itemprop="name" content="江东">
+      <meta itemprop="description" content="热爱生活，努力工作">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="江东的笔记">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          第九章 单目视觉测量
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-12-15 22:55:10 / 修改时间：20:09:47" itemprop="dateCreated datePublished" datetime="2022-12-15T22:55:10+08:00">2022-12-15</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89/" itemprop="url" rel="index"><span itemprop="name">机器视觉</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>第九章 单目视觉测量</p>
+<span id="more"></span>
+<h1 id="第九章-单目视觉测量"><a href="#第九章-单目视觉测量" class="headerlink" title="第九章 单目视觉测量"></a>第九章 单目视觉测量</h1><h2 id="1-计算机视觉基础——相机标定"><a href="#1-计算机视觉基础——相机标定" class="headerlink" title="1.计算机视觉基础——相机标定"></a>1.计算机视觉基础——相机标定</h2><h3 id="1-1物理模型"><a href="#1-1物理模型" class="headerlink" title="1.1物理模型"></a>1.1物理模型</h3><pre><code>   首先谈谈相机为什么需要标定？任何理论物理模型都是在特定假设上对真实事物的近似，然而在实际应用中存在误差，普通相机的成像模型也不例外（透视投影）。实际中，普通相机成像误差的主要来源有两部分，第一是sensor制造产生的误差，比如sensor成像单元不是正方形，sensor歪斜；第二是镜头制造和安装产生的误差，镜头一般存在非线性的径向畸变；镜头与相机sensor安装不平行，还会产生切向畸变。
+</code></pre>
+<p>一个几何变换需要两部分运算：空间变换、灰度插值算法。<br><img src="https://img-blog.csdnimg.cn/e79e180702324210bb2d33e47baafeef.png" alt="在这里插入图片描述"></p>
+<h3 id="1-2透视投影模型"><a href="#1-2透视投影模型" class="headerlink" title="1.2透视投影模型"></a>1.2透视投影模型</h3><pre><code>   普通相机的成像模型一采用小孔成像，初中的物理知识告诉我们，没错，就是那个蜡烛成像实验，物体经小孔后，在成像平面成倒立的像。为了更好的进行理论阐述，一般默认采用虚拟成像平面（virtual image plane）进行分析。虽没有明文规定，但大家（不，是大佬）都是这么做的。Matlab官方有张很形象的图片。
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/5b9c41e4301b4e7bb8745e378bca4d26.png" alt="在这里插入图片描述"><br>将小孔成像模型简化成几何表达的形式。<br><img src="https://img-blog.csdnimg.cn/d425f42681d342fdb4109e8497db7d9b.png" alt="在这里插入图片描述"><br>在理想情况下，根据简单的相似三角形几何知识，可以推出3D目标点在相机坐标系下的坐标与图像像素坐标之间的关系。<br><img src="https://img-blog.csdnimg.cn/342e83a04df94510b1ca0e88c0bb7c63.png" alt="在这里插入图片描述"><br>f是焦距，X、Y、Z是3D点在相机坐标系坐标，u，v是图像坐标；上述公式写成齐次坐标为：<br><img src="https://img-blog.csdnimg.cn/3c68433467424c2bab39f0cfa1fbc745.png" alt="在这里插入图片描述"><br>λ为尺度因子，同一条投影线上的点都满足上述关系，只是λ不同而已；在不换sensor情况下，想增大物体分辨率，其实只要把相机靠近一点就行。</p>
+<h3 id="1-3主点偏移"><a href="#1-3主点偏移" class="headerlink" title="1.3主点偏移"></a>1.3主点偏移</h3><p>主点是光轴和相机成像平面的交点，1.2节考虑的是理想成像情况，图像坐标系和相机坐标系原点重合，因此不存在坐标系偏移。但是在实际情况中，图像坐标系往往在图片的左上角，光轴过图像中心，因此图像坐标系和相机坐标系不重合。两个坐标系之间存在一个平移运动（如图）。<br><img src="https://img-blog.csdnimg.cn/29ea2b4ac2794548a4f6cbe1de50acbc.png" alt="在这里插入图片描述"><br>考虑主点偏移后，图像坐标和3D在相机坐标系坐标的关系为：<br><img src="https://img-blog.csdnimg.cn/1722ac6e7f1e4aa0aeb5f66692885f6a.png" alt="在这里插入图片描述"><br>主点偏移后，透视投影模型的的齐次坐标表达为：<img src="https://img-blog.csdnimg.cn/8b58947275324b0080e99103ccc8b30d.png" alt="在这里插入图片描述"><br>用矩阵表示如公式：<br>图像传感器像原尺寸在制造过程可能不是正方形，同时可能存在歪斜（skewed），因此需要考虑这些影响因素，传感器歪斜和不是正方形主要对相机x和y方向的焦距产生影响，数学表达见公式（1-5）。<br><img src="https://img-blog.csdnimg.cn/890c20edbdcd48eca14f0e95901917df.png" alt="在这里插入图片描述"><br>在不考虑畸变的情况下，考虑主点偏移、图像传感器的特性，3D目标点成像数学模型用公式（1-5）可完全表达。这就是相机内部参数对成像的影响，因此K称为内参矩阵，相机内参标定主要是标定相机的焦距、主点、歪斜等内部参数。<br><img src="https://img-blog.csdnimg.cn/ccfa51dfaf504312ba67992ef1364b60.png" alt="在这里插入图片描述"></p>
+<h3 id="1-4镜头畸变对成像的影响"><a href="#1-4镜头畸变对成像的影响" class="headerlink" title="1.4镜头畸变对成像的影响"></a>1.4镜头畸变对成像的影响</h3><pre><code>    小孔成像模型虽然充分考虑了相机内部参数对成像的影响，但没有考虑成像系统另一个重要的部分，镜头。镜头常用的有普通镜头、广角镜头、鱼眼镜头等，在无人驾驶和视觉slam领域，鱼眼镜头和广角镜头用的很多，主要是视角很大，可以观测到更多的信息。任何镜头都存在不同程度的畸变，不同类型的镜头用到的畸变模型也不相同。根据镜头制造和成像的物理特性，普通镜头主要考虑径向畸变和切向畸变，且畸变模型都可以用多项式来近似。而对于大广角、鱼眼镜头，普通镜头的物理模型不能适用了。
+</code></pre>
+<h4 id="1-4-1径向畸变"><a href="#1-4-1径向畸变" class="headerlink" title="1.4.1径向畸变"></a>1.4.1径向畸变</h4><p>透过镜头边缘的光线很容易产生径向畸变，光线离镜头中心越远，畸变越大。<br><img src="https://img-blog.csdnimg.cn/aa11e7405f7647c38f3ddee79ca2dc0a.png" alt="在这里插入图片描述"><br>从图像可以看出，径向畸变以某一个中心往外延伸，且越往外，畸变越大；显然畸变与距离成一种非线性的变换关系，参考众多文献，可以用多项式来近似。<br><img src="https://img-blog.csdnimg.cn/bdac3d341b254342911ff502d0269251.png" alt="在这里插入图片描述"><br>x,y是归一化的图像坐标，即坐标原点已经移动到主点，并且像素坐标除以焦距。K1,k2,k3是径向畸变系数，r2&#x3D;x2+y2（2表示2次方）。</p>
+<h4 id="1-4-2切向畸变"><a href="#1-4-2切向畸变" class="headerlink" title="1.4.2切向畸变"></a>1.4.2切向畸变</h4><p>切向畸变主要发生在相机sensor和镜头不平行的情况下；因为有夹角，所以光透过镜头传到图像传感器上时，成像位置发生了变化。<br><img src="https://img-blog.csdnimg.cn/70739ef6303a4e298a9631d26ead72d0.png" alt="在这里插入图片描述"><br>x,y是归一化的图像坐标，即坐标原点已经移动到主点，并且像素坐标除以焦距。p1、p2是径向畸变系数，r2&#x3D;x2+y2。<br><img src="https://img-blog.csdnimg.cn/865f2c873a3a4b62a40a00dd871c4858.png" alt="在这里插入图片描述"></p>
+<h3 id="1-5相机外参"><a href="#1-5相机外参" class="headerlink" title="1.5相机外参"></a>1.5相机外参</h3><pre><code>    上述讨论的范畴全是在相机坐标下发生的事情，然而实际情况是，相机往往装在机械臂末端，移动小车前方，车辆四周，当我们需要知道成像平面内的物体在机器人或者车辆坐标系下的位置时，需要进行一个坐标转换，称为外参（Extrinsic parameters），它与相机制造、镜头畸变没有任何关系，只与相机在世界坐标系内的安装位置和角度有关。从纯数学的角度来说，刚体运动和坐标变换总是可以分解为一个旋转运动和一个平移运动。
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/5758e6609d824243a4c5a8d08ae04d0a.png" alt="在这里插入图片描述"><br>因此世界坐标系下的点P与图像坐标的关系可以表达为：<br><img src="https://img-blog.csdnimg.cn/5fa0d97c2de54da684a59413ce75772a.png" alt="在这里插入图片描述"><br>相机标定就是标定内参和外参，通过一种理论数学模型和优化的手段来近似实际的物理成像关系。</p>
+<h2 id="2-模型求解"><a href="#2-模型求解" class="headerlink" title="2 模型求解"></a>2 模型求解</h2><pre><code>    模型求解数学公式繁多，需要有些线性代数基础，对公式无感者，直接跳过本节，这一节和上一节的公式符号略有出入，保持原paper符号。
+</code></pre>
+<h3 id="2-1-内参和单应矩阵关系"><a href="#2-1-内参和单应矩阵关系" class="headerlink" title="2.1 内参和单应矩阵关系"></a>2.1 内参和单应矩阵关系</h3><pre><code>   搞清楚了理论模型，接下来就是求解未知的内参和外参了。内参的初始估计有闭环解，不需要凭感觉瞎估，这是非常非常爽的事情。空间中的3D点投影到图像上的关系为：
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/aa29ce9d509a48008e21f4cc4ed48535.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/01d8a81046be4c139358aaeed4bda406.png" alt="在这里插入图片描述"><br>       一般我们都会用标定板来标定，所有的特征点都在一个平面上，不失一般性，可以假设这个平面的空间Z坐标为0，将外参R矩阵写成列向量的形式为：<br><img src="https://img-blog.csdnimg.cn/56c7a455724b4fa2810796e85b1814db.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/976f586bdaa042f5bc48db10d6b9514b.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/67536947b610403d88b3cd74370d1cce.png" alt="在这里插入图片描述"></p>
+<h3 id="2-2-闭环求解（Closed-form-solution）"><a href="#2-2-闭环求解（Closed-form-solution）" class="headerlink" title="2.2 闭环求解（Closed-form solution）"></a>2.2 闭环求解（Closed-form solution）</h3><p>闭环解就是说的完全可以靠理论，数学推导可以求出的，不需要进行数值计算，也是非常爽的，程序按照公式写即可。<br><img src="https://img-blog.csdnimg.cn/da0598e61a7349ae9da777367872bcae.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/2c5da00d1f4d4f33acc28e96ff388b91.png" alt="在这里插入图片描述"><br>V是只由单应矩阵决定的已知量，求解上述线性方程，就可以得到向量b，矩阵B。向量b包含6个未知量，V是2n x 6矩阵，n代表单应矩阵个数（或者图像张数），所以至少需要采集三张不同位置或者角度的图像，才能求解上述方程。实际中，为了降低误差，会采集15-20张图像。<br><img src="https://img-blog.csdnimg.cn/0c75f3a82ac7496bac907b8ecdab6feb.png" alt="在这里插入图片描述"></p>
+<h2 id="3结果"><a href="#3结果" class="headerlink" title="3结果"></a>3结果</h2><p><img src="https://img-blog.csdnimg.cn/e98a7df6f7ce4901b8100740ed931a13.png" alt="在这里插入图片描述"><br>opencv有很好的棋盘格检测效果，想要提高精度的，请参考角点优化、亚像素精度方面的文章。<br><img src="https://img-blog.csdnimg.cn/2f0eb5c031df4c6bb22db0076440facd.png" alt="在这里插入图片描述"></p>
+<h2 id="4-最小凸多边形拟合"><a href="#4-最小凸多边形拟合" class="headerlink" title="4.最小凸多边形拟合"></a>4.最小凸多边形拟合</h2><p>Python图片查找轮廓、多边形拟合、最小外接矩形操作实例。<br>1、概述<br>       经常用到轮廓查找和多边形拟合等opencv操作，因此记录以备后续使用。本文代码中的阈值条件对图片没有实际意义，仅仅是为了测试。<br>       原图为：<br>       <img src="https://img-blog.csdnimg.cn/e8f743b5a61e4beb820e090048f19abd.png" alt="在这里插入图片描述"><br>       <img src="https://img-blog.csdnimg.cn/82f96d50262d4b6987906e954b238741.png" alt="在这里插入图片描述"></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+          
+            <a href="/" rel="tag"><i class="fa fa-tags"></i> </a>
+          
+            <a href="/" rel="tag"><i class="fa fa-tags"></i> </a>
+          
+         </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/posts/690ed3ec.html" rel="prev" title="第十三章 小波变换">
+      <i class="fa fa-chevron-left"></i> 第十三章 小波变换
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/posts/f76709d8.html" rel="next" title="第十一章 运动图像处理">
+      第十一章 运动图像处理 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%B9%9D%E7%AB%A0-%E5%8D%95%E7%9B%AE%E8%A7%86%E8%A7%89%E6%B5%8B%E9%87%8F"><span class="nav-number">1.</span> <span class="nav-text">第九章 单目视觉测量</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E5%9F%BA%E7%A1%80%E2%80%94%E2%80%94%E7%9B%B8%E6%9C%BA%E6%A0%87%E5%AE%9A"><span class="nav-number">1.1.</span> <span class="nav-text">1.计算机视觉基础——相机标定</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1%E7%89%A9%E7%90%86%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1物理模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2%E9%80%8F%E8%A7%86%E6%8A%95%E5%BD%B1%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.1.2.</span> <span class="nav-text">1.2透视投影模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3%E4%B8%BB%E7%82%B9%E5%81%8F%E7%A7%BB"><span class="nav-number">1.1.3.</span> <span class="nav-text">1.3主点偏移</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4%E9%95%9C%E5%A4%B4%E7%95%B8%E5%8F%98%E5%AF%B9%E6%88%90%E5%83%8F%E7%9A%84%E5%BD%B1%E5%93%8D"><span class="nav-number">1.1.4.</span> <span class="nav-text">1.4镜头畸变对成像的影响</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-4-1%E5%BE%84%E5%90%91%E7%95%B8%E5%8F%98"><span class="nav-number">1.1.4.1.</span> <span class="nav-text">1.4.1径向畸变</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-4-2%E5%88%87%E5%90%91%E7%95%B8%E5%8F%98"><span class="nav-number">1.1.4.2.</span> <span class="nav-text">1.4.2切向畸变</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-5%E7%9B%B8%E6%9C%BA%E5%A4%96%E5%8F%82"><span class="nav-number">1.1.5.</span> <span class="nav-text">1.5相机外参</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E6%A8%A1%E5%9E%8B%E6%B1%82%E8%A7%A3"><span class="nav-number">1.2.</span> <span class="nav-text">2 模型求解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E5%86%85%E5%8F%82%E5%92%8C%E5%8D%95%E5%BA%94%E7%9F%A9%E9%98%B5%E5%85%B3%E7%B3%BB"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1 内参和单应矩阵关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E9%97%AD%E7%8E%AF%E6%B1%82%E8%A7%A3%EF%BC%88Closed-form-solution%EF%BC%89"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2 闭环求解（Closed-form solution）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3%E7%BB%93%E6%9E%9C"><span class="nav-number">1.3.</span> <span class="nav-text">3结果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E6%9C%80%E5%B0%8F%E5%87%B8%E5%A4%9A%E8%BE%B9%E5%BD%A2%E6%8B%9F%E5%90%88"><span class="nav-number">1.4.</span> <span class="nav-text">4.最小凸多边形拟合</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="江东"
+      src="https://avatars.githubusercontent.com/u/76576534?v=4">
+  <p class="site-author-name" itemprop="name">江东</p>
+  <div class="site-description" itemprop="description">热爱生活，努力工作</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">75</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">55</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/du2279664786" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;du2279664786" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2021 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">江东</span>
+</div>
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+-->
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.7' zIndex='-1' count='199' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  <script async src="/js/cursor/fireworks.js"></script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
