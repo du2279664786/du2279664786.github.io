@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://du2279664786.github.io/posts/d7e527bc.html</loc>
+    
+    <lastmod>2022-12-15</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://du2279664786.github.io/posts/d0147289.html</loc>
     
     <lastmod>2022-12-05</lastmod>
@@ -986,6 +995,13 @@
   
   <url>
     <loc>https://du2279664786.github.io/tags/%E6%96%87%E6%9C%AC%E6%8C%96%E6%8E%98/</loc>
+    <lastmod>2022-12-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://du2279664786.github.io/tags/%E6%9C%9F%E6%9C%AB%E8%80%83%E8%AF%95/</loc>
     <lastmod>2022-12-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>

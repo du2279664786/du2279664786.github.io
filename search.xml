@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>机器视觉期末PPT整理</title>
+      <link href="/posts/d7e527bc.html"/>
+      <url>/posts/d7e527bc.html</url>
+      
+        <content type="html"><![CDATA[<p>机器视觉期末知识点整理</p><span id="more"></span><h1 id="机器视觉期末知识点整理"><a href="#机器视觉期末知识点整理" class="headerlink" title="机器视觉期末知识点整理"></a>机器视觉期末知识点整理</h1><h2 id="第18章-通用图像处理系统ImageSys"><a href="#第18章-通用图像处理系统ImageSys" class="headerlink" title="第18章　通用图像处理系统ImageSys"></a>第18章　通用图像处理系统ImageSys</h2><h3 id="一．总体功能介绍"><a href="#一．总体功能介绍" class="headerlink" title="一．总体功能介绍"></a>一．总体功能介绍</h3><pre><code>    图像信息处理是当今信息时代的重要组成部分，现在几乎所有专业都在研究和利用图像信息技术。    lmageSys是一部大型通用图像处理系统，它是图像信息研究和教学的重要工具,在大学和研究开发机构有着广阔的应用前景。主要内容包括图像/多媒体文件操作、图像捕捉、图像数据分析、颜色测量、颜色变换、几何变换、频率域变换、图像间变换、图像滤波、图像分割、2值图像运算、参数测量与统计、图像编辑、多媒体播放等，汇聚了现代图像处理技术的绝大多数功能，而且伴随这些功能给用户提供了大量可利用的函数。研究者可以用本系统提供的功能简单地进行各种试验，快速找到最佳方案，用提供的函数简单地编出自己的处理程序。在实际应用上，ImageSys 也可以代替使用者自动测量多种数学统计数据，可以利用提供的函数组合各种功能用于机器人的视觉判断。ImageSys还给用户提供了一个框架源程序，用户可以简单地在框架程序上追加自己的程序。</code></pre><h3 id="二-ImageSys的4大特点"><a href="#二-ImageSys的4大特点" class="headerlink" title="二. ImageSys的4大特点"></a>二. ImageSys的4大特点</h3><pre><code>    1.兼容国际标准的 IEEE1394接口和USB接口以及专用图像采集卡的图像采集。可使用的摄像装置包括数码、模拟、民用、工业、一般速率和高速等各种摄像机。    2．可处理目前流行的大多数图像/多媒体文件格式，包括BMP、JPG、JPEG、TIF、TIFF、GIF、TXT、AVI、DAT、MPG、MPEG、MOV、vOB等。    3.大量的特征参数测量与统计功能。    4.具有开发平台功能的源程序以及多功能函数库。</code></pre><h3 id="三-ImageSys的具体各种功能介绍"><a href="#三-ImageSys的具体各种功能介绍" class="headerlink" title="三.ImageSys的具体各种功能介绍"></a>三.ImageSys的具体各种功能介绍</h3><p>1静动两用的图像文件操作:</p><p>可读入和保存单幅图像文件（bmp、jpg、jpeg、tif、tiff、gif、txt等30多种文件格式);也可读入和保存连续图像文件，产生动态效果。可读入多媒体图像文件(avi、dat、mpg、mpeg、mov、vob等绝大多数流行的文件格式）和保存视频图像文件，保存时可以选择MPEG4等多种压缩格式，能从多媒体文件中取出某段或某幅图像。各种文件之间可以自由变换。彩色图像文件可以变换成灰度图像读入和保存。附带有多媒体文件播放器功能。</p><p>2完美的表示功能:</p><p>图像表示:彩色图像表示，彩色图像的R、G、B各个单色分量表示;彩色图像的H、S、l各个单色分量表示;灰度图像表示，灰度图像的伪彩色表示;图像的透视、自由放大和缩小表示;可以表示静态图像和动态图像，动态图像表示时可以设定表示速度。</p><p>像素值表示:鼠标周围像素值的自动表示，区域像素分布直方图表示，区域像素的立体分布图表示，鼠标所画直线上像素值的分布图表示，区域像素的纵向和横向累加值分布图表示。各种分布图都给出平均值、最大值、最小值、标准偏差等参数，分布图能够被打印、复制、数据文件保存等。<br>图像变换、参数测量的图像表示:仿射变换、透视变换、HSI变换、亮度变换、图像分割、细线化…等都可以预览处理结果，判断后再处理;2值图像自动测量、手动测量、圆形分离等结果可在图像上表示。<br>频率域表示:小波变换的高频、低频表示;傅立叶变换的频率表示、环特性分布表示、楔特性分布表示。<br>频数分布表示:2值图像自动测量、圆形分离等结果的频数分布表示。<br>数据文件表示:所有的分布图数据、测量数据都可以以数据文件的形式表示、保存、读取和打印。</p><p>3丰富的图像变换功能:</p><p>仿射变换:包括平移、旋转、膨胀、收缩等。<br>透视变换:包括扩大率、回转度、视点位置、屏幕位置等。HSI变换:包括基准色选择、HSI及各分量图像、色差图像。<br>自由变换:包括移动、90度旋转、亮度轮廓线、马赛克、窗口涂抹、积分平均等。<br>小波变换:可以进行行、列的单向和双向的多级变换，可以去掉任意频率成分后</p><p>进行图像恢复，可以进行基于小波变换的图像放大。<br>傅立叶变换:可以进行傅立叶变换和逆变换，可以选择多种通用滤波模式，可以用画笔自由设定滤波模式，可以查看环特征和锲特征的频数分布图谱。</p><p>颜色亮度变换:包括像素提取、像素范围移动、N值化、Log变换、y变换、动态范围变换、用户自定义、反色、直方图平滑化等。<br>图像间变换:包括图像间的算术运算（加、减、乘、除）和逻辑运算(AND, OR,XOR,XNOR）。可以两幅图像间运算，也可以多幅图像间同时运算。<br>动态图像校正:通过把动态图像的每一幅分解为奇数场和偶数场，得到两幅图像，修正动态图像因场交叉而产生的模糊。</p><p>4多种滤波增强功能:<br>通过对图像施加某种滤波运算，达到增强图像的某些特征或改善画质的目的。可选择的滤波器类型有:简单均值，加权均值，4方向锐化，4方向增强，8方向锐化，8方向增强，平滑增强，中值，排序，用户自定义等。滤波器的尺寸可选择:3x 3,5x 5,7 x7,9x9像素。<br>5直观灵活的2值化处理功能:<br>在图像处理中,往往需要通过2值化处理(图像分割）的手段提取某些特征，以便判断或参数测量。本系统可以自由直观地设定2值化的阈值，灰度图像可以实行自动2值化处理，彩色图像可以通过鼠标点击的方式自动提取图像的某一部分。</p><p>6多功能的2值运算功能:<br>2值化处理后的图像，一般具有许多不尽人意的地方，在进行参数测量前往往需要进行各种加工。<br>基本运算:去噪声，补洞，膨胀，收缩，排它膨胀，细线化，去毛刺，清除窗口。特殊提取:提取满足条件的像素。可同时设定4个项目，逻辑关系可选AND或OR。可选的条件项目有面积、周长、周长&#x2F;面积、面积比、圆形度…等26项。<br>7庞大的参数测量统计功能:颜色测量:根据R、G、B的亮度值以及国际照明委员会（CIE）倡导的[XYZ颜色空间]、[HSI颜色空间]、[L<em>a</em>b*颜色空间]、[uCS颜色空间]的坐标计算、测量色差等等。<br>2值图像参数的自动测量:自动测量各个区域（物体）的参数，标定测量序号，可设定比例尺，测量结果可以</p><p>文字表示、频数分布表示。可供选择的测量项目有49项:物体的面积，周长，周长2，孔洞数，孔洞面积，总面积，面积比，周长&#x2F;面积，NCI比（周长除总面积的平方根），圆形度，等价圆直径，球体体积，圆的形状系数，线段长度，重心横坐标，重心纵坐标，水平投影径，垂直投影存,投影径角，占有率，最大径，最大径端点x1，最大径端点y1，最大径端点x2，最大径端点y2，最大径角，直径的形状系数，长径，短径，长径角，水平投影径始点横坐标,水平投影径终点横坐标,垂直投影径始点纵坐标，垂直投影径终点纵坐标，图形始点×座标,图形始y座标,椭圆长轴，椭圆短轴，椭圆方向角，椭圆长短轴比，椭圆体体积，椭圆形状系数，О阶矩，1阶矩X，1阶矩Y，2阶矩×，2阶矩Y，惯性矩，极惯性矩，等等。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 机器视觉 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 机器视觉 </tag>
+            
+            <tag> 期末考试 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Web攻击检测与分类识别思路</title>
       <link href="/posts/d0147289.html"/>
       <url>/posts/d0147289.html</url>
@@ -211,6 +238,19 @@
     
     
     <entry>
+      <title>Hello World</title>
+      <link href="/posts/16107.html"/>
+      <url>/posts/16107.html</url>
+      
+        <content type="html"><![CDATA[<div id="binft"></div>  <script>    var binft = function (r) {      function t() {        return b[Math.floor(Math.random() * b.length)]      }        function e() {        return String.fromCharCode(94 * Math.random() + 33)      }      function n(r) {        for (var n = document.createDocumentFragment(), i = 0; r > i; i++) {          var l = document.createElement("span");          l.textContent = e(), l.style.color = t(), n.appendChild(l)        }        return n      }      function i() {        var t = o[c.skillI];        c.step ? c.step-- : (c.step = g, c.prefixP < l.length ? (c.prefixP >= 0 && (c.text += l[c.prefixP]), c.prefixP++) : "forward" === c.direction ? c.skillP < t.length ? (c.text += t[c.skillP], c.skillP++) : c.delay ? c.delay-- : (c.direction = "backward", c.delay = a) : c.skillP > 0 ? (c.text = c.text.slice(0, -1), c.skillP--) : (c.skillI = (c.skillI + 1) % o.length, c.direction = "forward")), r.textContent = c.text, r.appendChild(n(c.prefixP < l.length ? Math.min(s, s + c.prefixP) : Math.min(s, t.length - c.skillP))), setTimeout(i, d)      }      var l = "",      o = ["大家好，这是我的第一篇文章，欢迎查看"].map(function (r) {      return r + ""      }),      a = 2,      g = 1,      s = 5,      d = 75,      b = ["rgb(110,64,170)", "rgb(150,61,179)", "rgb(191,60,175)", "rgb(228,65,157)", "rgb(254,75,131)", "rgb(255,94,99)", "rgb(255,120,71)", "rgb(251,150,51)", "rgb(226,183,47)", "rgb(198,214,60)", "rgb(175,240,91)", "rgb(127,246,88)", "rgb(82,246,103)", "rgb(48,239,130)", "rgb(29,223,163)", "rgb(26,199,194)", "rgb(35,171,216)", "rgb(54,140,225)", "rgb(76,110,219)", "rgb(96,84,200)"],      c = {        text: "",        prefixP: -s,        skillI: 0,        skillP: 0,        direction: "forward",        delay: a,        step: g      };      i()      };      binft(document.getElementById('binft'));  </script><span id="more"></span><div id="binft"></div>  <script>    var binft = function (r) {      function t() {        return b[Math.floor(Math.random() * b.length)]      }        function e() {        return String.fromCharCode(94 * Math.random() + 33)      }      function n(r) {        for (var n = document.createDocumentFragment(), i = 0; r > i; i++) {          var l = document.createElement("span");          l.textContent = e(), l.style.color = t(), n.appendChild(l)        }        return n      }      function i() {        var t = o[c.skillI];        c.step ? c.step-- : (c.step = g, c.prefixP < l.length ? (c.prefixP >= 0 && (c.text += l[c.prefixP]), c.prefixP++) : "forward" === c.direction ? c.skillP < t.length ? (c.text += t[c.skillP], c.skillP++) : c.delay ? c.delay-- : (c.direction = "backward", c.delay = a) : c.skillP > 0 ? (c.text = c.text.slice(0, -1), c.skillP--) : (c.skillI = (c.skillI + 1) % o.length, c.direction = "forward")), r.textContent = c.text, r.appendChild(n(c.prefixP < l.length ? Math.min(s, s + c.prefixP) : Math.min(s, t.length - c.skillP))), setTimeout(i, d)      }      var l = "",      o = ["青青陵上柏，磊磊涧中石。", "人生天地间，忽如远行客。","斗酒相娱乐，聊厚不为薄。", "驱车策驽马，游戏宛与洛。","洛中何郁郁，冠带自相索。","长衢罗夹巷，王侯多第宅。","两宫遥相望，双阙百余尺。","极宴娱心意，戚戚何所迫？"].map(function (r) {      return r + ""      }),      a = 2,      g = 1,      s = 5,      d = 75,      b = ["rgb(110,64,170)", "rgb(150,61,179)", "rgb(191,60,175)", "rgb(228,65,157)", "rgb(254,75,131)", "rgb(255,94,99)", "rgb(255,120,71)", "rgb(251,150,51)", "rgb(226,183,47)", "rgb(198,214,60)", "rgb(175,240,91)", "rgb(127,246,88)", "rgb(82,246,103)", "rgb(48,239,130)", "rgb(29,223,163)", "rgb(26,199,194)", "rgb(35,171,216)", "rgb(54,140,225)", "rgb(76,110,219)", "rgb(96,84,200)"],      c = {        text: "",        prefixP: -s,        skillI: 0,        skillP: 0,        direction: "forward",        delay: a,        step: g      };      i()      };      binft(document.getElementById('binft'));  </script><h1 id="欢迎查看我的第一篇文章"><a href="#欢迎查看我的第一篇文章" class="headerlink" title="欢迎查看我的第一篇文章"></a>欢迎查看我的第一篇文章</h1><p>写在前面：这是我的Github，欢迎star：<a href="https://github.com/du2279664786">https://github.com/du2279664786</a></p><p>大一的时候搭建过一次博客，但是由于长时间不使用，导致配置文件丢失<br>所以在大三上学期我又重新搭建了一下，将去年（大二）所学的知识进行了“简单”的汇总（PS：李明虎老师讲的实在是太丰富了，我只整理了简单的）</p><p>本博客为学习博客，旨在记录自己的学习经历和知识回顾</p><p>转眼间已经大三了，回顾过去两年：<br>        ·大一上：人工智能导论<br>        ·大一下：爬虫<br>        ·大二上：机器学习<br>        ·大二下：深度学习和神经网络<br>….. …..</p><p>希望考研可以成功上岸！</p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Transformer总结和梳理</title>
       <link href="/posts/55106.html"/>
       <url>/posts/55106.html</url>
@@ -238,19 +278,6 @@
             <tag> Transformer </tag>
             
         </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>Hello World</title>
-      <link href="/posts/16107.html"/>
-      <url>/posts/16107.html</url>
-      
-        <content type="html"><![CDATA[<div id="binft"></div>  <script>    var binft = function (r) {      function t() {        return b[Math.floor(Math.random() * b.length)]      }        function e() {        return String.fromCharCode(94 * Math.random() + 33)      }      function n(r) {        for (var n = document.createDocumentFragment(), i = 0; r > i; i++) {          var l = document.createElement("span");          l.textContent = e(), l.style.color = t(), n.appendChild(l)        }        return n      }      function i() {        var t = o[c.skillI];        c.step ? c.step-- : (c.step = g, c.prefixP < l.length ? (c.prefixP >= 0 && (c.text += l[c.prefixP]), c.prefixP++) : "forward" === c.direction ? c.skillP < t.length ? (c.text += t[c.skillP], c.skillP++) : c.delay ? c.delay-- : (c.direction = "backward", c.delay = a) : c.skillP > 0 ? (c.text = c.text.slice(0, -1), c.skillP--) : (c.skillI = (c.skillI + 1) % o.length, c.direction = "forward")), r.textContent = c.text, r.appendChild(n(c.prefixP < l.length ? Math.min(s, s + c.prefixP) : Math.min(s, t.length - c.skillP))), setTimeout(i, d)      }      var l = "",      o = ["大家好，这是我的第一篇文章，欢迎查看"].map(function (r) {      return r + ""      }),      a = 2,      g = 1,      s = 5,      d = 75,      b = ["rgb(110,64,170)", "rgb(150,61,179)", "rgb(191,60,175)", "rgb(228,65,157)", "rgb(254,75,131)", "rgb(255,94,99)", "rgb(255,120,71)", "rgb(251,150,51)", "rgb(226,183,47)", "rgb(198,214,60)", "rgb(175,240,91)", "rgb(127,246,88)", "rgb(82,246,103)", "rgb(48,239,130)", "rgb(29,223,163)", "rgb(26,199,194)", "rgb(35,171,216)", "rgb(54,140,225)", "rgb(76,110,219)", "rgb(96,84,200)"],      c = {        text: "",        prefixP: -s,        skillI: 0,        skillP: 0,        direction: "forward",        delay: a,        step: g      };      i()      };      binft(document.getElementById('binft'));  </script><span id="more"></span><div id="binft"></div>  <script>    var binft = function (r) {      function t() {        return b[Math.floor(Math.random() * b.length)]      }        function e() {        return String.fromCharCode(94 * Math.random() + 33)      }      function n(r) {        for (var n = document.createDocumentFragment(), i = 0; r > i; i++) {          var l = document.createElement("span");          l.textContent = e(), l.style.color = t(), n.appendChild(l)        }        return n      }      function i() {        var t = o[c.skillI];        c.step ? c.step-- : (c.step = g, c.prefixP < l.length ? (c.prefixP >= 0 && (c.text += l[c.prefixP]), c.prefixP++) : "forward" === c.direction ? c.skillP < t.length ? (c.text += t[c.skillP], c.skillP++) : c.delay ? c.delay-- : (c.direction = "backward", c.delay = a) : c.skillP > 0 ? (c.text = c.text.slice(0, -1), c.skillP--) : (c.skillI = (c.skillI + 1) % o.length, c.direction = "forward")), r.textContent = c.text, r.appendChild(n(c.prefixP < l.length ? Math.min(s, s + c.prefixP) : Math.min(s, t.length - c.skillP))), setTimeout(i, d)      }      var l = "",      o = ["青青陵上柏，磊磊涧中石。", "人生天地间，忽如远行客。","斗酒相娱乐，聊厚不为薄。", "驱车策驽马，游戏宛与洛。","洛中何郁郁，冠带自相索。","长衢罗夹巷，王侯多第宅。","两宫遥相望，双阙百余尺。","极宴娱心意，戚戚何所迫？"].map(function (r) {      return r + ""      }),      a = 2,      g = 1,      s = 5,      d = 75,      b = ["rgb(110,64,170)", "rgb(150,61,179)", "rgb(191,60,175)", "rgb(228,65,157)", "rgb(254,75,131)", "rgb(255,94,99)", "rgb(255,120,71)", "rgb(251,150,51)", "rgb(226,183,47)", "rgb(198,214,60)", "rgb(175,240,91)", "rgb(127,246,88)", "rgb(82,246,103)", "rgb(48,239,130)", "rgb(29,223,163)", "rgb(26,199,194)", "rgb(35,171,216)", "rgb(54,140,225)", "rgb(76,110,219)", "rgb(96,84,200)"],      c = {        text: "",        prefixP: -s,        skillI: 0,        skillP: 0,        direction: "forward",        delay: a,        step: g      };      i()      };      binft(document.getElementById('binft'));  </script><h1 id="欢迎查看我的第一篇文章"><a href="#欢迎查看我的第一篇文章" class="headerlink" title="欢迎查看我的第一篇文章"></a>欢迎查看我的第一篇文章</h1><p>写在前面：这是我的Github，欢迎star：<a href="https://github.com/du2279664786">https://github.com/du2279664786</a></p><p>大一的时候搭建过一次博客，但是由于长时间不使用，导致配置文件丢失<br>所以在大三上学期我又重新搭建了一下，将去年（大二）所学的知识进行了“简单”的汇总（PS：李明虎老师讲的实在是太丰富了，我只整理了简单的）</p><p>本博客为学习博客，旨在记录自己的学习经历和知识回顾</p><p>转眼间已经大三了，回顾过去两年：<br>        ·大一上：人工智能导论<br>        ·大一下：爬虫<br>        ·大二上：机器学习<br>        ·大二下：深度学习和神经网络<br>….. …..</p><p>希望考研可以成功上岸！</p>]]></content>
-      
-      
       
     </entry>
     
