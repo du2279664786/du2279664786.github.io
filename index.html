@@ -311,6 +311,163 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://du2279664786.github.io/posts/88687dc5.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://avatars.githubusercontent.com/u/76576534?v=4">
+      <meta itemprop="name" content="江东">
+      <meta itemprop="description" content="热爱生活，努力工作">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="江东的笔记">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/posts/88687dc5.html" class="post-title-link" itemprop="url">大三下学期操作系统复习</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-06-23 22:55:10 / 修改时间：10:03:10" itemprop="dateCreated datePublished" datetime="2023-06-23T22:55:10+08:00">2023-06-23</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">期末复习</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <span id="more"></span>
+
+<h1 id="选择题"><a href="#选择题" class="headerlink" title="选择题"></a>选择题</h1><p>一 </p>
+<p>1 并发与并行：并发是一段时间间隔内多个程序运行，并行是指两个或多个程序或事件在同一时刻发生，单处理机系统只能做到并发</p>
+<p>2 如果题目未告诉单处理机还是多处理机，则默认是单处理机，则只能并发</p>
+<p>3 系统调用目的：为了让系统提供服务</p>
+<p>4 单道批处理、分时、实时操作提醒各有什么特点</p>
+<p>单道批处理：</p>
+<p>分时操作系统：交互</p>
+<p>实时操系统：可靠、及时、工业控制系统 </p>
+<p>5 PCB块：程序控制块</p>
+<ul>
+<li>操作系统管理进程的块</li>
+<li>操作系统负责感知进程存在的唯一标志</li>
+</ul>
+<p>操作系统用来管理进程的数据结构是PCB</p>
+<p>6 进程的三种基本状态：阻塞，就绪，执行</p>
+<p>阻塞：等待某个事件发生，如IO</p>
+<p>就绪：万事俱备，只欠CPU</p>
+<p>执行：正在执行</p>
+<p>阻塞、就绪、执行这三种状态下：程序段、数据段都在内存，之后无状态的情况下才在外村</p>
+<p>7 处于就绪状态的进程数目可以是0，总共有N个进程，最多有N-1个处于就绪状态</p>
+<p>8 三状态图：阻塞、就绪、执行</p>
+<p>9 进程通信</p>
+<ul>
+<li>共享存储器</li>
+<li>消息传递系统</li>
+<li>管道通信：<ul>
+<li>管道通信传递文件的大小-不-受磁盘大小的控制</li>
+<li>管道通信是单向的，当一个进程正在读写时，另一个进程必须等待</li>
+</ul>
+</li>
+</ul>
+<p>10 生产者与消费者：既有同步又有互斥</p>
+<p>11 哲学家就餐问题：避免死锁</p>
+<ul>
+<li>只放四个凳子，拿到凳子才能就餐</li>
+<li></li>
+</ul>
+<p>12 管程：管程名、变量   P121</p>
+<p>13 线程：有了线程，进程扔可以调度</p>
+<p>线程是基本调度的单位，进程是资源分配的单位</p>
+<p>线程的切换不一定引起进程的切换。只有线程切换系统调用，才会引起进程切换</p>
+<p>14 信号量初值为5，当前值是1，等待的进程有0个，可用的资源为1。若当前值为-1，则等待进程有1，可用的有0个</p>
+<h3 id="14-综合应用题：处理机调度-10分——死锁31分"><a href="#14-综合应用题：处理机调度-10分——死锁31分" class="headerlink" title="14 综合应用题：处理机调度    10分——死锁31分"></a>14 综合应用题：处理机调度    10分——死锁31分</h3><p>15 死锁：</p>
+<p>产生的必要条件：</p>
+<ul>
+<li>互斥条件：如果进程请求一个已经被其他进程占用的资源，请求进程必须等待直到该资源被释放</li>
+<li>请求并保持</li>
+<li>不可抢占条件</li>
+<li>循环等待条件</li>
+</ul>
+<p>处理死锁：</p>
+<ul>
+<li>预防死锁</li>
+<li>避免死锁</li>
+<li>检测死锁</li>
+<li>解除死锁</li>
+</ul>
+<p>16 银行家算法：不考</p>
+<p>17 资源分配图：</p>
+<ol>
+<li>进程节点（Process Node）：用圆圈或方框表示，代表系统中的进程或线程。每个进程节点通常标有唯一的标识符。</li>
+<li>资源节点（Resource Node）：用长方形或椭圆形表示，代表系统中的资源，例如磁盘、打印机、内存等。每个资源节点通常标有唯一的标识符。</li>
+<li>请求边（Request Edge）：用箭头表示，从进程节点指向资源节点。表示进程请求获得该资源。</li>
+<li>占有边（Hold Edge）：用实线表示，从进程节点指向资源节点。表示进程已经获得并占有该资源。</li>
+</ol>
+<p>18 根据资源分配图判断是否死锁：判断图是否是可简化的，将图简化为游离的结点</p>
+<p>19 银行家算法的安全状态和不安全状态</p>
+<p>20 IO设备：磁带是顺序存储设备，磁盘是随机存储设备。Spooling技术通常使用磁盘</p>
+<p>21 IO系统的层次结构</p>
+<p>用户层软件(最上层)–&gt;与设备无关的IO软件–&gt;设备驱动程序–&gt;硬件(最下层)</p>
+<p>设备无关性软件把代码参数转化为命令</p>
+<h1 id="简答题"><a href="#简答题" class="headerlink" title="简答题"></a>简答题</h1><p>一 第一章三个大问题：并发与并行的区别、系统调用、三个操作系统的作用</p>
+<p>操作系统有什么特征？ 进程的特征决定了操作系统的特征：并发共享虚拟异步，并发共享互为前提条件，没有并发就做不到共享，没有共享就做不到并发，并发和共享决定了虚拟，</p>
+<p>文件管理：Linux和Unix非常巧妙，普通的文件控制块包含文件名和文件描述信息，而在linux中的FCB只有文件名，把文件描述信息分离出去单独放在“索引节点”里面</p>
+<p>这样做的优点：1 提高了文件检索速度， 只读入了文件名，减少了读入磁盘块的数目       2  便于文件共享，在索引结点中增加一个共享计数，共享计数为3，说明有三个共享(文件共享有两种方式：软共享和硬共享，都使用索引节点)</p>
+<p>赵老师课件里面有死锁问题的解决</p>
+<h1 id="计算题"><a href="#计算题" class="headerlink" title="计算题"></a>计算题</h1><p>一</p>
+<p> 页式的逻辑地址专户为逻辑地址，”请求分页”，已知条件：1 页的大小      2 页表</p>
+<p>页大小：4K，页表逻辑地址5555，首先整除5555&#x2F;4*1024&#x3D;5555&#x2F;4096，整数部分1(页号)，余数1459(偏移量)</p>
+<p>若（）在外存：1 发出缺页中断。2 请求调页程序，如果内存够用，则直接调入内存，若内存不够用，则调出一页换页换入内存。3 根据调入内存的物理块号计算结果</p>
+<p>二 磁盘调度</p>
+<p>先来先服务，最短寻道优先，电梯调度</p>
+<p>磁盘有199个磁道，则磁道号为：0-198</p>
+<p>76min</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+
+
+
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
     <link itemprop="mainEntityOfPage" href="https://du2279664786.github.io/posts/dd750040.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -957,91 +1114,6 @@
 
 
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="https://du2279664786.github.io/posts/20881.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://avatars.githubusercontent.com/u/76576534?v=4">
-      <meta itemprop="name" content="江东">
-      <meta itemprop="description" content="热爱生活，努力工作">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="江东的笔记">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/posts/20881.html" class="post-title-link" itemprop="url">基于BERT的文本分类</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-11-21 18:55:10" itemprop="dateCreated datePublished" datetime="2022-11-21T18:55:10+08:00">2022-11-21</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-11-24 14:54:45" itemprop="dateModified" datetime="2022-11-24T14:54:45+08:00">2022-11-24</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/" itemprop="url" rel="index"><span itemprop="name">自然语言处理</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>通过智能化手段识别其中是否存在“虚报、假报”的情况</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/posts/20881.html#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-
-
-
-
 
   
   <nav class="pagination">
@@ -1113,20 +1185,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">67</span>
+          <span class="site-state-item-count">68</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">55</span>
+        <span class="site-state-item-count">56</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
