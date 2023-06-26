@@ -30,7 +30,7 @@
 <meta property="og:description" content="知识点总结">
 <meta property="og:locale">
 <meta property="article:published_time" content="2023-06-23T14:55:10.000Z">
-<meta property="article:modified_time" content="2023-06-23T02:06:07.148Z">
+<meta property="article:modified_time" content="2023-06-26T02:22:13.772Z">
 <meta property="article:author" content="江东">
 <meta property="article:tag" content="操作系统">
 <meta name="twitter:card" content="summary">
@@ -216,10 +216,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2023-06-23 22:55:10 / 修改时间：10:06:07" itemprop="dateCreated datePublished" datetime="2023-06-23T22:55:10+08:00">2023-06-23</time>
+              <time title="创建时间：2023-06-23 22:55:10" itemprop="dateCreated datePublished" datetime="2023-06-23T22:55:10+08:00">2023-06-23</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-06-26 10:22:13" itemprop="dateModified" datetime="2023-06-26T10:22:13+08:00">2023-06-26</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -327,7 +333,20 @@
 <p>二 磁盘调度</p>
 <p>先来先服务，最短寻道优先，电梯调度</p>
 <p>磁盘有199个磁道，则磁道号为：0-198</p>
-<p>76min</p>
+<p>三           页面置换算法：</p>
+<p>OPT FIFO LRU</p>
+<p>画页面置换框图</p>
+<p>看好问题中问了几问</p>
+<p>如果题目告诉初始为空，则填满前都是缺页</p>
+<h1 id="综合题"><a href="#综合题" class="headerlink" title="综合题"></a>综合题</h1><p>一        处理机调度</p>
+<p>处理机调度：采用进程调度算法 一般计算周转时间、平均周转时间。。。。。先画表</p>
+<p>周转时间&#x3D;结束时间-到达时间</p>
+<p>平均周转时间&#x3D;平均周转时间</p>
+<p>短进程优先的枪战</p>
+<p>二 虚拟内存管理–综合题</p>
+<p>默认的虚拟内存在C盘，画出一个空间当内存使</p>
+<p>虚拟内存的大小理论上等于&#x3D;内存+外存(1 受地址结构的限制   2 受硬盘大小的影响，硬盘可用内存变小，则会影响虚存)</p>
+<p>C盘内存变小，则电脑会变卡，虚拟内存不够</p>
 
     </div>
 
@@ -414,7 +433,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%80%89%E6%8B%A9%E9%A2%98"><span class="nav-number">1.</span> <span class="nav-text">选择题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#14-%E7%BB%BC%E5%90%88%E5%BA%94%E7%94%A8%E9%A2%98%EF%BC%9A%E5%A4%84%E7%90%86%E6%9C%BA%E8%B0%83%E5%BA%A6-10%E5%88%86%E2%80%94%E2%80%94%E6%AD%BB%E9%94%8131%E5%88%86"><span class="nav-number">1.0.1.</span> <span class="nav-text">14 综合应用题：处理机调度    10分——死锁31分</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AE%80%E7%AD%94%E9%A2%98"><span class="nav-number">2.</span> <span class="nav-text">简答题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E9%A2%98"><span class="nav-number">3.</span> <span class="nav-text">计算题</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%80%89%E6%8B%A9%E9%A2%98"><span class="nav-number">1.</span> <span class="nav-text">选择题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#14-%E7%BB%BC%E5%90%88%E5%BA%94%E7%94%A8%E9%A2%98%EF%BC%9A%E5%A4%84%E7%90%86%E6%9C%BA%E8%B0%83%E5%BA%A6-10%E5%88%86%E2%80%94%E2%80%94%E6%AD%BB%E9%94%8131%E5%88%86"><span class="nav-number">1.0.1.</span> <span class="nav-text">14 综合应用题：处理机调度    10分——死锁31分</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AE%80%E7%AD%94%E9%A2%98"><span class="nav-number">2.</span> <span class="nav-text">简答题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E9%A2%98"><span class="nav-number">3.</span> <span class="nav-text">计算题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%BC%E5%90%88%E9%A2%98"><span class="nav-number">4.</span> <span class="nav-text">综合题</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
